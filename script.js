@@ -1,7 +1,6 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.124.0';
 import orbitControls from 'https://cdn.skypack.dev/three-orbit-controls';
-import { RGBELoader  } from 'https://cdn.skypack.dev/three@0.124.0/examples/jsm/loaders/RGBELoader.js';
-import { OBJLoader } from 'https://cdn.skypack.dev/three@0.134.0/examples/jsm/loaders/OBJLoader.js';
+
 
 
 // threejs boilerplate
@@ -36,6 +35,84 @@ const plane = new THREE.Mesh( planeGeometry, planeMaterial );
 plane.rotation.x = Math.PI / 2;
 scene.add( plane );
 
+const loader = new THREE.FontLoader();
+
+loader.load( './assets/Roboto_Regular.json', function ( font ) {
+
+    const color = 0x006699;
+
+    const matDark = new THREE.LineBasicMaterial( {
+        color: color,
+        side: THREE.DoubleSide
+    } );
+
+    const matLite = new THREE.MeshBasicMaterial( {
+        color: color,
+        transparent: true,
+        opacity: 0.4,
+        side: THREE.DoubleSide
+    } );
+
+    const message = 'Test';
+
+    const shapes = font.generateShapes( message, 1 );
+
+    const geometry = new THREE.ShapeGeometry( shapes );
+
+    geometry.computeBoundingBox();
+
+    const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+
+    geometry.translate( xMid, 0, 0 );
+
+    // make shape ( N.B. edge view not visible )
+
+    const text = new THREE.Mesh( geometry, matLite );
+    text.position.z = 0;
+    scene.add( text );
+
+    // make line shape ( N.B. edge view remains visible )
+
+    const holeShapes = [];
+
+    for ( let i = 0; i < shapes.length; i ++ ) {
+
+        const shape = shapes[ i ];
+
+        if ( shape.holes && shape.holes.length > 0 ) {
+
+            for ( let j = 0; j < shape.holes.length; j ++ ) {
+
+                const hole = shape.holes[ j ];
+                holeShapes.push( hole );
+
+            }
+
+        }
+
+    }
+
+    shapes.push.apply( shapes, holeShapes );
+
+    const lineText = new THREE.Object3D();
+
+    for ( let i = 0; i < shapes.length; i ++ ) {
+
+        const shape = shapes[ i ];
+
+        const points = shape.getPoints();
+        const geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+        geometry.translate( xMid, 0, 0 );
+
+        const lineMesh = new THREE.Line( geometry, matDark );
+        lineText.add( lineMesh );
+
+    }
+
+    scene.add( lineText );
+
+} ); //end load function
 
 // animation loop
 function animate() {
