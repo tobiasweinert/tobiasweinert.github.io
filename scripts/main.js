@@ -87,6 +87,7 @@ document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("wheel", onPointerMove);
 // add event for arrow left and right
 document.addEventListener("keydown", (event) => {
+  if (isTransitioning) return;
   let targetRotation = carousel.rotation.y;
   if (event.key === "ArrowLeft") {
     targetRotation += Math.PI * 2 * (1 / 5);
