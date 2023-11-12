@@ -53,21 +53,37 @@ scene.add(carousel);
 const roundedBoxGeometry = new RoundedBoxGeometry(10, 16, 0.7, 3, 0.5);
 const roundedBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-// Create 5 planes and add them to the carousel
+// create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
 
   const angle = (i / 5) * Math.PI * 2;
   const radius = 8;
 
-  // Calculate the position using polar coordinates
+  // calculate the position using polar coordinates
   roundedBox.position.x = radius * Math.cos(angle);
   roundedBox.position.z = radius * Math.sin(angle);
 
-  // Rotate the plane
+  // rotate the box
   roundedBox.rotation.y = -angle + Math.PI / 2;
 
+  // rotate the carousel so that it faces the camera at 0,0,20
+  carousel.rotation.y = Math.PI * 0.7;
   carousel.add(roundedBox);
+}
+
+const snapAngles = [];
+for (let i = 0; i < 5; i++) {
+  snapAngles.push((i / 5) * Math.PI * 2 + Math.PI * 0.7);
+}
+
+function findClosestSnapAngle(currentAngle) {
+  const closestAngle = snapAngles.reduce((prev, curr) => {
+    return Math.abs(curr - currentAngle) < Math.abs(prev - currentAngle)
+      ? curr
+      : prev;
+  });
+  return closestAngle;
 }
 
 // text
@@ -104,14 +120,19 @@ function onPointerMove(event) {
   if (isDragging) {
     const currentPointerX = event.clientX || event.touches[0].clientX;
     const deltaX = currentPointerX - previousPointerX;
-    carousel.rotation.y += deltaX * 0.001; // Adjust the rotation speed as needed
+    // rotation speed multiplier
+    carousel.rotation.y += deltaX * 0.005;
     previousPointerX = currentPointerX;
     renderer.render(scene, camera);
   }
 }
 
 function onPointerUp() {
-  isDragging = false;
+  if (isDragging) {
+    isDragging = false;
+    const snapAngle = findClosestSnapAngle(carousel.rotation.y);
+    carousel.rotation.y = snapAngle;
+  }
 }
 
 function animate() {
