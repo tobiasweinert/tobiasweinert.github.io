@@ -4,12 +4,17 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 // threejs boilerplate
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 const container = document.getElementById("cv-container");
 const containerRect = container.getBoundingClientRect();
 renderer.setSize(containerRect.width, containerRect.height);
+renderer.toneMapping = THREE.ReinhardToneMapping;
 document.getElementById("cv-container").appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -26,7 +31,34 @@ scene.add(light);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
 scene.add(ambientLight);
 
-camera.position.set(0, 0, 20);
+camera.position.set(0, 0, 25);
+
+const glowParams = {
+  thresold: 0.05,
+  strength: 0.15,
+  radius: 1,
+  exposure: 1,
+};
+
+const renderScene = new RenderPass(scene, camera);
+
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(containerRect.width, containerRect.height),
+  1.5,
+  0.4,
+  0.85
+);
+bloomPass.threshold = glowParams.thresold;
+bloomPass.strength = glowParams.strength;
+bloomPass.radius = glowParams.radius;
+
+const outputPass = new OutputPass();
+outputPass.renderToScreen = true;
+
+const composer = new EffectComposer(renderer);
+composer.addPass(renderScene);
+composer.addPass(bloomPass);
+composer.addPass(outputPass);
 
 // orbit controls
 // const OrbitControls = orbitControls(THREE);
@@ -43,7 +75,7 @@ const carousel = new THREE.Group();
 scene.add(carousel);
 
 // Define the geometry and material for the planes
-const roundedBoxGeometry = new RoundedBoxGeometry(10, 16, 0.5, 3, 0.5);
+const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, 0.5, 3, 0.5);
 const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 
 // create 5 boxes and add them to the carousel
@@ -56,14 +88,13 @@ for (let i = 0; i < 5; i++) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1, 1);
 
-  const roundedBoxMaterial = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true,
+  const roundedBoxMaterial = new THREE.MeshStandardMaterial({
+    color: colors[i],
   });
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
 
   const angle = (i / 5) * Math.PI * 2;
-  const radius = 8;
+  const radius = 13;
 
   // calculate the position using polar coordinates
   roundedBox.position.x = radius * Math.cos(angle);
@@ -231,6 +262,7 @@ function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
   TWEEN.update();
+  composer.render();
 }
 animate();
 
