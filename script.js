@@ -84,11 +84,6 @@ function animate() {
     // Rotate the entire carousel group around the y-axis
     carousel.rotation.y += 0.005;
 
-    // Rotate each plane around the y-axis so that they spin around the carousel
-    carousel.children.forEach((plane, index) => {
-        plane.rotation.y += 0.0001;
-    });
-
     // Render the scene
     renderer.render(scene, camera);
 
