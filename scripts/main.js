@@ -22,7 +22,7 @@ camera.position.set(0, 0, 20);
 
 // orbit controls
 // const OrbitControls = orbitControls(THREE);
-const controls = new OrbitControls(camera, renderer.domElement);
+//const controls = new OrbitControls(camera, renderer.domElement);
 
 // helpers
 const axisHelper = new THREE.AxesHelper(50);
@@ -52,7 +52,6 @@ scene.add(carousel);
 // Define the geometry and material for the planes
 const roundedBoxGeometry = new RoundedBoxGeometry(10, 16, 0.7, 3, 0.5);
 const roundedBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-console.log(roundedBoxGeometry.attributes.position);
 
 // Create 5 planes and add them to the carousel
 for (let i = 0; i < 5; i++) {
@@ -71,7 +70,7 @@ for (let i = 0; i < 5; i++) {
   carousel.add(roundedBox);
 }
 
-// // text
+// text
 const fontLoader = new FontLoader();
 fontLoader.load(
   "./assets/fonts/droid_serif_regular.typeface.json",
@@ -88,16 +87,39 @@ fontLoader.load(
   }
 );
 
+// animation
+let isDragging = false;
+let previousPointerX = 0;
+
+document.addEventListener("pointerdown", onPointerDown);
+document.addEventListener("pointermove", onPointerMove);
+document.addEventListener("pointerup", onPointerUp);
+
+function onPointerDown(event) {
+  isDragging = true;
+  previousPointerX = event.clientX || event.touches[0].clientX;
+}
+
+function onPointerMove(event) {
+  if (isDragging) {
+    const currentPointerX = event.clientX || event.touches[0].clientX;
+    const deltaX = currentPointerX - previousPointerX;
+    carousel.rotation.y += deltaX * 0.001; // Adjust the rotation speed as needed
+    previousPointerX = currentPointerX;
+    renderer.render(scene, camera);
+  }
+}
+
+function onPointerUp() {
+  isDragging = false;
+}
+
 function animate() {
-  // Rotate the entire carousel group around the y-axis
-  carousel.rotation.y += 0.005;
-
-  // Render the scene
+  //carousel.rotation.y += 0.005;
   renderer.render(scene, camera);
-
-  // Request the next frame
   requestAnimationFrame(animate);
 }
+animate();
 
 function handleResize() {
   const containerRect = container.getBoundingClientRect();
@@ -105,6 +127,5 @@ function handleResize() {
   camera.aspect = containerRect.width / containerRect.height;
   camera.updateProjectionMatrix();
 }
+
 window.addEventListener("resize", handleResize);
-// Start the animation loop
-animate();
