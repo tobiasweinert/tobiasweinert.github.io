@@ -23,7 +23,8 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 2;
+  width: 100%;
+  height: 80%;
 }
 
 .headline-container{
@@ -36,6 +37,10 @@ html, body {
   right: 0;
   bottom: 0;
   pointer-events: none;
+}
+
+h1 {
+    margin-bottom: 0;
 }
 
 #text-behind, #text-front, #text-behind-blur {
@@ -79,10 +84,8 @@ html, body {
 .text-container{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  top: 5%;
-  height: 90%;
+  top: 92%;
   width: 100%;
   position: absolute;
   left: 0;
