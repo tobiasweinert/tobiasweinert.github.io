@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import * as TWEEN from "tween";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
@@ -51,10 +52,11 @@ scene.add(carousel);
 
 // Define the geometry and material for the planes
 const roundedBoxGeometry = new RoundedBoxGeometry(10, 16, 0.7, 3, 0.5);
-const roundedBoxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 
 // create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
+  const roundedBoxMaterial = new THREE.MeshBasicMaterial({ color: colors[i] });
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
 
   const angle = (i / 5) * Math.PI * 2;
@@ -75,15 +77,22 @@ for (let i = 0; i < 5; i++) {
 const snapAngles = [];
 for (let i = 0; i < 5; i++) {
   snapAngles.push((i / 5) * Math.PI * 2 + Math.PI * 0.7);
+  // push negative values
+  snapAngles.push(-(i / 5) * Math.PI * 2 + Math.PI * 0.7);
 }
 
 function findClosestSnapAngle(currentAngle) {
-  const closestAngle = snapAngles.reduce((prev, curr) => {
-    return Math.abs(curr - currentAngle) < Math.abs(prev - currentAngle)
-      ? curr
-      : prev;
-  });
-  return closestAngle;
+  let closestSnapAngle = snapAngles[0];
+  let closestAngleDifference = Math.abs(currentAngle - closestSnapAngle);
+  for (let i = 1; i < snapAngles.length; i++) {
+    const angleDifference = Math.abs(currentAngle - snapAngles[i]);
+    if (angleDifference < closestAngleDifference) {
+      closestSnapAngle = snapAngles[i];
+      closestAngleDifference = angleDifference;
+    }
+  }
+  //("curr, close", currentAngle, closestSnapAngle);
+  return closestSnapAngle;
 }
 
 // text
@@ -130,13 +139,27 @@ function onPointerMove(event) {
 function onPointerUp() {
   if (isDragging) {
     isDragging = false;
+
+    // Calculate a threshold as a percentage of one full rotation
+    const rotationThreshold = (Math.PI * 2) / 10;
+    // Reset positive rotation
+    if (carousel.rotation.y > Math.PI * 2 + Math.PI * 0.7 - rotationThreshold) {
+      carousel.rotation.y = carousel.rotation.y % (Math.PI * 2);
+    }
+    // Reset negative rotation
+    if (
+      carousel.rotation.y <
+      -Math.PI * 2 + Math.PI * 0.7 + rotationThreshold
+    ) {
+      carousel.rotation.y =
+        ((carousel.rotation.y % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    }
     const snapAngle = findClosestSnapAngle(carousel.rotation.y);
     carousel.rotation.y = snapAngle;
   }
 }
 
 function animate() {
-  //carousel.rotation.y += 0.005;
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
