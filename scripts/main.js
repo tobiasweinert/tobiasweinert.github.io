@@ -155,13 +155,21 @@ function onPointerUp() {
         ((carousel.rotation.y % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
     }
     const snapAngle = findClosestSnapAngle(carousel.rotation.y);
-    carousel.rotation.y = snapAngle;
+    new TWEEN.Tween(carousel.rotation)
+      .to({ y: snapAngle }, 300) // You can adjust the duration as needed
+      .easing(TWEEN.Easing.Back.Out) // You can change the easing function
+      .onComplete(() => {
+        console.log("done");
+      })
+      .start();
+    //carousel.rotation.y = snapAngle;
   }
 }
 
 function animate() {
   renderer.render(scene, camera);
   requestAnimationFrame(animate);
+  TWEEN.update();
 }
 animate();
 
