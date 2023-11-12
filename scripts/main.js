@@ -3,7 +3,6 @@ import * as TWEEN from "tween";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import createBoxWithRoundedEdges from "./boxWithRoundedEdges.js";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 
 // threejs boilerplate
@@ -19,6 +18,14 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+
+// lights
+const light = new THREE.DirectionalLight(0xffffff, 2.5);
+light.position.set(0, 0, 10);
+scene.add(light);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(ambientLight);
+
 camera.position.set(0, 0, 20);
 
 // orbit controls
@@ -41,7 +48,18 @@ const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 
 // create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
-  const roundedBoxMaterial = new THREE.MeshBasicMaterial({ color: colors[i] });
+  // const roundedBoxMaterial = new THREE.MeshStandardMaterial({
+  //   color: colors[i],
+  // });
+  const texture = new THREE.TextureLoader().load(`./assets/images/stone.jpg`);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(1, 1);
+
+  const roundedBoxMaterial = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+  });
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
 
   const angle = (i / 5) * Math.PI * 2;
