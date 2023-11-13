@@ -33,7 +33,7 @@ scene.add(light);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
 scene.add(ambientLight);
 
-camera.position.set(0, 0, 25);
+// camera.position.set(0, 0, 25);
 
 const glowParams = {
   thresold: 0.05,
@@ -131,9 +131,56 @@ for (let i = 0; i < 5; i++) {
   carousel.add(roundedBox);
 }
 
-// animation
+// we want a camera shot that starts at (0,0,50) and ends at (0, 0, 25)
+const cameraPositions = [
+  { x: 40, y: 60, z: 50 },
+  { x: 30, y: 50, z: 40 },
+  { x: 20, y: 40, z: 30 },
+  { x: 10, y: 30, z: 25 },
+  { x: 0, y: 20, z: 25 },
+  { x: 0, y: 0, z: 25 },
+];
+camera.position.set(
+  cameraPositions[0].x,
+  cameraPositions[0].y,
+  cameraPositions[0].z
+);
+let isTransitioning = true;
+// do the camera animation
+new TWEEN.Tween(camera.position)
+  .to(cameraPositions[1], 500)
+  .easing(TWEEN.Easing.Linear.None)
+  .onComplete(() => {
+    new TWEEN.Tween(camera.position)
+      .to(cameraPositions[2], 500)
+      .easing(TWEEN.Easing.Linear.None)
+      .onComplete(() => {
+        new TWEEN.Tween(camera.position)
+          .to(cameraPositions[3], 500)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            new TWEEN.Tween(camera.position)
+              .to(cameraPositions[4], 500)
+              .easing(TWEEN.Easing.Linear.None)
+              .onComplete(() => {
+                new TWEEN.Tween(camera.position)
+                  .to(cameraPositions[5], 1500)
+                  .easing(TWEEN.Easing.Quadratic.InOut)
+                  .onComplete(() => {
+                    // Tadd the controls after the animation is complete
+                    isTransitioning = false;
+                  })
+                  .start();
+              })
+              .start();
+          })
+          .start();
+      })
+      .start();
+  })
+  .start();
+
 let isDragging = false;
-let isTransitioning = false;
 let previousPointerX = 0;
 
 document.addEventListener("pointerdown", onPointerDown);
