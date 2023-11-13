@@ -130,8 +130,7 @@ for (let i = 0; i < 5; i++) {
   });
   carousel.add(roundedBox);
 }
-
-// we want a camera shot that starts at (0,0,50) and ends at (0, 0, 25)
+let isTransitioning = true;
 const cameraPositions = [
   { x: 40, y: 60, z: 50 },
   { x: 30, y: 50, z: 40 },
@@ -140,18 +139,57 @@ const cameraPositions = [
   { x: 0, y: 20, z: 25 },
   { x: 0, y: 0, z: 25 },
 ];
+
+const cameraLooks = [
+  { x: 0, y: -1, z: -1 },
+  { x: 0, y: 0, z: -1 },
+];
+
 camera.position.set(
   cameraPositions[0].x,
   cameraPositions[0].y,
   cameraPositions[0].z
 );
-let isTransitioning = true;
+
+const initialLookAt = new THREE.Vector3();
+const finalLookAt = new THREE.Vector3(
+  cameraLooks[1].x,
+  cameraLooks[1].y,
+  cameraLooks[1].z
+);
+
+new TWEEN.Tween({ t: 0 })
+  .to({ t: 1 }, 3500)
+  .easing(TWEEN.Easing.Linear.None)
+  .onUpdate(({ t }) => {
+    const interpolatedLookAt = new THREE.Vector3().lerpVectors(
+      initialLookAt,
+      finalLookAt,
+      t
+    );
+    // Update camera position
+    camera.position.set(
+      camera.position.x + (cameraLooks[1].x - cameraLooks[0].x) * t,
+      camera.position.y + (cameraLooks[1].y - cameraLooks[0].y) * t,
+      camera.position.z + (cameraLooks[1].z - cameraLooks[0].z) * t
+    );
+
+    // Update camera lookAt
+    camera.lookAt(interpolatedLookAt);
+  })
+  .onComplete(() => {
+    let vec = new THREE.Vector3();
+    camera.getWorldDirection(vec);
+    console.log(vec);
+  })
+  .start();
+
 // do the camera animation
 new TWEEN.Tween(camera.position)
   .to(cameraPositions[1], 500)
   .onStart(() => {
     new TWEEN.Tween(carousel.rotation)
-      .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3000)
+      .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3500)
       .start();
   })
   .easing(TWEEN.Easing.Linear.None)
