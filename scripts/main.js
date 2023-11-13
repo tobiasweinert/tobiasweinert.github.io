@@ -337,9 +337,6 @@ function onPointerMove(event) {
         isTransitioning = false;
       })
       .start();
-
-    // Start the animation loop
-    animate();
   }
   if (isDragging) {
     const currentPointerX = event.clientX || event.touches[0].clientX;
