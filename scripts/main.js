@@ -69,7 +69,7 @@ composer.addPass(outputPass);
 
 // orbit controls
 // const OrbitControls = orbitControls(THREE);
-//const controls = new OrbitControls(camera, renderer.domElement);
+// const controls = new OrbitControls(camera, renderer.domElement);
 
 // helpers
 const axisHelper = new THREE.AxesHelper(5000);
@@ -92,7 +92,7 @@ for (let i = 0; i < 10000; i++) {
 }
 starGeometry.setAttribute(
   "position",
-  new THREE.Float32BufferAttribute(starVertices, 3)
+  new THREE.Float32BufferAttribute(starVertices, 4)
 );
 const stars = new THREE.Points(starGeometry, starMaterial);
 scene.add(stars);
@@ -101,6 +101,14 @@ const roundedBoxMaterial = new THREE.MeshPhongMaterial({
   map: texture,
   shininess: 100,
 });
+
+function getCenterXForText(textGeometry) {
+  textGeometry.computeBoundingBox();
+  const textWidth =
+    textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+  const centerX = -textWidth / 2;
+  return centerX;
+}
 
 // we want a carousel of 5 planes that rotate around the y axis
 const carousel = new THREE.Group();
@@ -134,14 +142,6 @@ for (let i = 0; i < 5; i++) {
   roundedBox.rotation.y = -angle + Math.PI / 2;
   // rotate the carousel so that it faces the camera at 0,0,20
   carousel.rotation.y = Math.PI * 0.7;
-
-  function getCenterXForText(textGeometry) {
-    textGeometry.computeBoundingBox();
-    const textWidth =
-      textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
-    const centerX = -textWidth / 2;
-    return centerX;
-  }
 
   const lines = texts.planes[i].text.split("\n");
   let textHeight = 0;
@@ -186,6 +186,10 @@ for (let i = 0; i < 5; i++) {
   carousel.position.y = -0.7;
   carousel.add(roundedBox);
 }
+
+// add another plane in front of the first visible plane
+// this plane will tell the user how to navigate the carousel
+
 let isTransitioning = true;
 let isDragging = false;
 const cameraPositions = [
