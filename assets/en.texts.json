@@ -1,0 +1,30 @@
+{
+  "planes": [
+    {
+      "title": "Education",
+      "text": "This is a sample text"
+    },
+    {
+      "title": "About myself",
+      "text": "This is a sample text"
+    },
+    {
+      "title": "Introduction",
+      "text": "This is a sample text"
+    },
+    {
+      "title": "Welcome!",
+      "text": "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer."
+    },
+    {
+      "title": "Contact",
+      "text": "This is a sample text"
+    }
+  ],
+  "header": {
+    "description": "student & developer"
+  },
+  "footer": {
+    "text": "Interested in working together? Let's talk!"
+  }
+}

@@ -8,6 +8,11 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+async function fetchText() {
+  const text = await fetch("../assets/en.texts.json");
+  return text.json();
+}
+const texts = await fetchText();
 
 // threejs boilerplate
 const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
@@ -110,9 +115,39 @@ for (let i = 0; i < 5; i++) {
   // rotate the carousel so that it faces the camera at 0,0,20
   carousel.rotation.y = Math.PI * 0.7;
 
+  function getCenterXForText(textGeometry) {
+    textGeometry.computeBoundingBox();
+    const textWidth =
+      textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+    const centerX = -textWidth / 2;
+    return centerX;
+  }
+
+  const lines = texts.planes[i].text.split("\n");
+  let textHeight = 0;
+  for (let j = 0; j < lines.length; j++) {
+    fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
+      const textGeometry = new TextGeometry(lines[j], {
+        height: 0.1,
+        size: 0.3,
+        font: droidFont,
+        curveSegments: 12,
+      });
+      const textMaterial = new THREE.MeshStandardMaterial({
+        color: 0xa1a1a1,
+      });
+      const text = new THREE.Mesh(textGeometry, textMaterial);
+      // set the position of the text with respect to the box rotation
+      text.position.x = getCenterXForText(textGeometry);
+      text.position.y = 4 - textHeight;
+      text.position.z = 0.9;
+      roundedBox.add(text);
+      textHeight += 0.8;
+    });
+  }
   // add text to the box
   fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
-    const textGeometry = new TextGeometry("Heading", {
+    const textGeometry = new TextGeometry(texts.planes[i].title, {
       height: 0.15,
       size: 0.8,
       font: droidFont,
@@ -123,21 +158,40 @@ for (let i = 0; i < 5; i++) {
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation
-    text.position.x = -2.35;
+    text.position.x = getCenterXForText(textGeometry);
     text.position.y = 5;
     text.position.z = 0.9;
     roundedBox.add(text);
   });
+  // fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
+  //   const textGeometry = new TextGeometry(texts.planes[i].text, {
+  //     height: 0.1,
+  //     size: 0.2,
+  //     font: droidFont,
+  //     curveSegments: 12,
+  //   });
+  //   const textMaterial = new THREE.MeshStandardMaterial({
+  //     color: 0xa1a1a1,
+  //   });
+  //   const text = new THREE.Mesh(textGeometry, textMaterial);
+  //   // set the position of the text with respect to the box rotation
+  //   text.position.x = getCenterXForText(textGeometry);
+  //   text.position.y = 5;
+  //   text.position.z = 0.9;
+  //   roundedBox.add(text);
+  // });
+  carousel.position.y = -0.7;
   carousel.add(roundedBox);
 }
 let isTransitioning = true;
+let isDragging = false;
 const cameraPositions = [
   { x: 40, y: 60, z: 50 },
   { x: 30, y: 50, z: 40 },
   { x: 20, y: 40, z: 30 },
   { x: 10, y: 30, z: 25 },
   { x: 0, y: 20, z: 25 },
-  { x: 0, y: 0, z: 25 },
+  { x: 0, y: -0.7, z: 25 },
 ];
 
 const cameraLooks = [
@@ -217,8 +271,6 @@ new TWEEN.Tween(camera.position)
       .start();
   })
   .start();
-
-let isDragging = false;
 let previousPointerX = 0;
 
 document.addEventListener("pointerdown", onPointerDown);
@@ -227,7 +279,7 @@ document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("wheel", onPointerMove);
 // add event for arrow left and right
 document.addEventListener("keydown", (event) => {
-  if (isTransitioning) return;
+  if (isTransitioning || isDragging) return;
   let targetRotation = carousel.rotation.y;
   if (event.key === "ArrowLeft") {
     targetRotation += Math.PI * 2 * (1 / 5);
@@ -251,12 +303,14 @@ document.addEventListener("keydown", (event) => {
 });
 
 function onPointerDown(event) {
+  if (isTransitioning) return;
   isDragging = true;
   previousPointerX = event.clientX || event.touches[0].clientX;
 }
 
 function onPointerMove(event) {
   if (isTransitioning) return;
+  if (event.type === "wheel" && isDragging) return;
   if (event.type === "wheel") {
     // if the user scrolls, we need to rotate the carousel all the way to the next box
     const scrollThreshold = 10;
@@ -334,7 +388,7 @@ function onPointerUp() {
     }
     const snapAngle = findClosestSnapAngle(carousel.rotation.y);
     new TWEEN.Tween(carousel.rotation)
-      .to({ y: snapAngle }, 300)
+      .to({ y: snapAngle }, 200)
       .easing(TWEEN.Easing.Back.Out)
       .onComplete(() => {
         isTransitioning = false;
@@ -365,3 +419,10 @@ function handleResize() {
 }
 
 window.addEventListener("resize", handleResize);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    camera.lookAt(0, 0, -1);
+  } else {
+    camera.lookAt(0, 0, -1);
+  }
+});
