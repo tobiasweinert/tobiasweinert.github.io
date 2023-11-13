@@ -149,6 +149,11 @@ let isTransitioning = true;
 // do the camera animation
 new TWEEN.Tween(camera.position)
   .to(cameraPositions[1], 500)
+  .onStart(() => {
+    new TWEEN.Tween(carousel.rotation)
+      .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3000)
+      .start();
+  })
   .easing(TWEEN.Easing.Linear.None)
   .onComplete(() => {
     new TWEEN.Tween(camera.position)
