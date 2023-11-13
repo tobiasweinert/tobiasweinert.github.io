@@ -90,8 +90,7 @@ for (let i = 0; i < 5; i++) {
 
   const roundedBoxMaterial = new THREE.MeshStandardMaterial({
     map: texture,
-    roughness: 1,
-    metalness: 0.2,
+    roughness: 0.8,
   });
   roundedBoxMaterial.side = THREE.DoubleSide;
   roundedBoxMaterial.flatShading = true;
@@ -112,10 +111,10 @@ for (let i = 0; i < 5; i++) {
   carousel.rotation.y = Math.PI * 0.7;
 
   // add text to the box
-  fontLoader.load("./assets/fonts/Bebas_Neue_Regular.json", (droidFont) => {
+  fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
     const textGeometry = new TextGeometry("Heading", {
       height: 0.15,
-      size: 1,
+      size: 0.8,
       font: droidFont,
       curveSegments: 18,
     });
@@ -124,7 +123,7 @@ for (let i = 0; i < 5; i++) {
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation
-    text.position.x = -1.9;
+    text.position.x = -2.35;
     text.position.y = 5;
     text.position.z = 0.9;
     roundedBox.add(text);
