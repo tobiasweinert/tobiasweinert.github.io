@@ -10,6 +10,7 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 
 // threejs boilerplate
+const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 const container = document.getElementById("cv-container");
 const containerRect = container.getBoundingClientRect();
@@ -82,8 +83,6 @@ const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 for (let i = 0; i < 5; i++) {
   // const roundedBoxMaterial = new THREE.MeshStandardMaterial({
   //   color: colors[i],
-  // });
-  const texture = new THREE.TextureLoader().load(`./assets/images/Diffuse.png`);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(4, 4);
@@ -118,22 +117,21 @@ for (let i = 0; i < 5; i++) {
   carousel.add(roundedBox);
 }
 
-// text
-// const fontLoader = new FontLoader();
-// fontLoader.load(
-//   "./assets/fonts/droid_serif_regular.typeface.json",
-//   (droidFont) => {
-//     const textGeometry = new TextGeometry("hello world", {
-//       height: 0.2,
-//       size: 1,
-//       font: droidFont,
-//     });
-//     const textMaterial = new THREE.MeshNormalMaterial();
-//     const text = new THREE.Mesh(textGeometry, textMaterial);
-//     text.position.set(-10, 0, 0);
-//     scene.add(text);
-//   }
-// );
+const fontLoader = new FontLoader();
+fontLoader.load(
+  "./assets/fonts/droid_serif_regular.typeface.json",
+  (droidFont) => {
+    const textGeometry = new TextGeometry("hello world", {
+      height: 0.2,
+      size: 1,
+      font: droidFont,
+    });
+    const textMaterial = new THREE.MeshNormalMaterial();
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    text.position.set(-10, 0, 0);
+    scene.add(text);
+  }
+);
 
 // animation
 let isDragging = false;
