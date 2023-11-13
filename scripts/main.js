@@ -32,10 +32,10 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 // lights
-const light = new THREE.DirectionalLight(0xffffff, 2.5);
+const light = new THREE.DirectionalLight(0x7e7c82, 7);
 light.position.set(0, 0, 10);
 scene.add(light);
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+const ambientLight = new THREE.AmbientLight(0x4287f5, 2);
 scene.add(ambientLight);
 
 // camera.position.set(0, 0, 25);
@@ -82,8 +82,28 @@ const carousel = new THREE.Group();
 scene.add(carousel);
 
 // Define the geometry and material for the planes
-const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, 0.5, 3, 0.5);
+const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, -0.5, 3, 0.5);
 const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
+
+// Starry night background
+const starGeometry = new THREE.BufferGeometry();
+const starMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 0.1,
+});
+const starVertices = [];
+for (let i = 0; i < 10000; i++) {
+  const x = (Math.random() - 0.5) * 2000;
+  const y = (Math.random() - 0.5) * 2000;
+  const z = -Math.random() * 1000;
+  starVertices.push(x, y, z);
+}
+starGeometry.setAttribute(
+  "position",
+  new THREE.Float32BufferAttribute(starVertices, 3)
+);
+const stars = new THREE.Points(starGeometry, starMaterial);
+scene.add(stars);
 
 // create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
@@ -91,11 +111,11 @@ for (let i = 0; i < 5; i++) {
   //   color: colors[i],
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(4, 4);
+  texture.repeat.set(2.5, 2.5);
 
-  const roundedBoxMaterial = new THREE.MeshStandardMaterial({
+  const roundedBoxMaterial = new THREE.MeshPhongMaterial({
     map: texture,
-    roughness: 0.8,
+    shininess: 100,
   });
   roundedBoxMaterial.side = THREE.DoubleSide;
   roundedBoxMaterial.flatShading = true;
@@ -140,7 +160,7 @@ for (let i = 0; i < 5; i++) {
       // set the position of the text with respect to the box rotation
       text.position.x = getCenterXForText(textGeometry);
       text.position.y = 4 - textHeight;
-      text.position.z = 0.9;
+      text.position.z = 0.4;
       roundedBox.add(text);
       textHeight += 0.8;
     });
@@ -160,7 +180,7 @@ for (let i = 0; i < 5; i++) {
     // set the position of the text with respect to the box rotation
     text.position.x = getCenterXForText(textGeometry);
     text.position.y = 5;
-    text.position.z = 0.9;
+    text.position.z = 0.4;
     roundedBox.add(text);
   });
   // fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
@@ -272,7 +292,8 @@ new TWEEN.Tween(camera.position)
   })
   .start();
 let previousPointerX = 0;
-
+let mouseX = 0;
+let mouseY = 0;
 document.addEventListener("pointerdown", onPointerDown);
 document.addEventListener("pointermove", onPointerMove);
 document.addEventListener("pointerup", onPointerUp);
@@ -309,6 +330,7 @@ function onPointerDown(event) {
 }
 
 function onPointerMove(event) {
+  console.log("onPointerMove");
   if (isTransitioning) return;
   if (event.type === "wheel" && isDragging) return;
   if (event.type === "wheel") {
@@ -345,6 +367,8 @@ function onPointerMove(event) {
     previousPointerX = currentPointerX;
     renderer.render(scene, camera);
   }
+  mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+  mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 const snapAngles = [];
@@ -408,6 +432,18 @@ function animate() {
   requestAnimationFrame(animate);
   TWEEN.update();
   composer.render();
+  // add movement to starry night using mouse position
+  stars.rotation.y = mouseX * 0.1;
+  stars.rotation.x = mouseY * 0.1;
+  // make random stars twinkle
+  const time = Date.now() * 0.00005;
+  stars.geometry.attributes.position.array.forEach((_, index) => {
+    if (index % 3 === 0) {
+      stars.geometry.attributes.position.array[index] +=
+        Math.sin(index + time) * 0.1;
+    }
+  });
+  stars.geometry.attributes.position.needsUpdate = true;
 }
 animate();
 
