@@ -17,6 +17,7 @@ const containerRect = container.getBoundingClientRect();
 renderer.setSize(containerRect.width, containerRect.height);
 renderer.toneMapping = THREE.ReinhardToneMapping;
 document.getElementById("cv-container").appendChild(renderer.domElement);
+const fontLoader = new FontLoader();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -99,39 +100,40 @@ for (let i = 0; i < 5; i++) {
   roundedBoxMaterial.displacementMap = texture;
   roundedBoxMaterial.displacementScale = 0.4;
   roundedBoxMaterial.displacementBias = 0.3;
-
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
-
   const angle = (i / 5) * Math.PI * 2;
   const radius = 13;
-
   // calculate the position using polar coordinates
   roundedBox.position.x = radius * Math.cos(angle);
   roundedBox.position.z = radius * Math.sin(angle);
-
   // rotate the box
   roundedBox.rotation.y = -angle + Math.PI / 2;
-
   // rotate the carousel so that it faces the camera at 0,0,20
   carousel.rotation.y = Math.PI * 0.7;
+
+  // add text to the box
+  fontLoader.load(
+    "./assets/fonts/droid_serif_regular.typeface.json",
+    (droidFont) => {
+      const textGeometry = new TextGeometry("Heading", {
+        height: 0.2,
+        size: 1,
+        font: droidFont,
+        curveSegments: 18,
+      });
+      const textMaterial = new THREE.MeshStandardMaterial({
+        color: 0x545352,
+      });
+      const text = new THREE.Mesh(textGeometry, textMaterial);
+      // set the position of the text with respect to the box rotation
+      text.position.x = -2.5;
+      text.position.y = 5;
+      text.position.z = 0.9;
+      roundedBox.add(text);
+    }
+  );
   carousel.add(roundedBox);
 }
-
-const fontLoader = new FontLoader();
-fontLoader.load(
-  "./assets/fonts/droid_serif_regular.typeface.json",
-  (droidFont) => {
-    const textGeometry = new TextGeometry("hello world", {
-      height: 0.2,
-      size: 1,
-      font: droidFont,
-    });
-    const textMaterial = new THREE.MeshNormalMaterial();
-    const text = new THREE.Mesh(textGeometry, textMaterial);
-    text.position.set(-10, 0, 0);
-    scene.add(text);
-  }
-);
 
 // animation
 let isDragging = false;
