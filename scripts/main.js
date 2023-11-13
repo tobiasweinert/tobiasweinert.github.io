@@ -177,11 +177,6 @@ new TWEEN.Tween({ t: 0 })
     // Update camera lookAt
     camera.lookAt(interpolatedLookAt);
   })
-  .onComplete(() => {
-    let vec = new THREE.Vector3();
-    camera.getWorldDirection(vec);
-    console.log(vec);
-  })
   .start();
 
 // do the camera animation
