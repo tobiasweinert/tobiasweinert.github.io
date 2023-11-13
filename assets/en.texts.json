@@ -1,15 +1,15 @@
 {
   "planes": [
     {
+      "title": "Projects",
+      "text": "This is a sample text"
+    },
+    {
       "title": "Education",
       "text": "This is a sample text"
     },
     {
       "title": "About myself",
-      "text": "This is a sample text"
-    },
-    {
-      "title": "Introduction",
       "text": "This is a sample text"
     },
     {

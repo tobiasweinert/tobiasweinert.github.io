@@ -43,7 +43,7 @@ scene.add(ambientLight);
 const glowParams = {
   thresold: 0.05,
   strength: 0.15,
-  radius: 1,
+  radius: 0.3,
   exposure: 1,
 };
 
@@ -77,14 +77,6 @@ const axisHelper = new THREE.AxesHelper(5000);
 // const gridHelper = new THREE.GridHelper( 10, 10 );
 // scene.add( gridHelper );
 
-// we want a carousel of 5 planes that rotate around the y axis
-const carousel = new THREE.Group();
-scene.add(carousel);
-
-// Define the geometry and material for the planes
-const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, -0.5, 3, 0.5);
-const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
-
 // Starry night background
 const starGeometry = new THREE.BufferGeometry();
 const starMaterial = new THREE.PointsMaterial({
@@ -105,6 +97,18 @@ starGeometry.setAttribute(
 const stars = new THREE.Points(starGeometry, starMaterial);
 scene.add(stars);
 
+const roundedBoxMaterial = new THREE.MeshPhongMaterial({
+  map: texture,
+  shininess: 100,
+});
+
+// we want a carousel of 5 planes that rotate around the y axis
+const carousel = new THREE.Group();
+scene.add(carousel);
+
+// Define the geometry and material for the planes
+const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, -0.5, 3, 0.5);
+const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 // create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
   // const roundedBoxMaterial = new THREE.MeshStandardMaterial({
@@ -113,17 +117,13 @@ for (let i = 0; i < 5; i++) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2.5, 2.5);
 
-  const roundedBoxMaterial = new THREE.MeshPhongMaterial({
-    map: texture,
-    shininess: 100,
-  });
   roundedBoxMaterial.side = THREE.DoubleSide;
   roundedBoxMaterial.flatShading = true;
   roundedBoxMaterial.aoMap = texture;
   roundedBoxMaterial.aoMapIntensity = 1;
   roundedBoxMaterial.displacementMap = texture;
-  roundedBoxMaterial.displacementScale = 0.4;
-  roundedBoxMaterial.displacementBias = 0.3;
+  roundedBoxMaterial.displacementScale = 0.2;
+  roundedBoxMaterial.displacementBias = 0.5;
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
   const angle = (i / 5) * Math.PI * 2;
   const radius = 13;
@@ -183,23 +183,6 @@ for (let i = 0; i < 5; i++) {
     text.position.z = 0.4;
     roundedBox.add(text);
   });
-  // fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
-  //   const textGeometry = new TextGeometry(texts.planes[i].text, {
-  //     height: 0.1,
-  //     size: 0.2,
-  //     font: droidFont,
-  //     curveSegments: 12,
-  //   });
-  //   const textMaterial = new THREE.MeshStandardMaterial({
-  //     color: 0xa1a1a1,
-  //   });
-  //   const text = new THREE.Mesh(textGeometry, textMaterial);
-  //   // set the position of the text with respect to the box rotation
-  //   text.position.x = getCenterXForText(textGeometry);
-  //   text.position.y = 5;
-  //   text.position.z = 0.9;
-  //   roundedBox.add(text);
-  // });
   carousel.position.y = -0.7;
   carousel.add(roundedBox);
 }
@@ -330,7 +313,6 @@ function onPointerDown(event) {
 }
 
 function onPointerMove(event) {
-  console.log("onPointerMove");
   if (isTransitioning) return;
   if (event.type === "wheel" && isDragging) return;
   if (event.type === "wheel") {
@@ -440,7 +422,7 @@ function animate() {
   stars.geometry.attributes.position.array.forEach((_, index) => {
     if (index % 3 === 0) {
       stars.geometry.attributes.position.array[index] +=
-        Math.sin(index + time) * 0.1;
+        Math.sin(index + time) * 3;
     }
   });
   stars.geometry.attributes.position.needsUpdate = true;
