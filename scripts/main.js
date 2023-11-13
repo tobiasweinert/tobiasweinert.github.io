@@ -112,26 +112,23 @@ for (let i = 0; i < 5; i++) {
   carousel.rotation.y = Math.PI * 0.7;
 
   // add text to the box
-  fontLoader.load(
-    "./assets/fonts/droid_serif_regular.typeface.json",
-    (droidFont) => {
-      const textGeometry = new TextGeometry("Heading", {
-        height: 0.2,
-        size: 1,
-        font: droidFont,
-        curveSegments: 18,
-      });
-      const textMaterial = new THREE.MeshStandardMaterial({
-        color: 0x545352,
-      });
-      const text = new THREE.Mesh(textGeometry, textMaterial);
-      // set the position of the text with respect to the box rotation
-      text.position.x = -2.5;
-      text.position.y = 5;
-      text.position.z = 0.9;
-      roundedBox.add(text);
-    }
-  );
+  fontLoader.load("./assets/fonts/Bebas_Neue_Regular.json", (droidFont) => {
+    const textGeometry = new TextGeometry("Heading", {
+      height: 0.15,
+      size: 1,
+      font: droidFont,
+      curveSegments: 18,
+    });
+    const textMaterial = new THREE.MeshStandardMaterial({
+      color: 0xa1a1a1,
+    });
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    // set the position of the text with respect to the box rotation
+    text.position.x = -1.9;
+    text.position.y = 5;
+    text.position.z = 0.9;
+    roundedBox.add(text);
+  });
   carousel.add(roundedBox);
 }
 
