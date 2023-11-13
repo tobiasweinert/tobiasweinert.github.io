@@ -83,14 +83,24 @@ for (let i = 0; i < 5; i++) {
   // const roundedBoxMaterial = new THREE.MeshStandardMaterial({
   //   color: colors[i],
   // });
-  const texture = new THREE.TextureLoader().load(`./assets/images/stone.jpg`);
+  const texture = new THREE.TextureLoader().load(`./assets/images/Diffuse.png`);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(1, 1);
+  texture.repeat.set(4, 4);
 
   const roundedBoxMaterial = new THREE.MeshStandardMaterial({
-    color: colors[i],
+    map: texture,
+    roughness: 1,
+    metalness: 0.2,
   });
+  roundedBoxMaterial.side = THREE.DoubleSide;
+  roundedBoxMaterial.flatShading = true;
+  roundedBoxMaterial.aoMap = texture;
+  roundedBoxMaterial.aoMapIntensity = 1;
+  roundedBoxMaterial.displacementMap = texture;
+  roundedBoxMaterial.displacementScale = 0.4;
+  roundedBoxMaterial.displacementBias = 0.3;
+
   const roundedBox = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
 
   const angle = (i / 5) * Math.PI * 2;
