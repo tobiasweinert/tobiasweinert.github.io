@@ -8,7 +8,6 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
-console.log(THREE);
 async function fetchText() {
   const text = await fetch("../assets/en.texts.json");
   return text.json();
@@ -66,10 +65,6 @@ const composer = new EffectComposer(renderer);
 composer.addPass(renderScene);
 composer.addPass(bloomPass);
 composer.addPass(outputPass);
-
-// orbit controls
-// const OrbitControls = orbitControls(THREE);
-// const controls = new OrbitControls(camera, renderer.domElement);
 
 // helpers
 const axisHelper = new THREE.AxesHelper(5000);
@@ -185,7 +180,6 @@ for (let i = 0; i < 5; i++) {
   // custom properties
   switch (texts.planes[i].id) {
     case "welcome":
-      console.log("1");
       break;
     case "about":
       imageLoader.load(texts.planes[i].images[0].src, (image) => {
@@ -228,13 +222,10 @@ for (let i = 0; i < 5; i++) {
 
       break;
     case "education":
-      console.log("4");
       break;
     case "projects":
-      console.log("5");
       break;
     case "contact":
-      console.log("3");
       break;
   }
   carousel.position.y = -0.7;
@@ -247,96 +238,97 @@ for (let i = 0; i < 5; i++) {
 let isTransitioning = true;
 let isDragging = false;
 
-// remove both lines
-camera.position.set(0, 0, 25);
-isTransitioning = false;
+// dev camera
+// camera.position.set(0, 0, 25);
+// isTransitioning = false;
+// const controls = new OrbitControls(camera, renderer.domElement);
 
-// const cameraPositions = [
-//   { x: 40, y: 60, z: 50 },
-//   { x: 30, y: 50, z: 40 },
-//   { x: 20, y: 40, z: 30 },
-//   { x: 10, y: 30, z: 25 },
-//   { x: 0, y: 20, z: 25 },
-//   { x: 0, y: -0.7, z: 25 },
-// ];
+const cameraPositions = [
+  { x: 40, y: 60, z: 50 },
+  { x: 30, y: 50, z: 40 },
+  { x: 20, y: 40, z: 30 },
+  { x: 10, y: 30, z: 25 },
+  { x: 0, y: 20, z: 25 },
+  { x: 0, y: -0.7, z: 25 },
+];
 
-// const cameraLooks = [
-//   { x: 0, y: -1, z: -1 },
-//   { x: 0, y: 0, z: -1 },
-// ];
+const cameraLooks = [
+  { x: 0, y: -1, z: -1 },
+  { x: 0, y: 0, z: -1 },
+];
 
-// camera.position.set(
-//   cameraPositions[0].x,
-//   cameraPositions[0].y,
-//   cameraPositions[0].z
-// );
+camera.position.set(
+  cameraPositions[0].x,
+  cameraPositions[0].y,
+  cameraPositions[0].z
+);
 
-// const initialLookAt = new THREE.Vector3();
-// const finalLookAt = new THREE.Vector3(
-//   cameraLooks[1].x,
-//   cameraLooks[1].y,
-//   cameraLooks[1].z
-// );
+const initialLookAt = new THREE.Vector3();
+const finalLookAt = new THREE.Vector3(
+  cameraLooks[1].x,
+  cameraLooks[1].y,
+  cameraLooks[1].z
+);
 
-// new TWEEN.Tween({ t: 0 })
-//   .to({ t: 1 }, 3500)
-//   .easing(TWEEN.Easing.Linear.None)
-//   .onUpdate(({ t }) => {
-//     const interpolatedLookAt = new THREE.Vector3().lerpVectors(
-//       initialLookAt,
-//       finalLookAt,
-//       t
-//     );
-//     // Update camera position
-//     camera.position.set(
-//       camera.position.x + (cameraLooks[1].x - cameraLooks[0].x) * t,
-//       camera.position.y + (cameraLooks[1].y - cameraLooks[0].y) * t,
-//       camera.position.z + (cameraLooks[1].z - cameraLooks[0].z) * t
-//     );
+new TWEEN.Tween({ t: 0 })
+  .to({ t: 1 }, 3500)
+  .easing(TWEEN.Easing.Linear.None)
+  .onUpdate(({ t }) => {
+    const interpolatedLookAt = new THREE.Vector3().lerpVectors(
+      initialLookAt,
+      finalLookAt,
+      t
+    );
+    // Update camera position
+    camera.position.set(
+      camera.position.x + (cameraLooks[1].x - cameraLooks[0].x) * t,
+      camera.position.y + (cameraLooks[1].y - cameraLooks[0].y) * t,
+      camera.position.z + (cameraLooks[1].z - cameraLooks[0].z) * t
+    );
 
-//     // Update camera lookAt
-//     camera.lookAt(interpolatedLookAt);
-//   })
-//   .start();
+    // Update camera lookAt
+    camera.lookAt(interpolatedLookAt);
+  })
+  .start();
 
-// // do the camera animation
-// new TWEEN.Tween(camera.position)
-//   .to(cameraPositions[1], 500)
-//   .onStart(() => {
-//     new TWEEN.Tween(carousel.rotation)
-//       .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3500)
-//       .start();
-//   })
-//   .easing(TWEEN.Easing.Linear.None)
-//   .onComplete(() => {
-//     new TWEEN.Tween(camera.position)
-//       .to(cameraPositions[2], 500)
-//       .easing(TWEEN.Easing.Linear.None)
-//       .onComplete(() => {
-//         new TWEEN.Tween(camera.position)
-//           .to(cameraPositions[3], 500)
-//           .easing(TWEEN.Easing.Linear.None)
-//           .onComplete(() => {
-//             new TWEEN.Tween(camera.position)
-//               .to(cameraPositions[4], 500)
-//               .easing(TWEEN.Easing.Linear.None)
-//               .onComplete(() => {
-//                 new TWEEN.Tween(camera.position)
-//                   .to(cameraPositions[5], 1500)
-//                   .easing(TWEEN.Easing.Quadratic.InOut)
-//                   .onComplete(() => {
-//                     // Tadd the controls after the animation is complete
-//                     isTransitioning = false;
-//                   })
-//                   .start();
-//               })
-//               .start();
-//           })
-//           .start();
-//       })
-//       .start();
-//   })
-//   .start();
+// do the camera animation
+new TWEEN.Tween(camera.position)
+  .to(cameraPositions[1], 500)
+  .onStart(() => {
+    new TWEEN.Tween(carousel.rotation)
+      .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3500)
+      .start();
+  })
+  .easing(TWEEN.Easing.Linear.None)
+  .onComplete(() => {
+    new TWEEN.Tween(camera.position)
+      .to(cameraPositions[2], 500)
+      .easing(TWEEN.Easing.Linear.None)
+      .onComplete(() => {
+        new TWEEN.Tween(camera.position)
+          .to(cameraPositions[3], 500)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            new TWEEN.Tween(camera.position)
+              .to(cameraPositions[4], 500)
+              .easing(TWEEN.Easing.Linear.None)
+              .onComplete(() => {
+                new TWEEN.Tween(camera.position)
+                  .to(cameraPositions[5], 1500)
+                  .easing(TWEEN.Easing.Quadratic.InOut)
+                  .onComplete(() => {
+                    // Tadd the controls after the animation is complete
+                    isTransitioning = false;
+                  })
+                  .start();
+              })
+              .start();
+          })
+          .start();
+      })
+      .start();
+  })
+  .start();
 let previousPointerX = 0;
 let mouseX = 0;
 let mouseY = 0;
