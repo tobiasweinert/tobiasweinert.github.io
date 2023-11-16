@@ -1,5 +1,6 @@
-import globals from "./globals.js";
 import * as TWEEN from "tween";
+import { findClosestSnapAngle } from "./helpers.js";
+import globals from "./globals.js";
 
 let previousPointerX = 0;
 document.addEventListener("pointerdown", onPointerDown);
@@ -75,27 +76,8 @@ function onPointerMove(event) {
   globals.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-const snapAngles = [];
-for (let i = 0; i < 5; i++) {
-  snapAngles.push((i / 5) * Math.PI * 2 + Math.PI * 0.7);
-  // push negative values
-  snapAngles.push(-(i / 5) * Math.PI * 2 + Math.PI * 0.7);
-}
-
-function findClosestSnapAngle(currentAngle) {
-  let closestSnapAngle = snapAngles[0];
-  let closestAngleDifference = Math.abs(currentAngle - closestSnapAngle);
-  for (let i = 1; i < snapAngles.length; i++) {
-    const angleDifference = Math.abs(currentAngle - snapAngles[i]);
-    if (angleDifference < closestAngleDifference) {
-      closestSnapAngle = snapAngles[i];
-      closestAngleDifference = angleDifference;
-    }
-  }
-  return closestSnapAngle;
-}
-
 function onPointerUp() {
+  // TODO: maybe initially rotate the camera instead of the carousel to make the calculations easier
   if (globals.isTransitioning) return;
   if (globals.isDragging) {
     globals.isDragging = false;
@@ -114,7 +96,7 @@ function onPointerUp() {
       globals.carousel.rotation.y <
       -Math.PI * 2 + Math.PI * 0.7 + rotationThreshold
     ) {
-      carousel.rotation.y =
+      globals.carousel.rotation.y =
         ((globals.carousel.rotation.y % (Math.PI * 2)) + Math.PI * 2) %
         (Math.PI * 2);
     }
@@ -136,9 +118,12 @@ function onPointerUp() {
 }
 
 function handleResize() {
-  const containerRect = container.getBoundingClientRect();
-  globals.renderer.setSize(containerRect.width, containerRect.height);
-  globals.camera.aspect = containerRect.width / containerRect.height;
+  globals.renderer.setSize(
+    globals.containerRect.width,
+    globals.containerRect.height
+  );
+  globals.camera.aspect =
+    globals.containerRect.width / globals.containerRect.height;
   globals.camera.updateProjectionMatrix();
 }
 
