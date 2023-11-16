@@ -10,7 +10,7 @@ Since this project also is a playground for me to test things out the code quali
 - **Tween.js:** Smooth animations for different use cases.
 
 ## Usage
-To rotate the carousel and change the visible slide the user can pick one of 3 methods:
+To rotate the carousel and change the visible slide the user can pick one of three methods:
 - Drag, rotate and drop the carousel
 - Use the arrow keys (left/right)
 - Use the scroll wheel (up/down)
