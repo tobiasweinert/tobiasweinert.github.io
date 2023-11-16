@@ -1,22 +1,33 @@
 {
   "planes": [
     {
+      "id": "projects",
       "title": "Projects",
       "text": "This is a sample text"
     },
     {
+      "id": "education",
       "title": "Education",
       "text": "This is a sample text"
     },
     {
+      "id": "about",
       "title": "About myself",
-      "text": "This is a sample text"
+      "text": "This is a sample text",
+      "images": [
+        {
+          "title": "That's me!",
+          "src": "./assets/images/me_cropped2.jpg"
+        }
+      ]
     },
     {
+      "id": "welcome",
       "title": "Welcome!",
-      "text": "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with animations. \n\nFeel free to take a look around!"
+      "text": "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
     },
     {
+      "id": "contact",
       "title": "Contact",
       "text": "This is a sample text"
     }

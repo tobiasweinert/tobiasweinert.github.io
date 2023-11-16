@@ -8,6 +8,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+console.log(THREE);
 async function fetchText() {
   const text = await fetch("../assets/en.texts.json");
   return text.json();
@@ -16,7 +17,8 @@ const texts = await fetchText();
 
 // threejs boilerplate
 const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+const imageLoader = new THREE.ImageLoader();
+const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
 const container = document.getElementById("cv-container");
 const containerRect = container.getBoundingClientRect();
 renderer.setSize(containerRect.width, containerRect.height);
@@ -37,8 +39,6 @@ light.position.set(0, 0, 10);
 scene.add(light);
 const ambientLight = new THREE.AmbientLight(0x4287f5, 2);
 scene.add(ambientLight);
-
-// camera.position.set(0, 0, 25);
 
 const glowParams = {
   thresold: 0.05,
@@ -113,10 +113,7 @@ function getCenterXForText(textGeometry) {
 // we want a carousel of 5 planes that rotate around the y axis
 const carousel = new THREE.Group();
 scene.add(carousel);
-
-// Define the geometry and material for the planes
 const roundedBoxGeometry = new RoundedBoxGeometry(13, 13, -0.5, 3, 0.5);
-const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff];
 // create 5 boxes and add them to the carousel
 for (let i = 0; i < 5; i++) {
   // const roundedBoxMaterial = new THREE.MeshStandardMaterial({
@@ -146,6 +143,7 @@ for (let i = 0; i < 5; i++) {
   const lines = texts.planes[i].text.split("\n");
   let textHeight = 0;
   for (let j = 0; j < lines.length; j++) {
+    // add common text to plane
     fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
       const textGeometry = new TextGeometry(lines[j], {
         height: 0.1,
@@ -165,7 +163,7 @@ for (let i = 0; i < 5; i++) {
       textHeight += 0.8;
     });
   }
-  // add text to the box
+  // add title to plane
   fontLoader.load("./assets/fonts/Nexa Heavy_Regular.json", (droidFont) => {
     const textGeometry = new TextGeometry(texts.planes[i].title, {
       height: 0.15,
@@ -183,6 +181,62 @@ for (let i = 0; i < 5; i++) {
     text.position.z = 0.4;
     roundedBox.add(text);
   });
+
+  // custom properties
+  switch (texts.planes[i].id) {
+    case "welcome":
+      console.log("1");
+      break;
+    case "about":
+      imageLoader.load(texts.planes[i].images[0].src, (image) => {
+        const texture = new THREE.Texture();
+        texture.generateMipmaps = false;
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.NearestFilter;
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.image = image;
+        texture.needsUpdate = true;
+        const material = new THREE.MeshBasicMaterial({
+          map: texture,
+        });
+        // get the images width and height and calculate the aspect ratio
+        const aspectRatio = image.width / image.height;
+        const imgHeight = 5;
+        const imgWidth = imgHeight * aspectRatio;
+        const meImage = new THREE.Mesh(
+          new THREE.PlaneGeometry(imgWidth, imgHeight, 12, 12),
+          material
+        );
+        meImage.position.set(-4, 1, 0.5);
+        roundedBox.add(meImage);
+        // add a frame to the image
+        const frameMaterial = new THREE.MeshBasicMaterial({
+          color: 0x000000,
+          side: THREE.BackSide,
+        });
+        const frameWidth = imgWidth + 0.2;
+        const frameHeight = imgHeight + 0.2;
+        const frameGeometry = new THREE.BoxGeometry(
+          frameWidth,
+          frameHeight,
+          0.1
+        );
+        const frame = new THREE.Mesh(frameGeometry, frameMaterial);
+        frame.position.set(-4, 1, 0.5);
+        roundedBox.add(frame);
+      });
+
+      break;
+    case "education":
+      console.log("4");
+      break;
+    case "projects":
+      console.log("5");
+      break;
+    case "contact":
+      console.log("3");
+      break;
+  }
   carousel.position.y = -0.7;
   carousel.add(roundedBox);
 }
@@ -192,92 +246,97 @@ for (let i = 0; i < 5; i++) {
 
 let isTransitioning = true;
 let isDragging = false;
-const cameraPositions = [
-  { x: 40, y: 60, z: 50 },
-  { x: 30, y: 50, z: 40 },
-  { x: 20, y: 40, z: 30 },
-  { x: 10, y: 30, z: 25 },
-  { x: 0, y: 20, z: 25 },
-  { x: 0, y: -0.7, z: 25 },
-];
 
-const cameraLooks = [
-  { x: 0, y: -1, z: -1 },
-  { x: 0, y: 0, z: -1 },
-];
+// remove both lines
+camera.position.set(0, 0, 25);
+isTransitioning = false;
 
-camera.position.set(
-  cameraPositions[0].x,
-  cameraPositions[0].y,
-  cameraPositions[0].z
-);
+// const cameraPositions = [
+//   { x: 40, y: 60, z: 50 },
+//   { x: 30, y: 50, z: 40 },
+//   { x: 20, y: 40, z: 30 },
+//   { x: 10, y: 30, z: 25 },
+//   { x: 0, y: 20, z: 25 },
+//   { x: 0, y: -0.7, z: 25 },
+// ];
 
-const initialLookAt = new THREE.Vector3();
-const finalLookAt = new THREE.Vector3(
-  cameraLooks[1].x,
-  cameraLooks[1].y,
-  cameraLooks[1].z
-);
+// const cameraLooks = [
+//   { x: 0, y: -1, z: -1 },
+//   { x: 0, y: 0, z: -1 },
+// ];
 
-new TWEEN.Tween({ t: 0 })
-  .to({ t: 1 }, 3500)
-  .easing(TWEEN.Easing.Linear.None)
-  .onUpdate(({ t }) => {
-    const interpolatedLookAt = new THREE.Vector3().lerpVectors(
-      initialLookAt,
-      finalLookAt,
-      t
-    );
-    // Update camera position
-    camera.position.set(
-      camera.position.x + (cameraLooks[1].x - cameraLooks[0].x) * t,
-      camera.position.y + (cameraLooks[1].y - cameraLooks[0].y) * t,
-      camera.position.z + (cameraLooks[1].z - cameraLooks[0].z) * t
-    );
+// camera.position.set(
+//   cameraPositions[0].x,
+//   cameraPositions[0].y,
+//   cameraPositions[0].z
+// );
 
-    // Update camera lookAt
-    camera.lookAt(interpolatedLookAt);
-  })
-  .start();
+// const initialLookAt = new THREE.Vector3();
+// const finalLookAt = new THREE.Vector3(
+//   cameraLooks[1].x,
+//   cameraLooks[1].y,
+//   cameraLooks[1].z
+// );
 
-// do the camera animation
-new TWEEN.Tween(camera.position)
-  .to(cameraPositions[1], 500)
-  .onStart(() => {
-    new TWEEN.Tween(carousel.rotation)
-      .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3500)
-      .start();
-  })
-  .easing(TWEEN.Easing.Linear.None)
-  .onComplete(() => {
-    new TWEEN.Tween(camera.position)
-      .to(cameraPositions[2], 500)
-      .easing(TWEEN.Easing.Linear.None)
-      .onComplete(() => {
-        new TWEEN.Tween(camera.position)
-          .to(cameraPositions[3], 500)
-          .easing(TWEEN.Easing.Linear.None)
-          .onComplete(() => {
-            new TWEEN.Tween(camera.position)
-              .to(cameraPositions[4], 500)
-              .easing(TWEEN.Easing.Linear.None)
-              .onComplete(() => {
-                new TWEEN.Tween(camera.position)
-                  .to(cameraPositions[5], 1500)
-                  .easing(TWEEN.Easing.Quadratic.InOut)
-                  .onComplete(() => {
-                    // Tadd the controls after the animation is complete
-                    isTransitioning = false;
-                  })
-                  .start();
-              })
-              .start();
-          })
-          .start();
-      })
-      .start();
-  })
-  .start();
+// new TWEEN.Tween({ t: 0 })
+//   .to({ t: 1 }, 3500)
+//   .easing(TWEEN.Easing.Linear.None)
+//   .onUpdate(({ t }) => {
+//     const interpolatedLookAt = new THREE.Vector3().lerpVectors(
+//       initialLookAt,
+//       finalLookAt,
+//       t
+//     );
+//     // Update camera position
+//     camera.position.set(
+//       camera.position.x + (cameraLooks[1].x - cameraLooks[0].x) * t,
+//       camera.position.y + (cameraLooks[1].y - cameraLooks[0].y) * t,
+//       camera.position.z + (cameraLooks[1].z - cameraLooks[0].z) * t
+//     );
+
+//     // Update camera lookAt
+//     camera.lookAt(interpolatedLookAt);
+//   })
+//   .start();
+
+// // do the camera animation
+// new TWEEN.Tween(camera.position)
+//   .to(cameraPositions[1], 500)
+//   .onStart(() => {
+//     new TWEEN.Tween(carousel.rotation)
+//       .to({ y: Math.PI * 2 + Math.PI * 0.7 }, 3500)
+//       .start();
+//   })
+//   .easing(TWEEN.Easing.Linear.None)
+//   .onComplete(() => {
+//     new TWEEN.Tween(camera.position)
+//       .to(cameraPositions[2], 500)
+//       .easing(TWEEN.Easing.Linear.None)
+//       .onComplete(() => {
+//         new TWEEN.Tween(camera.position)
+//           .to(cameraPositions[3], 500)
+//           .easing(TWEEN.Easing.Linear.None)
+//           .onComplete(() => {
+//             new TWEEN.Tween(camera.position)
+//               .to(cameraPositions[4], 500)
+//               .easing(TWEEN.Easing.Linear.None)
+//               .onComplete(() => {
+//                 new TWEEN.Tween(camera.position)
+//                   .to(cameraPositions[5], 1500)
+//                   .easing(TWEEN.Easing.Quadratic.InOut)
+//                   .onComplete(() => {
+//                     // Tadd the controls after the animation is complete
+//                     isTransitioning = false;
+//                   })
+//                   .start();
+//               })
+//               .start();
+//           })
+//           .start();
+//       })
+//       .start();
+//   })
+//   .start();
 let previousPointerX = 0;
 let mouseX = 0;
 let mouseY = 0;
