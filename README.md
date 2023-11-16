@@ -11,7 +11,7 @@ Since this project also is a playground for me to test things out the code quali
 
 ## Usage
 To rotate the carousel and change the visible slide the user can pick one of three methods:
-- Drag, rotate and drop the carousel
+- Drag, rotate and drop the carousel with the mouse
 - Use the arrow keys (left/right)
 - Use the scroll wheel (up/down)
 
