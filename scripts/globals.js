@@ -1,3 +1,6 @@
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+const fontLoader = new FontLoader();
+
 async function fetchText() {
   const text = await fetch("../assets/en.texts.json");
   return text.json();
@@ -7,9 +10,21 @@ function getContainerRect() {
   return document.getElementById("cv-container").getBoundingClientRect();
 }
 
+function loadFont(fontPath) {
+  return new Promise((resolve, reject) => {
+    fontLoader.load(fontPath, (font) => {
+      resolve(font);
+    });
+  });
+}
+
 // Global variables
 const globals = {
-  prod: true,
+  devOptions: {
+    prod: true,
+    orbitControls: false,
+    initialSlide: 1,
+  },
   renderer: null,
   scene: null,
   camera: null,
@@ -24,6 +39,11 @@ const globals = {
   mouseX: 0,
   mouseY: 0,
   texts: await fetchText(),
+  fonts: {
+    Nexa_Heavy_Regular: await loadFont(
+      "../assets/fonts/Nexa Heavy_Regular.json"
+    ),
+  },
 };
 
 export default globals;

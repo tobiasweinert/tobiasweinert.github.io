@@ -13,11 +13,11 @@
     {
       "id": "about",
       "title": "About myself",
-      "text": "This is a sample text",
+      "text": "I'm Tobias.\n\n\n\n Test",
       "images": [
         {
           "title": "That's me!",
-          "src": "./assets/images/me_cropped2.jpg"
+          "src": "./assets/images/me_cropped2_white.jpg"
         }
       ]
     },

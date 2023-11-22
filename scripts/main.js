@@ -1,8 +1,5 @@
-import * as THREE from "three";
 import * as TWEEN from "tween";
-import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import globals from "./globals.js";
 import {
   initThree,
   initBloom,
@@ -11,7 +8,6 @@ import {
 } from "./inits.js";
 import { initCarousel } from "./carousel.js";
 import "./events.js";
-import globals from "./globals.js";
 
 initThree();
 initCarousel();
@@ -27,6 +23,7 @@ function animate() {
   // add movement to starry night using mouse position
   globals.stars.rotation.y = globals.mouseX * 0.1;
   globals.stars.rotation.x = globals.mouseY * 0.1;
+
   // make random stars twinkle
   const time = Date.now() * 0.00005;
   globals.stars.geometry.attributes.position.array.forEach((_, index) => {

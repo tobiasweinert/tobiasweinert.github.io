@@ -6,8 +6,6 @@ import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-
 import globals from "./globals.js";
 
 export function initThree() {
@@ -22,7 +20,6 @@ export function initThree() {
   document
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
-  const fontLoader = new FontLoader();
   globals.scene = new THREE.Scene();
   globals.camera = new THREE.PerspectiveCamera(
     75,
@@ -91,7 +88,7 @@ export function initStarryNight() {
 }
 
 export function initCameraShot() {
-  if (globals.prod) {
+  if (globals.devOptions.prod) {
     const cameraPositions = [
       { x: 40, y: 60, z: 50 },
       { x: 30, y: 50, z: 40 },
@@ -179,12 +176,19 @@ export function initCameraShot() {
       })
       .start();
   } else {
-    // dev camera
+    // Fixed camera, orbit controls and select initial slide
     globals.camera.position.set(0, 0, 25);
     globals.isTransitioning = false;
-    const controls = new OrbitControls(
-      globals.camera,
-      globals.renderer.domElement
-    );
+
+    if (globals.devOptions.orbitControls) {
+      const controls = new OrbitControls(
+        globals.camera,
+        globals.renderer.domElement
+      );
+    }
+
+    // select initial slide devOptions.initialSlide (0-4) without animations
+    globals.carousel.rotation.y -=
+      globals.devOptions.initialSlide * Math.PI * 2 * (1 / 5);
   }
 }
