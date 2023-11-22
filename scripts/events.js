@@ -18,8 +18,8 @@ document.addEventListener("keydown", (event) => {
     targetRotation -= Math.PI * 2 * (1 / 5);
   }
   new TWEEN.Tween(globals.carousel.rotation)
-    .to({ y: targetRotation }, 800)
-    .easing(TWEEN.Easing.Bounce.Out)
+    .to({ y: targetRotation }, 400)
+    .easing(TWEEN.Easing.Sinusoidal.InOut)
     .onComplete(() => {
       globals.isTransitioning = false;
     })
@@ -42,7 +42,6 @@ function onPointerMove(event) {
   if (globals.isTransitioning) return;
   if (event.type === "wheel" && globals.isDragging) return;
   if (event.type === "wheel") {
-    // if the user scrolls, we need to rotate the carousel all the way to the next box
     const scrollThreshold = 10;
     let targetRotation = globals.carousel.rotation.y;
     if (event.deltaY < -scrollThreshold) {
@@ -51,8 +50,8 @@ function onPointerMove(event) {
       targetRotation -= Math.PI * 2 * (1 / 5);
     }
     new TWEEN.Tween(globals.carousel.rotation)
-      .to({ y: targetRotation }, 800)
-      .easing(TWEEN.Easing.Bounce.Out)
+      .to({ y: targetRotation }, 400)
+      .easing(TWEEN.Easing.Sinusoidal.InOut)
       .onComplete(() => {
         globals.isTransitioning = false;
       })
@@ -118,10 +117,12 @@ function onPointerUp() {
 }
 
 function handleResize() {
+  globals.containerRect = globals.container.getBoundingClientRect();
   globals.renderer.setSize(
     globals.containerRect.width,
     globals.containerRect.height
   );
+
   globals.camera.aspect =
     globals.containerRect.width / globals.containerRect.height;
   globals.camera.updateProjectionMatrix();
