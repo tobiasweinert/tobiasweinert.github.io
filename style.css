@@ -19,6 +19,13 @@ body {
   text-align: center;
 }
 
+#currentSlide {
+  /* stick to left of screen */
+  position: fixed;
+  left: 2%;
+  top: 4%;
+}
+
 .main {
   width: 100%;
   height: 100%;

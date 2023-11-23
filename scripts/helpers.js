@@ -22,6 +22,14 @@ for (let i = 0; i < 5; i++) {
   negativeSnapAngles[2],
 ];
 
+const slideNamesMap = {
+  0: "Welcome",
+  1: "About Myself",
+  2: "Education",
+  3: "Projects",
+  4: "Contact",
+};
+
 export function getCenterXForText(textGeometry) {
   textGeometry.computeBoundingBox();
   const textWidth =
@@ -59,6 +67,7 @@ export function setCurrentSlide(nextSnapAngle) {
     }
   }
   globals.currentSlide = currentSlide;
+  setCurrentSlideText(currentSlide);
 }
 
 export function normalizeAngle(angle) {
@@ -71,4 +80,10 @@ export function normalizeAngle(angle) {
     angle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
   }
   return angle;
+}
+
+export function setCurrentSlideText(currentSlide) {
+  // Set current slide text to div id currentSlide
+  const currentSlideText = document.getElementById("currentSlide");
+  currentSlideText.innerHTML = "Current Slide: " + slideNamesMap[currentSlide];
 }

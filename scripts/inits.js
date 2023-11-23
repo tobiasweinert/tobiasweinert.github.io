@@ -3,20 +3,22 @@ import * as TWEEN from "tween";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { setCurrentSlideText } from "./helpers.js";
 
 import globals from "./globals.js";
 
 export function initThree() {
   // threejs boilerplate
-  globals.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
+  globals.renderer = new THREE.WebGLRenderer({});
   globals.renderer.setSize(
     globals.containerRect.width,
     globals.containerRect.height
   );
   globals.renderer.toneMapping = THREE.ReinhardToneMapping;
-  const imageLoader = new THREE.ImageLoader();
   document
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
@@ -30,8 +32,9 @@ export function initThree() {
   const light = new THREE.DirectionalLight(0x7e7c82, 7);
   light.position.set(0, 0, 10);
   globals.scene.add(light);
-  const ambientLight = new THREE.AmbientLight(0x4287f5, 2);
+  const ambientLight = new THREE.HemisphereLight(0x4287f5, 2);
   globals.scene.add(ambientLight);
+  setCurrentSlideText(globals.currentSlide);
 }
 
 export function initBloom() {
@@ -43,6 +46,7 @@ export function initBloom() {
   };
 
   const renderScene = new RenderPass(globals.scene, globals.camera);
+  renderScene.clearAlpha = 0;
 
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(
@@ -60,9 +64,18 @@ export function initBloom() {
   const outputPass = new OutputPass();
   outputPass.renderToScreen = true;
   globals.composer = new EffectComposer(globals.renderer);
+
+  const fxaaPass = new ShaderPass(FXAAShader);
+  fxaaPass.material.uniforms["resolution"].value.set(
+    1 / globals.containerRect.width,
+    1 / globals.containerRect.height
+  );
+  fxaaPass.renderToScreen = true;
+
   globals.composer.addPass(renderScene);
   globals.composer.addPass(bloomPass);
   globals.composer.addPass(outputPass);
+  globals.composer.addPass(fxaaPass);
 }
 
 export function initStarryNight() {
@@ -95,7 +108,7 @@ export function initCameraShot() {
       { x: 20, y: 40, z: 30 },
       { x: 10, y: 30, z: 25 },
       { x: 0, y: 20, z: 25 },
-      { x: 0, y: -0.7, z: 25 },
+      { x: 0, y: -1, z: 25 },
     ];
 
     const cameraLooks = [
@@ -177,7 +190,7 @@ export function initCameraShot() {
       .start();
   } else {
     // Fixed camera, orbit controls and select initial slide
-    globals.camera.position.set(0, 0, 25);
+    globals.camera.position.set(0, -1, 25);
     globals.isTransitioning = false;
 
     if (globals.devOptions.orbitControls) {

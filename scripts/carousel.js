@@ -47,13 +47,14 @@ export function initCarousel() {
     for (let j = 0; j < lines.length; j++) {
       // add common text to plane
       const textGeometry = new TextGeometry(lines[j], {
-        height: 0.1,
+        height: 0.05,
         size: 0.3,
         font: globals.fonts.Nexa_Heavy_Regular,
         curveSegments: 12,
       });
       const textMaterial = new THREE.MeshStandardMaterial({
         color: 0xa1a1a1,
+        flatShading: true,
       });
       const text = new THREE.Mesh(textGeometry, textMaterial);
       // set the position of the text with respect to the box rotation
@@ -65,7 +66,7 @@ export function initCarousel() {
     }
     // add title to plane
     const textGeometry = new TextGeometry(globals.texts.planes[i].title, {
-      height: 0.15,
+      height: 0.1,
       size: 0.8,
       font: globals.fonts.Nexa_Heavy_Regular,
       curveSegments: 18,
@@ -95,7 +96,7 @@ export function initCarousel() {
       case "contact":
         break;
     }
-    globals.carousel.position.y = -0.7;
     globals.carousel.add(slide);
   }
+  globals.carousel.position.y = -1;
 }
