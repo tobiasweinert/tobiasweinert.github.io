@@ -40,15 +40,11 @@ export function findClosestSnapAngle(currentAngle) {
       closestAngleDifference = angleDifference;
     }
   }
-  setCurrentSlide(closestSnapAngle);
   return closestSnapAngle;
 }
 
 export function setCurrentSlide(nextSnapAngle) {
-  // Reset rotation to a positive PI * 2 + PI * 0.7
-  if (nextSnapAngle > Math.PI * 2 + Math.PI * 0.7) {
-    nextSnapAngle = nextSnapAngle % (Math.PI * 2);
-  }
+  nextSnapAngle = normalizeAngle(nextSnapAngle);
   let currentSlide = -1;
   for (let i = 0; i < positiveSnapAngles.length; i++) {
     if (nextSnapAngle === positiveSnapAngles[i]) {
@@ -63,4 +59,16 @@ export function setCurrentSlide(nextSnapAngle) {
     }
   }
   globals.currentSlide = currentSlide;
+}
+
+export function normalizeAngle(angle) {
+  // Reset positive rotation
+  if (angle > Math.PI * 1.6 + Math.PI * 0.7) {
+    angle = angle % (Math.PI * 2);
+  }
+  // Reset negative rotation
+  if (angle < -Math.PI * 1.6 + Math.PI * 0.7) {
+    angle = ((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  }
+  return angle;
 }
