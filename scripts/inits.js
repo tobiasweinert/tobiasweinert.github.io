@@ -176,7 +176,10 @@ export function initCameraShot() {
                       .to(cameraPositions[5], 1500)
                       .easing(TWEEN.Easing.Quadratic.InOut)
                       .onComplete(() => {
-                        // Tadd the controls after the animation is complete
+                        // add grabbable class to canvas-container
+                        document
+                          .getElementById("cv-container")
+                          .classList.add("grabbable");
                         globals.isTransitioning = false;
                       })
                       .start();
