@@ -44,13 +44,13 @@ export function initSlideAbout(slide) {
       color: 0x000000,
     });
     const titleGeometry = new TextGeometry(title, {
-      height: 0.1,
+      height: 0.02,
       size: 0.3,
       font: globals.fonts.Nexa_Heavy_Regular,
       curveSegments: 12,
     });
     const titleMesh = new THREE.Mesh(titleGeometry, titleMaterial);
-    titleMesh.position.set(-5, -2.1, 0.4);
+    titleMesh.position.set(-5, -2.1, 0.45);
     slide.add(titleMesh);
   });
 }
