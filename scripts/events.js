@@ -6,6 +6,9 @@ import {
 } from "./helpers.js";
 import globals from "./globals.js";
 
+let previousRotationAngle =
+  globals.devOptions.initialSlide * Math.PI * 2 * (1 / 5);
+
 let previousPointerX = 0;
 document.addEventListener("pointerdown", onPointerDown);
 document.addEventListener("pointermove", onPointerMove);
@@ -44,6 +47,7 @@ function onPointerDown(event) {
   if (globals.isTransitioning) return;
   globals.isDragging = true;
   previousPointerX = event.clientX || event.touches[0].clientX;
+  previousRotationAngle = globals.carousel.rotation.y;
 }
 
 function onWheelScroll(event) {
@@ -93,12 +97,38 @@ function onPointerUp() {
   if (globals.isTransitioning) return;
   if (globals.isDragging) {
     globals.isDragging = false;
-    globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
-    const snapAngle = findClosestSnapAngle(globals.carousel.rotation.y);
-    setCurrentSlide(snapAngle);
+    let nextAngle = globals.carousel.rotation.y;
+    let animationTime = 250;
+    let isForced = false;
+    // support the user by forcing the rotation to the next slide if the rotation is less than 1/5 of the total rotation
+    // user rotates to the right
+    if (previousRotationAngle > globals.carousel.rotation.y) {
+      // user rotates to the right and the rotation is less than 1/5 of the total rotation
+      if (
+        previousRotationAngle - Math.PI * 2 * (1 / 5) <
+        globals.carousel.rotation.y
+      ) {
+        nextAngle = previousRotationAngle - Math.PI * 2 * (1 / 5);
+        isForced = true;
+      }
+    } else if (previousRotationAngle < globals.carousel.rotation.y) {
+      if (
+        previousRotationAngle + Math.PI * 2 * (1 / 5) >
+        globals.carousel.rotation.y
+      ) {
+        nextAngle = previousRotationAngle + Math.PI * 2 * (1 / 5);
+        isForced = true;
+      }
+    }
+    if (!isForced) {
+      globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
+      nextAngle = findClosestSnapAngle(globals.carousel.rotation.y);
+      animationTime = 150;
+    }
+    setCurrentSlide(nextAngle);
     new TWEEN.Tween(globals.carousel.rotation)
-      .to({ y: snapAngle }, 150)
-      .easing(TWEEN.Easing.Back.Out)
+      .to({ y: nextAngle }, animationTime)
+      .easing(TWEEN.Easing.Sinusoidal.InOut)
       .onComplete(() => {
         globals.isTransitioning = false;
       })
