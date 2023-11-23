@@ -76,25 +76,15 @@ function onPointerMove(event) {
 }
 
 function onPointerUp() {
-  // TODO: maybe initially rotate the camera instead of the carousel to make the calculations easier
   if (globals.isTransitioning) return;
   if (globals.isDragging) {
     globals.isDragging = false;
-
-    // Calculate a threshold as a percentage of one full rotation
-    const rotationThreshold = (Math.PI * 2) / 10;
     // Reset positive rotation
-    if (
-      globals.carousel.rotation.y >
-      Math.PI * 2 + Math.PI * 0.7 - rotationThreshold
-    ) {
+    if (globals.carousel.rotation.y > Math.PI * 2 + Math.PI * 0.7) {
       globals.carousel.rotation.y = globals.carousel.rotation.y % (Math.PI * 2);
     }
     // Reset negative rotation
-    if (
-      globals.carousel.rotation.y <
-      -Math.PI * 2 + Math.PI * 0.7 + rotationThreshold
-    ) {
+    if (globals.carousel.rotation.y < -Math.PI * 2 + Math.PI * 0.7) {
       globals.carousel.rotation.y =
         ((globals.carousel.rotation.y % (Math.PI * 2)) + Math.PI * 2) %
         (Math.PI * 2);

@@ -23,7 +23,7 @@ const globals = {
   devOptions: {
     prod: true,
     orbitControls: false,
-    initialSlide: 1,
+    initialSlide: 0,
   },
   renderer: null,
   scene: null,
@@ -44,6 +44,11 @@ const globals = {
       "../assets/fonts/Nexa Heavy_Regular.json"
     ),
   },
+  currentSlide: 0,
 };
+
+globals.currentSlide = globals.devOptions.prod
+  ? globals.devOptions.initialSlide
+  : 0;
 
 export default globals;
