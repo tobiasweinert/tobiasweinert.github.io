@@ -122,6 +122,11 @@ function handleResize() {
   globals.camera.aspect =
     globals.containerRect.width / globals.containerRect.height;
   globals.camera.updateProjectionMatrix();
+  // prevent blurry texts on resize
+  globals.composer.setSize(
+    globals.containerRect.width,
+    globals.containerRect.height
+  );
 }
 
 window.addEventListener("resize", handleResize);
