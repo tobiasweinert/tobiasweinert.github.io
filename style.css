@@ -20,7 +20,7 @@ body {
 }
 
 #currentSlide {
-  /* stick to left of screen */
+  user-select: none;
   position: fixed;
   left: 2%;
   top: 4%;
