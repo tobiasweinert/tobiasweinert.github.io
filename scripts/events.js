@@ -36,13 +36,14 @@ document.addEventListener("keydown", (event) => {
       slideHandlerGo(targetRotation);
     })
     .onStart(() => {
-      slideHandlerFrom();
+      slideHandlerFrom(targetRotation);
     })
     .start();
 });
 
 function onPointerDown(event) {
   if (globals.isTransitioning) return;
+  previousSlide = globals.currentSlide;
   globals.isDragging = true;
   previousPointerX = event.clientX || event.touches[0].clientX;
   previousRotationAngle = globals.carousel.rotation.y;
@@ -66,7 +67,7 @@ function onWheelScroll(event) {
       slideHandlerGo(targetRotation);
     })
     .onStart(() => {
-      slideHandlerFrom();
+      slideHandlerFrom(targetRotation);
     })
     .start();
 }
@@ -125,15 +126,15 @@ function onPointerUp() {
         slideHandlerGo(nextAngle);
       })
       .onStart(() => {
-        slideHandlerFrom();
+        slideHandlerFrom(nextAngle);
       })
       .start();
   }
 }
 
 function slideHandlerGo(nextAngle) {
-  setCurrentSlide(nextAngle);
   globals.isTransitioning = false;
+  setCurrentSlide(nextAngle);
   switch (globals.currentSlide) {
     case 0:
       break;
@@ -149,9 +150,10 @@ function slideHandlerGo(nextAngle) {
   }
 }
 
-function slideHandlerFrom() {
+function slideHandlerFrom(nextAngle) {
   previousSlide = globals.currentSlide;
-
+  setCurrentSlide(nextAngle);
+  if (previousSlide === globals.currentSlide) return;
   globals.isTransitioning = true;
   switch (previousSlide) {
     case 0:
