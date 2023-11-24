@@ -3,17 +3,19 @@
     {
       "id": "projects",
       "title": "Projects",
-      "text": "This is a sample text"
+      "text": ["This is a sample text"]
     },
     {
       "id": "education",
       "title": "Education",
-      "text": "This is a sample text"
+      "texts": ["This is a sample text"]
     },
     {
       "id": "about",
       "title": "About myself",
-      "text": "I'm Tobias.\n\n\n\n Test",
+      "texts": [
+        "This is a longer text to check how it \nwould look on the slide.\nI think i need to adjust the position of this specific text because its too far to the left."
+      ],
       "images": [
         {
           "title": "That's me!",
@@ -24,7 +26,9 @@
     {
       "id": "welcome",
       "title": "Welcome!",
-      "text": "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
+      "texts": [
+        "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
+      ]
     },
     {
       "id": "contact",

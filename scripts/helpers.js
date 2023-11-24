@@ -1,4 +1,7 @@
+import * as THREE from "three";
 import globals from "./globals.js";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
+const imageLoader = new THREE.ImageLoader();
 
 const snapAngles = [];
 const positiveSnapAngles = [];
@@ -66,6 +69,24 @@ export function setCurrentSlide(nextSnapAngle) {
       }
     }
   }
+  if (currentSlide === -1) {
+    // no slide was found, search for the nearest one
+    // this happens because cumulative rounding errors when rotating the carousel
+    // and suggests a better state management is needed
+    let closest = findClosestSnapAngle(nextSnapAngle);
+    for (let i = 0; i < positiveSnapAngles.length; i++) {
+      if (closest === positiveSnapAngles[i]) {
+        currentSlide = i;
+      }
+    }
+    if (currentSlide === -1) {
+      for (let i = 0; i < negativeSnapAngles.length; i++) {
+        if (closest === negativeSnapAngles[i]) {
+          currentSlide = i;
+        }
+      }
+    }
+  }
   globals.currentSlide = currentSlide;
   setCurrentSlideText(currentSlide);
 }
@@ -86,4 +107,49 @@ export function setCurrentSlideText(currentSlide) {
   // Set current slide text to div id currentSlide
   const currentSlideText = document.getElementById("currentSlide");
   currentSlideText.innerHTML = "Current Slide: " + slideNamesMap[currentSlide];
+}
+
+export function createTextMesh(
+  text,
+  x,
+  y,
+  z,
+  size,
+  height,
+  lineHeight,
+  font,
+  centered = false
+) {
+  // create an array of meshes, one for each line of text
+  const meshes = [];
+  const lines = text.split("\n");
+  let textHeight = 0;
+  for (let i = 0; i < lines.length; i++) {
+    const textGeometry = new TextGeometry(lines[i], {
+      height: height,
+      size: size,
+      font: font,
+      curveSegments: 12,
+    });
+    const textMaterial = new THREE.MeshStandardMaterial({
+      color: 0xa1a1a1,
+      flatShading: true,
+    });
+    const text = new THREE.Mesh(textGeometry, textMaterial);
+    // set the position of the text with respect to the box rotation
+    text.position.x = centered ? getCenterXForText(textGeometry) : x;
+    text.position.y = y - textHeight;
+    text.position.z = z;
+    meshes.push(text);
+    textHeight += lineHeight;
+  }
+  return meshes;
+}
+
+export async function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    imageLoader.load(src, (image) => {
+      resolve(image);
+    });
+  });
 }

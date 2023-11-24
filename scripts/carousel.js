@@ -31,39 +31,16 @@ export function initCarousel() {
     roundedBoxMaterial.displacementMap = texture;
     roundedBoxMaterial.displacementScale = 0.2;
     roundedBoxMaterial.displacementBias = 0.5;
-    const slide = new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial);
+    globals.slides.push(new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial));
     const angle = (i / 5) * Math.PI * 2;
     const radius = 13;
     // calculate the position using polar coordinates
-    slide.position.x = radius * Math.cos(angle);
-    slide.position.z = radius * Math.sin(angle);
+    globals.slides[i].position.x = radius * Math.cos(angle);
+    globals.slides[i].position.z = radius * Math.sin(angle);
     // rotate the box
-    slide.rotation.y = -angle + Math.PI / 2;
+    globals.slides[i].rotation.y = -angle + Math.PI / 2;
     // rotate the carousel so that it faces the camera at 0,0,20
     globals.carousel.rotation.y = Math.PI * 0.7;
-
-    const lines = globals.texts.planes[i].text.split("\n");
-    let textHeight = 0;
-    for (let j = 0; j < lines.length; j++) {
-      // add common text to plane
-      const textGeometry = new TextGeometry(lines[j], {
-        height: 0.05,
-        size: 0.3,
-        font: globals.fonts.Nexa_Heavy_Regular,
-        curveSegments: 12,
-      });
-      const textMaterial = new THREE.MeshStandardMaterial({
-        color: 0xa1a1a1,
-        flatShading: true,
-      });
-      const text = new THREE.Mesh(textGeometry, textMaterial);
-      // set the position of the text with respect to the box rotation
-      text.position.x = getCenterXForText(textGeometry);
-      text.position.y = 4 - textHeight;
-      text.position.z = 0.4;
-      slide.add(text);
-      textHeight += 0.8;
-    }
     // add title to plane
     const textGeometry = new TextGeometry(globals.texts.planes[i].title, {
       height: 0.1,
@@ -79,15 +56,15 @@ export function initCarousel() {
     text.position.x = getCenterXForText(textGeometry);
     text.position.y = 5;
     text.position.z = 0.4;
-    slide.add(text);
+    globals.slides[i].add(text);
 
     // custom properties
     switch (globals.texts.planes[i].id) {
       case "welcome":
-        initSlideWelcome();
+        initSlideWelcome(globals.slides[i]);
         break;
       case "about":
-        initSlideAbout(slide);
+        initSlideAbout();
         break;
       case "education":
         break;
@@ -96,7 +73,7 @@ export function initCarousel() {
       case "contact":
         break;
     }
-    globals.carousel.add(slide);
+    globals.carousel.add(globals.slides[i]);
   }
   globals.carousel.position.y = -1;
 }

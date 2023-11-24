@@ -4,12 +4,15 @@ import {
   setCurrentSlide,
   normalizeAngle,
 } from "./helpers.js";
+import { toSlideAbout, fromSlideAbout } from "./slides/slideAbout.js";
 import globals from "./globals.js";
 
 let previousRotationAngle =
   globals.devOptions.initialSlide * Math.PI * 2 * (1 / 5);
 
 let previousPointerX = 0;
+
+let previousSlide = globals.devOptions.initialSlide;
 document.addEventListener("pointerdown", onPointerDown);
 document.addEventListener("pointermove", onPointerMove);
 document.addEventListener("pointerup", onPointerUp);
@@ -30,15 +33,10 @@ document.addEventListener("keydown", (event) => {
     .to({ y: targetRotation }, 400)
     .easing(TWEEN.Easing.Sinusoidal.InOut)
     .onComplete(() => {
-      globals.isTransitioning = false;
-      setCurrentSlide(targetRotation);
+      slideHandlerGo(targetRotation);
     })
     .onStart(() => {
-      globals.isTransitioning = true;
-    })
-    .onStop(() => {
-      globals.isTransitioning = false;
-      setCurrentSlide(targetRotation);
+      slideHandlerFrom();
     })
     .start();
 });
@@ -65,15 +63,10 @@ function onWheelScroll(event) {
     .to({ y: targetRotation }, 400)
     .easing(TWEEN.Easing.Sinusoidal.InOut)
     .onComplete(() => {
-      globals.isTransitioning = false;
-      setCurrentSlide(targetRotation);
+      slideHandlerGo(targetRotation);
     })
     .onStart(() => {
-      globals.isTransitioning = true;
-    })
-    .onStop(() => {
-      globals.isTransitioning = false;
-      setCurrentSlide(targetRotation);
+      slideHandlerFrom();
     })
     .start();
 }
@@ -125,20 +118,53 @@ function onPointerUp() {
       nextAngle = findClosestSnapAngle(globals.carousel.rotation.y);
       animationTime = 150;
     }
-    setCurrentSlide(nextAngle);
     new TWEEN.Tween(globals.carousel.rotation)
       .to({ y: nextAngle }, animationTime)
       .easing(TWEEN.Easing.Sinusoidal.InOut)
       .onComplete(() => {
-        globals.isTransitioning = false;
+        slideHandlerGo(nextAngle);
       })
       .onStart(() => {
-        globals.isTransitioning = true;
-      })
-      .onStop(() => {
-        globals.isTransitioning = false;
+        slideHandlerFrom();
       })
       .start();
+  }
+}
+
+function slideHandlerGo(nextAngle) {
+  setCurrentSlide(nextAngle);
+  globals.isTransitioning = false;
+  switch (globals.currentSlide) {
+    case 0:
+      break;
+    case 1:
+      toSlideAbout();
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      break;
+  }
+}
+
+function slideHandlerFrom() {
+  previousSlide = globals.currentSlide;
+
+  globals.isTransitioning = true;
+  switch (previousSlide) {
+    case 0:
+      break;
+    case 1:
+      fromSlideAbout();
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      break;
   }
 }
 
@@ -163,7 +189,11 @@ window.addEventListener("resize", handleResize);
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     globals.camera.lookAt(0, 0, -1);
+    globals.camera.position.set(0, -1, 25);
+    globals.carousel.position.y = -0.6;
   } else {
     globals.camera.lookAt(0, 0, -1);
+    globals.camera.position.set(0, -1, 25);
+    globals.carousel.position.y = -0.6;
   }
 });

@@ -35,6 +35,7 @@ const globals = {
   isTransitioning: true,
   isDragging: false,
   carousel: null,
+  slides: [],
   stars: null,
   mouseX: 0,
   mouseY: 0,
@@ -47,8 +48,6 @@ const globals = {
   currentSlide: 0,
 };
 
-globals.currentSlide = globals.devOptions.prod
-  ? globals.devOptions.initialSlide
-  : 0;
+globals.currentSlide = globals.devOptions.initialSlide;
 
 export default globals;
