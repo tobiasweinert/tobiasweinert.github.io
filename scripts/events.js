@@ -50,7 +50,7 @@ function onPointerDown(event) {
 }
 
 function onWheelScroll(event) {
-  if (globals.isTransitioning) return;
+  if (globals.isTransitioning || globals.isDragging) return;
   const scrollThreshold = 10;
   let targetRotation = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
