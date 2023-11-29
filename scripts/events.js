@@ -102,6 +102,9 @@ function onPointerUp() {
         previousRotationAngle - Math.PI * 2 * (1 / 5) <
         globals.carousel.rotation.y
       ) {
+        // this seems to cause a cumulative rounding error which causes problems when checking for currentSlide
+        // it's weird because this doesnt happen with the arrow keys/scroll wheel, even though the calculation
+        // is the same
         nextAngle = previousRotationAngle - Math.PI * 2 * (1 / 5);
         isForced = true;
       }
