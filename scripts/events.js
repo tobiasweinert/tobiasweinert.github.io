@@ -135,25 +135,32 @@ function onPointerUp() {
   }
 }
 
+// Handlers for when the user rotates to a slide
 function slideHandlerGo(nextAngle) {
   globals.isTransitioning = false;
   setCurrentSlide(nextAngle);
   switch (globals.currentSlide) {
     case 0:
+      // Welcome slide
       break;
     case 1:
-      console.log("to slide about");
-      toSlideAbout();
+      // Contact
       break;
     case 2:
+      // Education
       break;
     case 3:
+      // Projects
       break;
     case 4:
+      // About slide
+      console.log("goTo about");
+      toSlideAbout();
       break;
   }
 }
 
+// Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
@@ -161,16 +168,21 @@ function slideHandlerFrom(nextAngle) {
   globals.isTransitioning = true;
   switch (previousSlide) {
     case 0:
+      // Welcome slide
       break;
     case 1:
-      console.log("from slide about");
-      fromSlideAbout();
+      // Contact
       break;
     case 2:
+      // Education
       break;
     case 3:
+      // Projects
       break;
     case 4:
+      // About slide
+      console.log("leave about");
+      fromSlideAbout();
       break;
   }
 }
