@@ -21,7 +21,7 @@ function loadFont(fontPath) {
 // Global variables
 const globals = {
   devOptions: {
-    prod: true,
+    prod: false,
     orbitControls: false,
     initialSlide: 0,
   },
