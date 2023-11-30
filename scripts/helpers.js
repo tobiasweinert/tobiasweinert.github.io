@@ -27,10 +27,10 @@ for (let i = 0; i < 5; i++) {
 
 const slideNamesMap = {
   0: "Welcome",
-  1: "About Myself",
+  1: "Contact",
   2: "Education",
   3: "Projects",
-  4: "Contact",
+  4: "About Myself",
 };
 
 export function getCenterXForText(textGeometry) {
@@ -131,9 +131,8 @@ export function createTextMesh(
       font: font,
       curveSegments: 12,
     });
-    const textMaterial = new THREE.MeshStandardMaterial({
-      color: 0xa1a1a1,
-      flatShading: true,
+    const textMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation

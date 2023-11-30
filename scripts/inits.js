@@ -18,6 +18,7 @@ export function initThree() {
     globals.containerRect.width,
     globals.containerRect.height
   );
+  globals.renderer.shadowMap.enabled = true;
   globals.renderer.toneMapping = THREE.ReinhardToneMapping;
   document
     .getElementById("cv-container")
@@ -29,20 +30,26 @@ export function initThree() {
     0.1,
     1000
   );
-  const light = new THREE.DirectionalLight(0x7e7c82, 7);
+  const light = new THREE.DirectionalLight(0xffffff, 7);
   light.position.set(0, 0, 10);
   globals.scene.add(light);
-  const ambientLight = new THREE.HemisphereLight(0x4287f5, 2);
+  const ambientLight = new THREE.HemisphereLight(0xffffff, 2);
   globals.scene.add(ambientLight);
   setCurrentSlideText(globals.currentSlide);
 }
 
 export function initBloom() {
+  // const glowParams = {
+  //   thresold: 0.05,
+  //   strength: 0.05,
+  //   radius: 0.3,
+  //   exposure: 1,
+  // };
   const glowParams = {
-    thresold: 0.05,
-    strength: 0.15,
-    radius: 0.3,
-    exposure: 1,
+    thresold: 0.0,
+    strength: 0.0,
+    radius: 0.0,
+    exposure: 0,
   };
 
   const renderScene = new RenderPass(globals.scene, globals.camera);
@@ -193,7 +200,8 @@ export function initCameraShot() {
       .start();
   } else {
     // Fixed camera, orbit controls and select initial slide
-    globals.camera.position.set(0, -1, 25);
+    globals.camera.position.set(10, 0, 20);
+    globals.camera.lookAt(new THREE.Vector3(-1000, 0, -10));
     globals.isTransitioning = false;
 
     if (globals.devOptions.orbitControls) {
