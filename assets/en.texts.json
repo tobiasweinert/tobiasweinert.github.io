@@ -11,6 +11,18 @@
       "texts": ["This is a sample text"]
     },
     {
+      "id": "contact",
+      "title": "Contact",
+      "text": "This is a sample text"
+    },
+    {
+      "id": "welcome",
+      "title": "Welcome!",
+      "texts": [
+        "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
+      ]
+    },
+    {
       "id": "about",
       "title": "About myself",
       "texts": [
@@ -22,18 +34,6 @@
           "src": "./assets/images/me_cropped2_white.jpg"
         }
       ]
-    },
-    {
-      "id": "welcome",
-      "title": "Welcome!",
-      "texts": [
-        "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
-      ]
-    },
-    {
-      "id": "contact",
-      "title": "Contact",
-      "text": "This is a sample text"
     }
   ],
   "header": {
