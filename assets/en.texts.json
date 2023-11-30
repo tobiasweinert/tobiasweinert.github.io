@@ -24,7 +24,7 @@
     },
     {
       "id": "about",
-      "title": "About myself",
+      "title": "About me",
       "texts": [
         "This is a longer text to check how it \nwould look on the slide.\nI think i need to adjust the position of this specific text because its too far to the left."
       ],

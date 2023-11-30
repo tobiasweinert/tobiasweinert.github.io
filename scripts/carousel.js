@@ -52,9 +52,10 @@ export function initCarousel() {
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation
-    text.position.x = getCenterXForText(textGeometry);
+    text.position.x = -3;
+    console.log(getCenterXForText(textGeometry));
     text.position.y = 5;
-    text.position.z = 20;
+    text.position.z = 21;
     text.rotation.y = Math.PI / 2;
     globals.slides[i].add(text);
 

@@ -30,7 +30,7 @@ const slideNamesMap = {
   1: "Contact",
   2: "Education",
   3: "Projects",
-  4: "About Myself",
+  4: "About me",
 };
 
 export function getCenterXForText(textGeometry) {

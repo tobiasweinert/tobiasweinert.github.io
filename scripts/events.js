@@ -154,7 +154,6 @@ function slideHandlerGo(nextAngle) {
       break;
     case 4:
       // About slide
-      console.log("goTo about");
       toSlideAbout();
       break;
   }
@@ -181,7 +180,6 @@ function slideHandlerFrom(nextAngle) {
       break;
     case 4:
       // About slide
-      console.log("leave about");
       fromSlideAbout();
       break;
   }
