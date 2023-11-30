@@ -1,3 +1,4 @@
+import * as THREE from "three";
 import * as TWEEN from "tween";
 import {
   findClosestSnapAngle,
@@ -17,16 +18,15 @@ document.addEventListener("pointerdown", onPointerDown);
 document.addEventListener("pointermove", onPointerMove);
 document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("wheel", onWheelScroll);
-// add event for arrow left and right
 document.addEventListener("keydown", (event) => {
   if (globals.isTransitioning || globals.isDragging) return;
   let targetRotation = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
   targetRotation = globals.carousel.rotation.y;
-  if (event.key === "ArrowLeft") {
+  if (event.key === "ArrowUp") {
     targetRotation += Math.PI * 2 * (1 / 5);
   }
-  if (event.key === "ArrowRight") {
+  if (event.key === "ArrowDown") {
     targetRotation -= Math.PI * 2 * (1 / 5);
   }
   new TWEEN.Tween(globals.carousel.rotation)
@@ -142,6 +142,7 @@ function slideHandlerGo(nextAngle) {
     case 0:
       break;
     case 1:
+      console.log("to slide about");
       toSlideAbout();
       break;
     case 2:
@@ -162,6 +163,7 @@ function slideHandlerFrom(nextAngle) {
     case 0:
       break;
     case 1:
+      console.log("from slide about");
       fromSlideAbout();
       break;
     case 2:
@@ -192,13 +194,6 @@ function handleResize() {
 
 window.addEventListener("resize", handleResize);
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    globals.camera.lookAt(0, 0, -1);
-    globals.camera.position.set(0, -1, 25);
-    globals.carousel.position.y = -0.6;
-  } else {
-    globals.camera.lookAt(0, 0, -1);
-    globals.camera.position.set(0, -1, 25);
-    globals.carousel.position.y = -0.6;
-  }
+  globals.camera.position.set(10, 0, 20);
+  globals.camera.lookAt(new THREE.Vector3(-1000, 0, -10));
 });
