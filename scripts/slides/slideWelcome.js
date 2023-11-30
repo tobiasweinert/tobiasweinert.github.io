@@ -5,12 +5,16 @@ export function initSlideWelcome(slide) {
     globals.texts.planes[3].texts[0],
     0,
     4,
-    0.5,
+    20,
     0.3,
-    0.02,
+    0.01,
     0.8,
     globals.fonts.Nexa_Heavy_Regular,
     true
   );
-  textMeshes.forEach((textMesh) => slide.add(textMesh));
+
+  textMeshes.forEach((textMesh) => {
+    textMesh.rotation.y = Math.PI / 2;
+    slide.add(textMesh);
+  });
 }

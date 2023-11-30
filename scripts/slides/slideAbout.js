@@ -8,7 +8,7 @@ import { loadImage } from "../helpers.js";
 let imageGroup = new THREE.Group();
 let frame;
 
-const profileImage = await loadImage(globals.texts.planes[2].images[0].src);
+const profileImage = await loadImage(globals.texts.planes[4].images[0].src);
 
 export async function initSlideAbout(slide) {
   const texture = new THREE.Texture();
@@ -44,7 +44,7 @@ export async function initSlideAbout(slide) {
   frame.position.set(-5, 0, 3);
   frame.rotation.y = Math.PI / 20;
   // image title
-  const title = globals.texts.planes[2].images[0].title;
+  const title = globals.texts.planes[4].images[0].title;
   const titleMaterial = new THREE.MeshStandardMaterial({
     color: 0x000000,
   });
