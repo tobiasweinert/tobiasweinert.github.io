@@ -200,8 +200,8 @@ export function initCameraShot() {
       .start();
   } else {
     // Fixed camera, orbit controls and select initial slide
-    globals.camera.position.set(10, 0, 20);
-    globals.camera.lookAt(new THREE.Vector3(-1000, 0, -10));
+    globals.camera.position.set(20, 0, 80);
+    globals.camera.lookAt(new THREE.Vector3(3, 0, 100));
     globals.isTransitioning = false;
 
     if (globals.devOptions.orbitControls) {

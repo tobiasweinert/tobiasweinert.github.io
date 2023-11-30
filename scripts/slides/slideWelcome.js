@@ -1,20 +1,18 @@
 import globals from "../globals.js";
-import { createTextMesh } from "../helpers.js";
+import { createTextMeshes } from "../helpers.js";
 export function initSlideWelcome(slide) {
-  const textMeshes = createTextMesh(
+  const textMeshes = createTextMeshes(
     globals.texts.planes[3].texts[0],
-    0,
-    4,
-    20,
-    0.3,
-    0.01,
+    -3,
+    2.7,
+    21,
     0.8,
-    globals.fonts.Nexa_Heavy_Regular,
-    true
+    0.01,
+    1.2,
+    globals.fonts.Nexa_Heavy_Regular
   );
 
   textMeshes.forEach((textMesh) => {
-    textMesh.rotation.y = Math.PI / 2;
     slide.add(textMesh);
   });
 }

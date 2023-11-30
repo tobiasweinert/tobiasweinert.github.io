@@ -17,9 +17,9 @@
     },
     {
       "id": "welcome",
-      "title": "Welcome!",
+      "title": "Welcome",
       "texts": [
-        "You have found my online portfolio.\n I am a student and developer from Germany. Currently,\nI am studying computer science at the University \nof Applied Sciences in Offenburg while working as a \nfull stack web-developer.\n\nThis website serves as a interactive resume\nand a place for me to experiment with 3D-animations. \n\nFeel free to take a look around!"
+        "You are looking at my online portfolio\n and a place for me to experiment\n with 3D-Animations.\n\nFeel free to take a look around!"
       ]
     },
     {

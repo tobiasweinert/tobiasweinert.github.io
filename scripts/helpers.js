@@ -109,7 +109,7 @@ export function setCurrentSlideText(currentSlide) {
   currentSlideText.innerHTML = "Current Slide: " + slideNamesMap[currentSlide];
 }
 
-export function createTextMesh(
+export function createTextMeshes(
   text,
   x,
   y,
@@ -117,8 +117,7 @@ export function createTextMesh(
   size,
   height,
   lineHeight,
-  font,
-  centered = false
+  font
 ) {
   // create an array of meshes, one for each line of text
   const meshes = [];
@@ -136,13 +135,34 @@ export function createTextMesh(
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation
-    text.position.x = centered ? getCenterXForText(textGeometry) : x;
+    text.position.x = x;
     text.position.y = y - textHeight;
     text.position.z = z;
+    text.rotation.y = Math.PI / 2;
     meshes.push(text);
     textHeight += lineHeight;
   }
   return meshes;
+}
+
+export function createTextMesh(text, x, y, z, size, height, font) {
+  // single mesh;
+  const textGeometry = new TextGeometry(text, {
+    height: height,
+    size: size,
+    font: font,
+    curveSegments: 12,
+  });
+  const textMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+  });
+  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+  // set the position of the text with respect to the box rotation
+  textMesh.position.x = x;
+  textMesh.position.y = y;
+  textMesh.position.z = z;
+  textMesh.rotation.y = Math.PI / 2;
+  return textMesh;
 }
 
 export async function loadImage(src) {

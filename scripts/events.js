@@ -90,6 +90,7 @@ function onPointerMove(event) {
 function onPointerUp() {
   if (globals.isTransitioning) return;
   if (globals.isDragging) {
+    console.log("dragging");
     globals.isDragging = false;
     let nextAngle = globals.carousel.rotation.y;
     let animationTime = 250;
@@ -97,11 +98,13 @@ function onPointerUp() {
     // support the user by forcing the rotation to the next slide if the rotation is less than 1/5 of the total rotation
     // user rotates to the right
     if (previousRotationAngle > globals.carousel.rotation.y) {
+      console.log("1");
       // user rotates to the right and the rotation is less than 1/5 of the total rotation
       if (
         previousRotationAngle - Math.PI * 2 * (1 / 5) <
         globals.carousel.rotation.y
       ) {
+        console.log("3");
         // this seems to cause a cumulative rounding error which causes problems when checking for currentSlide
         // it's weird because this doesnt happen with the arrow keys/scroll wheel, even though the calculation
         // is the same
@@ -109,15 +112,18 @@ function onPointerUp() {
         isForced = true;
       }
     } else if (previousRotationAngle < globals.carousel.rotation.y) {
+      console.log("4");
       if (
         previousRotationAngle + Math.PI * 2 * (1 / 5) >
         globals.carousel.rotation.y
       ) {
+        console.log("5");
         nextAngle = previousRotationAngle + Math.PI * 2 * (1 / 5);
         isForced = true;
       }
     }
     if (!isForced) {
+      console.log("6");
       globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
       nextAngle = findClosestSnapAngle(globals.carousel.rotation.y);
       animationTime = 150;
