@@ -93,6 +93,7 @@ function onPointerMove(event) {
   if (event.type === "wheel" && globals.isDragging) return;
   if (globals.isDragging) {
     slideHandlerFrom(globals.carousel.rotation.y);
+
     const currentPointerX = event.clientX;
     const deltaX = currentPointerX - previousPointerX;
     // rotation speed multiplier
@@ -187,9 +188,10 @@ function slideHandlerGo(nextAngle) {
 
 // Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
+  console.log("from");
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
-  if (previousSlide === globals.currentSlide) return;
+  //if (previousSlide === globals.currentSlide) return;
   switch (previousSlide) {
     case 0:
       // Welcome slide
