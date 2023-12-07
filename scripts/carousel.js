@@ -24,9 +24,9 @@ export function initCarousel() {
     globals.slides[i].position.x = radius * Math.cos(angle);
     globals.slides[i].position.z = radius * Math.sin(angle);
     // rotate the box
-    globals.slides[i].rotation.y = -angle + Math.PI * 0.73;
+    globals.slides[i].rotation.y = -angle + Math.PI * 0.775;
     // rotate the carousel so that it faces the camera at 0,0,20
-    globals.carousel.rotation.y = Math.PI * 0.72;
+    globals.carousel.rotation.y = 2.199114857512855;
     // add title to plane
     const text = createTextMesh(
       globals.texts.planes[i].title,
@@ -37,6 +37,7 @@ export function initCarousel() {
       0.01,
       globals.fonts.Nexa_Heavy_Regular
     );
+    text.name = "mainTitle";
     globals.slides[i].add(text);
 
     // custom properties
@@ -56,5 +57,5 @@ export function initCarousel() {
     }
     globals.carousel.add(globals.slides[i]);
   }
-  globals.carousel.position.y = -1;
+  globals.carousel.position.y = 1;
 }
