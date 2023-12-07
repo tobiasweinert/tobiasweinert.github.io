@@ -6,6 +6,7 @@ import {
   normalizeAngle,
 } from "./helpers.js";
 import { toSlideAbout, fromSlideAbout } from "./slides/slideAbout.js";
+import { toSlideWelcome, fromSlideWelcome } from "./slides/slideWelcome.js";
 import globals from "./globals.js";
 
 let previousRotationAngle =
@@ -19,7 +20,13 @@ document.addEventListener("pointermove", onPointerMove);
 document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("wheel", onWheelScroll);
 document.addEventListener("keydown", (event) => {
-  if (globals.isTransitioning || globals.isDragging) return;
+  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+  if (
+    globals.isTransitioning ||
+    globals.isDragging ||
+    globals.devOptions.orbitControls
+  )
+    return;
   let targetRotation = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
   targetRotation = globals.carousel.rotation.y;
@@ -33,16 +40,18 @@ document.addEventListener("keydown", (event) => {
     .to({ y: targetRotation }, 400)
     .easing(TWEEN.Easing.Sinusoidal.InOut)
     .onComplete(() => {
+      globals.isTransitioning = false;
       slideHandlerGo(targetRotation);
     })
     .onStart(() => {
+      globals.isTransitioning = true;
       slideHandlerFrom(targetRotation);
     })
     .start();
 });
 
 function onPointerDown(event) {
-  if (globals.isTransitioning) return;
+  if (globals.isTransitioning || globals.devOptions.orbitControls) return;
   previousSlide = globals.currentSlide;
   globals.isDragging = true;
   previousPointerX = event.clientX || event.touches[0].clientX;
@@ -50,7 +59,12 @@ function onPointerDown(event) {
 }
 
 function onWheelScroll(event) {
-  if (globals.isTransitioning || globals.isDragging) return;
+  if (
+    globals.isTransitioning ||
+    globals.isDragging ||
+    globals.devOptions.orbitControls
+  )
+    return;
   const scrollThreshold = 10;
   let targetRotation = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
@@ -64,22 +78,25 @@ function onWheelScroll(event) {
     .to({ y: targetRotation }, 400)
     .easing(TWEEN.Easing.Sinusoidal.InOut)
     .onComplete(() => {
+      globals.isTransitioning = false;
       slideHandlerGo(targetRotation);
     })
     .onStart(() => {
+      globals.isTransitioning = true;
       slideHandlerFrom(targetRotation);
     })
     .start();
 }
 
 function onPointerMove(event) {
-  if (globals.isTransitioning) return;
+  if (globals.isTransitioning || globals.devOptions.orbitControls) return;
   if (event.type === "wheel" && globals.isDragging) return;
   if (globals.isDragging) {
+    slideHandlerFrom(globals.carousel.rotation.y);
     const currentPointerX = event.clientX;
     const deltaX = currentPointerX - previousPointerX;
     // rotation speed multiplier
-    globals.carousel.rotation.y += deltaX * 0.005;
+    globals.carousel.rotation.y -= deltaX * 0.005;
     previousPointerX = currentPointerX;
     globals.renderer.render(globals.scene, globals.camera);
   }
@@ -88,9 +105,8 @@ function onPointerMove(event) {
 }
 
 function onPointerUp() {
-  if (globals.isTransitioning) return;
+  if (globals.isTransitioning || globals.devOptions.orbitControls) return;
   if (globals.isDragging) {
-    console.log("dragging");
     globals.isDragging = false;
     let nextAngle = globals.carousel.rotation.y;
     let animationTime = 250;
@@ -98,13 +114,13 @@ function onPointerUp() {
     // support the user by forcing the rotation to the next slide if the rotation is less than 1/5 of the total rotation
     // user rotates to the right
     if (previousRotationAngle > globals.carousel.rotation.y) {
-      console.log("1");
       // user rotates to the right and the rotation is less than 1/5 of the total rotation
       if (
         previousRotationAngle - Math.PI * 2 * (1 / 5) <
-        globals.carousel.rotation.y
+          globals.carousel.rotation.y &&
+        previousRotationAngle - Math.PI * 2 * (0.35 / 5) >
+          globals.carousel.rotation.y
       ) {
-        console.log("3");
         // this seems to cause a cumulative rounding error which causes problems when checking for currentSlide
         // it's weird because this doesnt happen with the arrow keys/scroll wheel, even though the calculation
         // is the same
@@ -112,29 +128,33 @@ function onPointerUp() {
         isForced = true;
       }
     } else if (previousRotationAngle < globals.carousel.rotation.y) {
-      console.log("4");
       if (
         previousRotationAngle + Math.PI * 2 * (1 / 5) >
-        globals.carousel.rotation.y
+          globals.carousel.rotation.y &&
+        previousRotationAngle + Math.PI * 2 * (0.35 / 5) <
+          globals.carousel.rotation.y
       ) {
-        console.log("5");
         nextAngle = previousRotationAngle + Math.PI * 2 * (1 / 5);
         isForced = true;
       }
     }
     if (!isForced) {
-      console.log("6");
       globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
       nextAngle = findClosestSnapAngle(globals.carousel.rotation.y);
       animationTime = 150;
+    }
+    if (previousRotationAngle === globals.carousel.rotation.y) {
+      return;
     }
     new TWEEN.Tween(globals.carousel.rotation)
       .to({ y: nextAngle }, animationTime)
       .easing(TWEEN.Easing.Sinusoidal.InOut)
       .onComplete(() => {
+        globals.isTransitioning = false;
         slideHandlerGo(nextAngle);
       })
       .onStart(() => {
+        globals.isTransitioning = true;
         slideHandlerFrom(nextAngle);
       })
       .start();
@@ -143,11 +163,11 @@ function onPointerUp() {
 
 // Handlers for when the user rotates to a slide
 function slideHandlerGo(nextAngle) {
-  globals.isTransitioning = false;
   setCurrentSlide(nextAngle);
   switch (globals.currentSlide) {
     case 0:
       // Welcome slide
+      toSlideWelcome();
       break;
     case 1:
       // Contact
@@ -170,10 +190,10 @@ function slideHandlerFrom(nextAngle) {
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
   if (previousSlide === globals.currentSlide) return;
-  globals.isTransitioning = true;
   switch (previousSlide) {
     case 0:
       // Welcome slide
+      fromSlideWelcome();
       break;
     case 1:
       // Contact
@@ -210,6 +230,6 @@ function handleResize() {
 
 window.addEventListener("resize", handleResize);
 document.addEventListener("visibilitychange", () => {
-  globals.camera.position.set(10, 0, 20);
-  globals.camera.lookAt(new THREE.Vector3(-1000, 0, -10));
+  globals.camera.position.set(20, 0, 80);
+  globals.camera.lookAt(new THREE.Vector3(3, 0, 100));
 });
