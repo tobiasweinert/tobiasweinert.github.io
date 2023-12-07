@@ -7,13 +7,17 @@ import {
   initCameraShot,
 } from "./inits.js";
 import { initCarousel } from "./carousel.js";
+import { toSlideWelcome } from "./slides/slideWelcome.js";
 import "./events.js";
 
 initThree();
 initCarousel();
 initBloom();
 initStarryNight();
-initCameraShot();
+await initCameraShot();
+
+// manually trigger the welcome slide once
+toSlideWelcome();
 
 function animate() {
   globals.renderer.render(globals.scene, globals.camera);
@@ -34,4 +38,5 @@ function animate() {
   });
   globals.stars.geometry.attributes.position.needsUpdate = true;
 }
+
 animate();

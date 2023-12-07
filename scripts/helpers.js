@@ -104,7 +104,6 @@ export function normalizeAngle(angle) {
 }
 
 export function setCurrentSlideText(currentSlide) {
-  // Set current slide text to div id currentSlide
   const currentSlideText = document.getElementById("currentSlide");
   currentSlideText.innerHTML = "Current Slide: " + slideNamesMap[currentSlide];
 }
@@ -121,7 +120,7 @@ export function createTextMeshes(
 ) {
   // create an array of meshes, one for each line of text
   const meshes = [];
-  const lines = text.split("\n");
+  const lines = text.split("|");
   let textHeight = 0;
   for (let i = 0; i < lines.length; i++) {
     const textGeometry = new TextGeometry(lines[i], {

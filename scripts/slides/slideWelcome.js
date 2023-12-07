@@ -1,18 +1,44 @@
+import * as THREE from "three";
+import * as TWEEN from "tween";
 import globals from "../globals.js";
 import { createTextMeshes } from "../helpers.js";
-export function initSlideWelcome(slide) {
+export function initSlideWelcome() {}
+
+export function toSlideWelcome() {
   const textMeshes = createTextMeshes(
     globals.texts.planes[3].texts[0],
-    -3,
+    -1,
     2.7,
-    21,
-    0.8,
+    30,
+    1.5,
     0.01,
     1.2,
     globals.fonts.Nexa_Heavy_Regular
   );
 
-  textMeshes.forEach((textMesh) => {
-    slide.add(textMesh);
+  const offsets = [0, 2, 4, 8, 10, 12, 16];
+
+  textMeshes.forEach((textMesh, index) => {
+    textMesh.position.y = -100;
+    globals.slides[3].add(textMesh);
+    new TWEEN.Tween(textMesh.position)
+      .to({ y: 0 - index + 4 - offsets[index] }, 150 + index * 100)
+      .easing(TWEEN.Easing.Sinusoidal.InOut)
+      .start();
   });
+}
+
+export function fromSlideWelcome() {
+  for (let i = globals.slides[3].children.length - 1; i >= 0; i--) {
+    const child = globals.slides[3].children[i];
+    if (child.name != "mainTitle") {
+      new TWEEN.Tween(child.position)
+        .to({ y: -100 }, 200)
+        .easing(TWEEN.Easing.Sinusoidal.InOut)
+        .onComplete(() => {
+          globals.slides[3].remove(child);
+        })
+        .start();
+    }
+  }
 }
