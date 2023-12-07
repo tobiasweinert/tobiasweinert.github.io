@@ -52,6 +52,7 @@ const globals = {
     ),
   },
   currentSlide: 0,
+  // TODO: responsive font sizes
   mainHeadingSize: isMobile() ? 3 : 5,
   mainTextSize: isMobile() ? 0.7 : 1.5,
   isMobile: isMobile(),
