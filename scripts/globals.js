@@ -18,6 +18,12 @@ function loadFont(fontPath) {
   });
 }
 
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
+
 // Global variables
 const globals = {
   devOptions: {
@@ -46,6 +52,9 @@ const globals = {
     ),
   },
   currentSlide: 0,
+  mainHeadingSize: isMobile() ? 3 : 5,
+  mainTextSize: isMobile() ? 0.7 : 1.5,
+  isMobile: isMobile(),
 };
 
 globals.currentSlide = globals.devOptions.initialSlide;

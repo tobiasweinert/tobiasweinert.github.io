@@ -10,7 +10,7 @@ export function toSlideWelcome() {
     -1,
     2.7,
     30,
-    1.5,
+    globals.mainTextSize,
     0.01,
     1.2,
     globals.fonts.Nexa_Heavy_Regular
