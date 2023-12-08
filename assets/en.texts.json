@@ -3,7 +3,7 @@
     {
       "id": "projects",
       "title": "Projects",
-      "text": ["This is a sample text"]
+      "texts": ["Work in progress..."]
     },
     {
       "id": "education",
@@ -13,20 +13,33 @@
     {
       "id": "contact",
       "title": "Contact",
-      "text": "This is a sample text"
+      "texts": ["This is a sample text"]
     },
     {
       "id": "welcome",
       "title": "Welcome",
       "texts": [
-        "You are looking at my online portfolio.|You'll get to know me, my skills and much more here.|To nagivate through the site, you can use:|- your Arrow Keys|- the Scroll Wheel|- or your Mouse (drag/drop)|Feel free to take a look around :)"
+        "You are looking at my online portfolio.",
+        "You'll get to know me, my skills and much more here.",
+        "To navigate through the site, you can use:",
+        "- your Arrow Keys",
+        "- the Scroll Wheel",
+        "- or your Mouse (drag/drop)",
+        "Feel free to take a look around :)"
       ]
     },
     {
       "id": "about",
       "title": "About me",
       "texts": [
-        "This is a longer text to check how it \nwould look on the slide.\nI think i need to adjust the position of this specific text because its too far to the left."
+        "I'm Tobias, a student and software",
+        "developer from Germany. I've finished",
+        "my bachelors degree in applied",
+        "computer science and am currently",
+        "looking for my first full-time job.",
+        "",
+        "In my free time I like to play video games ",
+        "and ride my motorcycle through the countryside."
       ],
       "images": [
         {
