@@ -29,7 +29,7 @@ const globals = {
   devOptions: {
     prod: false,
     orbitControls: false,
-    initialSlide: 4,
+    initialSlide: 0,
   },
   renderer: null,
   scene: null,
