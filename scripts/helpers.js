@@ -28,8 +28,8 @@ for (let i = 0; i < 5; i++) {
 const slideNamesMap = {
   0: "Welcome",
   1: "Contact",
-  2: "Education",
-  3: "Projects",
+  2: "Experience",
+  3: "Education",
   4: "About me",
 };
 

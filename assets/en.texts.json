@@ -1,13 +1,13 @@
 {
   "planes": [
     {
-      "id": "projects",
-      "title": "Projects",
+      "id": "education",
+      "title": "Education",
       "texts": ["Work in progress..."]
     },
     {
-      "id": "education",
-      "title": "Education",
+      "id": "experience",
+      "title": "Experience",
       "texts": ["Work in progress..."]
     },
     {

@@ -5,9 +5,9 @@ import globals from "../globals.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { loadImage, createTextMeshes } from "../helpers.js";
 
-export async function initSlideProjects() {}
+export async function initSlideExperience() {}
 
-export function toSlideProjects() {
+export function toSlideExperience() {
   const textMeshes = createTextMeshes(
     globals.texts.planes[0].texts,
     -1,
@@ -32,7 +32,7 @@ export function toSlideProjects() {
   });
 }
 
-export async function fromSlideProjects() {
+export async function fromSlideExperience() {
   for (let i = globals.slides[0].children.length - 1; i >= 0; i--) {
     const child = globals.slides[0].children[i];
     if (child.name != "mainTitle") {

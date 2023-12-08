@@ -7,7 +7,10 @@ import {
 } from "./helpers.js";
 import { toSlideAbout, fromSlideAbout } from "./slides/slideAbout.js";
 import { toSlideWelcome, fromSlideWelcome } from "./slides/slideWelcome.js";
-import { toSlideProjects, fromSlideProjects } from "./slides/slideProjects.js";
+import {
+  toSlideExperience,
+  fromSlideExperience,
+} from "./slides/slideExperience.js";
 import {
   toSlideEducation,
   fromSlideEducation,
@@ -188,8 +191,8 @@ function slideHandlerGo(nextAngle) {
       toSlideEducation();
       break;
     case 3:
-      // Projects
-      toSlideProjects();
+      // Experience
+      toSlideExperience();
       break;
     case 4:
       // About slide
@@ -216,8 +219,8 @@ function slideHandlerFrom(nextAngle) {
       fromSlideEducation();
       break;
     case 3:
-      // Projects
-      fromSlideProjects();
+      // Experience
+      fromSlideExperience();
       break;
     case 4:
       // About slide
