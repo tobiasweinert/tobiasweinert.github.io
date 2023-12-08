@@ -7,6 +7,7 @@ import {
 } from "./helpers.js";
 import { toSlideAbout, fromSlideAbout } from "./slides/slideAbout.js";
 import { toSlideWelcome, fromSlideWelcome } from "./slides/slideWelcome.js";
+import { toSlideProjects, fromSlideProjects } from "./slides/slideProjects.js";
 import globals from "./globals.js";
 
 let previousRotationAngle =
@@ -92,8 +93,9 @@ function onPointerMove(event) {
   if (globals.isTransitioning || globals.devOptions.orbitControls) return;
   if (event.type === "wheel" && globals.isDragging) return;
   if (globals.isDragging) {
-    slideHandlerFrom(globals.carousel.rotation.y);
-
+    if (!globals.isFadingOut) {
+      slideHandlerFrom(globals.carousel.rotation.y);
+    }
     const currentPointerX = event.clientX;
     const deltaX = currentPointerX - previousPointerX;
     // rotation speed multiplier
@@ -118,9 +120,10 @@ function onPointerUp() {
       // user rotates to the right and the rotation is less than 1/5 of the total rotation
       if (
         previousRotationAngle - Math.PI * 2 * (1 / 5) <
-          globals.carousel.rotation.y &&
-        previousRotationAngle - Math.PI * 2 * (0.35 / 5) >
-          globals.carousel.rotation.y
+        globals.carousel.rotation.y
+        //    &&
+        // previousRotationAngle - Math.PI * 2 * (0.35 / 5) >
+        //   globals.carousel.rotation.y
       ) {
         // this seems to cause a cumulative rounding error which causes problems when checking for currentSlide
         // it's weird because this doesnt happen with the arrow keys/scroll wheel, even though the calculation
@@ -131,9 +134,10 @@ function onPointerUp() {
     } else if (previousRotationAngle < globals.carousel.rotation.y) {
       if (
         previousRotationAngle + Math.PI * 2 * (1 / 5) >
-          globals.carousel.rotation.y &&
-        previousRotationAngle + Math.PI * 2 * (0.35 / 5) <
-          globals.carousel.rotation.y
+        globals.carousel.rotation.y
+        //   &&
+        // previousRotationAngle + Math.PI * 2 * (0.35 / 5) <
+        //   globals.carousel.rotation.y
       ) {
         nextAngle = previousRotationAngle + Math.PI * 2 * (1 / 5);
         isForced = true;
@@ -178,6 +182,7 @@ function slideHandlerGo(nextAngle) {
       break;
     case 3:
       // Projects
+      toSlideProjects();
       break;
     case 4:
       // About slide
@@ -188,10 +193,8 @@ function slideHandlerGo(nextAngle) {
 
 // Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
-  console.log("from");
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
-  //if (previousSlide === globals.currentSlide) return;
   switch (previousSlide) {
     case 0:
       // Welcome slide
@@ -205,6 +208,7 @@ function slideHandlerFrom(nextAngle) {
       break;
     case 3:
       // Projects
+      fromSlideProjects();
       break;
     case 4:
       // About slide
