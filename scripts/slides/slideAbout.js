@@ -108,7 +108,7 @@ export async function fromSlideAbout() {
     const child = globals.slides[4].children[i];
     if (child.name != "mainTitle") {
       new TWEEN.Tween(child.position)
-        .to({ y: 30 }, 150)
+        .to({ y: -100 }, 500)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .onComplete(() => {
           globals.slides[4].remove(child);
