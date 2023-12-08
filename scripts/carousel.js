@@ -57,7 +57,7 @@ export function initCarousel() {
     }
     globals.carousel.add(globals.slides[i]);
   }
-  globals.carousel.position.y = 1;
+  globals.carousel.position.y = 2.3;
   if (globals.isMobile) {
     globals.carousel.position.x = -20;
     globals.carousel.position.y = 10;
