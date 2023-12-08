@@ -19,6 +19,7 @@ export function toSlideExperience() {
     globals.fonts.Nexa_Heavy_Regular
   );
   const offsets = globals.texts.planes[0].texts.map((text, index) => {
+    if (index % 2 == 0) return index * 2 + 1;
     return index * 2;
   });
 

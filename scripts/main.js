@@ -9,6 +9,9 @@ import {
 import { initCarousel } from "./carousel.js";
 import { toSlideWelcome } from "./slides/slideWelcome.js";
 import { toSlideAbout } from "./slides/slideAbout.js";
+import { toSlideContact } from "./slides/slideContact.js";
+import { toSlideEducation } from "./slides/slideEducation.js";
+import { toSlideExperience } from "./slides/slideExperience.js";
 import "./events.js";
 
 initThree();
@@ -23,10 +26,13 @@ switch (globals.devOptions.initialSlide) {
     toSlideWelcome();
     break;
   case 1:
+    toSlideContact();
     break;
   case 2:
+    toSlideEducation();
     break;
   case 3:
+    toSlideExperience();
     break;
   case 4:
     toSlideAbout();

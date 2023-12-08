@@ -29,7 +29,7 @@ const globals = {
   devOptions: {
     prod: false,
     orbitControls: false,
-    initialSlide: 0,
+    initialSlide: 4,
   },
   renderer: null,
   scene: null,
@@ -53,8 +53,8 @@ const globals = {
   },
   currentSlide: 0,
   // TODO: responsive font sizes
-  mainHeadingSize: isMobile() ? 3 : 5,
-  mainTextSize: isMobile() ? 0.7 : 1.5,
+  mainHeadingSize: isMobile() ? 3.3 : 5,
+  mainTextSize: isMobile() ? 0.8 : 1,
   isMobile: isMobile(),
   isFadingOut: false,
 };

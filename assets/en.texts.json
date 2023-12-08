@@ -3,7 +3,14 @@
     {
       "id": "education",
       "title": "Education",
-      "texts": ["Work in progress..."]
+      "texts": [
+        "11/2023 - B.Sc. Applied Computer Science Ø2,1",
+        "University of Applied Sciences in Offenburg",
+        "06/2017 - Abitur (A-levels) Ø1,4",
+        "Gertrud Luckner Gewerbeschule in Freiburg",
+        "06/2015 - Fachhochschulreife Ø1,2",
+        "Technisches Berufskolleg in Waldkirch"
+      ]
     },
     {
       "id": "experience",

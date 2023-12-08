@@ -58,7 +58,7 @@ export function toSlideAbout() {
     curveSegments: 12,
   });
   const titleMesh = new THREE.Mesh(titleGeometry, titleMaterial);
-  titleMesh.position.set(-1, 6, 31);
+  titleMesh.position.set(-1, 5.8, 31);
   titleMesh.rotation.y = Math.PI / 2;
   // group the image, frame and title
   imageGroup = new THREE.Group();
@@ -73,7 +73,7 @@ export function toSlideAbout() {
 
   globals.slides[4].add(imageGroup);
   new TWEEN.Tween(imageGroup.position)
-    .to({ y: -11 }, 200)
+    .to({ y: -12 }, 200)
     .easing(TWEEN.Easing.Linear.None)
     .onStart(() => {})
     .onComplete(() => {})
