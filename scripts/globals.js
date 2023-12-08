@@ -56,6 +56,7 @@ const globals = {
   mainHeadingSize: isMobile() ? 3 : 5,
   mainTextSize: isMobile() ? 0.7 : 1.5,
   isMobile: isMobile(),
+  isFadingOut: false,
 };
 
 globals.currentSlide = globals.devOptions.initialSlide;

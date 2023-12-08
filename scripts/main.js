@@ -8,6 +8,7 @@ import {
 } from "./inits.js";
 import { initCarousel } from "./carousel.js";
 import { toSlideWelcome } from "./slides/slideWelcome.js";
+import { toSlideAbout } from "./slides/slideAbout.js";
 import "./events.js";
 
 initThree();
@@ -16,8 +17,21 @@ initBloom();
 initStarryNight();
 await initCameraShot();
 
-// manually trigger the welcome slide once
-toSlideWelcome();
+// manually trigger the initial slide
+switch (globals.devOptions.initialSlide) {
+  case 0:
+    toSlideWelcome();
+    break;
+  case 1:
+    break;
+  case 2:
+    break;
+  case 3:
+    break;
+  case 4:
+    toSlideAbout();
+    break;
+}
 
 function animate() {
   globals.renderer.render(globals.scene, globals.camera);
