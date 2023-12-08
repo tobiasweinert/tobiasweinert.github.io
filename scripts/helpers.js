@@ -109,7 +109,7 @@ export function setCurrentSlideText(currentSlide) {
 }
 
 export function createTextMeshes(
-  text,
+  texts,
   x,
   y,
   z,
@@ -120,10 +120,9 @@ export function createTextMeshes(
 ) {
   // create an array of meshes, one for each line of text
   const meshes = [];
-  const lines = text.split("|");
   let textHeight = 0;
-  for (let i = 0; i < lines.length; i++) {
-    const textGeometry = new TextGeometry(lines[i], {
+  for (let i = 0; i < texts.length; i++) {
+    const textGeometry = new TextGeometry(texts[i], {
       height: height,
       size: size,
       font: font,
