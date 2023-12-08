@@ -111,7 +111,11 @@ export async function fromSlideAbout() {
         .to({ y: -100 }, 500)
         .easing(TWEEN.Easing.Sinusoidal.InOut)
         .onComplete(() => {
+          globals.isFadingOut = false;
           globals.slides[4].remove(child);
+        })
+        .onStart(() => {
+          globals.isFadingOut = true;
         })
         .start();
     }

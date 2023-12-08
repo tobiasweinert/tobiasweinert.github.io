@@ -8,6 +8,11 @@ import {
 import { toSlideAbout, fromSlideAbout } from "./slides/slideAbout.js";
 import { toSlideWelcome, fromSlideWelcome } from "./slides/slideWelcome.js";
 import { toSlideProjects, fromSlideProjects } from "./slides/slideProjects.js";
+import {
+  toSlideEducation,
+  fromSlideEducation,
+} from "./slides/slideEducation.js";
+import { toSlideContact, fromSlideContact } from "./slides/slideContact.js";
 import globals from "./globals.js";
 
 let previousRotationAngle =
@@ -176,9 +181,11 @@ function slideHandlerGo(nextAngle) {
       break;
     case 1:
       // Contact
+      toSlideContact();
       break;
     case 2:
       // Education
+      toSlideEducation();
       break;
     case 3:
       // Projects
@@ -202,9 +209,11 @@ function slideHandlerFrom(nextAngle) {
       break;
     case 1:
       // Contact
+      fromSlideContact();
       break;
     case 2:
       // Education
+      fromSlideEducation();
       break;
     case 3:
       // Projects
