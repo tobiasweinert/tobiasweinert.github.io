@@ -5,7 +5,7 @@
 :root {
   --headline-color: white;
   --background-color: #ffffff;
-  --text-color: rgba(255, 255, 255, 0.5);
+  --text-color: rgba(0, 0, 0, 0.5);
 }
 
 html,
@@ -64,7 +64,7 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  top: 92%;
+  top: 95.5%;
   width: 50%;
   left: 25%;
   filter: blur(10px);
@@ -106,7 +106,7 @@ p {
 
 a {
   user-select: none;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   text-decoration: none;
   transition: all 0.5s ease-in-out;
 }

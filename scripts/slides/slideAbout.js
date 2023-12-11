@@ -49,7 +49,7 @@ export function toSlideAbout() {
   // image title
   const title = globals.texts.planes[4].images[0].title;
   const titleMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
+    color: globals.fontColor,
   });
   const titleGeometry = new TextGeometry(title, {
     height: 0.0,

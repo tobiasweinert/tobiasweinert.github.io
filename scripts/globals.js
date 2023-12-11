@@ -25,10 +25,14 @@ function isMobile() {
 }
 
 function isDarkReaderEnabled() {
-  return (
+  const isEnabled =
     "querySelector" in document &&
-    !!document.querySelector('meta[name="darkreader"]')
-  );
+    !!document.querySelector('meta[name="darkreader"]');
+  if (isEnabled) {
+    const rootStyles = document.documentElement.style;
+    rootStyles.setProperty("--text-color", "#fff");
+  }
+  return isEnabled;
 }
 
 // Global variables
