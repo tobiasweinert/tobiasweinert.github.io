@@ -13,7 +13,7 @@ import globals from "./globals.js";
 
 export function initThree() {
   // threejs boilerplate
-  globals.renderer = new THREE.WebGLRenderer({});
+  globals.renderer = new THREE.WebGLRenderer({ antialias: true });
   globals.renderer.setSize(
     globals.containerRect.width,
     globals.containerRect.height
