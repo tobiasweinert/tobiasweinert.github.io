@@ -68,7 +68,7 @@ const globals = {
   mainTextSize: isMobile() ? 0.8 : 1,
   isMobile: isMobile(),
   isDarkReaderEnabled: isDarkReaderEnabled(),
-  fontColor: isDarkReaderEnabled() ? "#fff" : "#000",
+  fontColor: isDarkReaderEnabled() ? "#d1d1d1" : "#2b2b2b",
   isFadingOut: false,
 };
 
