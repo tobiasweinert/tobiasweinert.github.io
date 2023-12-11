@@ -13,13 +13,11 @@ import globals from "./globals.js";
 
 export function initThree() {
   // threejs boilerplate
-  globals.renderer = new THREE.WebGLRenderer({ antialias: true });
+  globals.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   globals.renderer.setSize(
     globals.containerRect.width,
     globals.containerRect.height
   );
-  globals.renderer.shadowMap.enabled = true;
-  globals.renderer.toneMapping = THREE.ReinhardToneMapping;
   document
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
@@ -30,11 +28,14 @@ export function initThree() {
     0.1,
     1000
   );
-  const light = new THREE.DirectionalLight(0xffffff, 7);
-  light.position.set(0, 0, 10);
+  const light = new THREE.DirectionalLight(0xff0000, 3);
+  const light2 = new THREE.DirectionalLight(0x0000ff, 3);
+  light2.position.set(100, 200, 50);
+  light.position.set(-100, -200, 50);
+  globals.scene.add(light2);
   globals.scene.add(light);
-  const ambientLight = new THREE.HemisphereLight(0xffffff, 2);
-  globals.scene.add(ambientLight);
+  //const ambientLight = new THREE.HemisphereLight(0xffffff, 2);
+  //globals.scene.add(ambientLight);
   setCurrentSlideText(globals.currentSlide);
 }
 
