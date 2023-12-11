@@ -17,8 +17,9 @@ import "./events.js";
 initThree();
 initCarousel();
 initBloom();
-//initStarryNight();
+initStarryNight();
 await initCameraShot();
+console.log(globals.isDarkReaderEnabled);
 
 // manually trigger the initial slide
 switch (globals.devOptions.initialSlide) {

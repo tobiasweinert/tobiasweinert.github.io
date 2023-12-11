@@ -24,6 +24,13 @@ function isMobile() {
   );
 }
 
+function isDarkReaderEnabled() {
+  return (
+    "querySelector" in document &&
+    !!document.querySelector('meta[name="darkreader"]')
+  );
+}
+
 // Global variables
 const globals = {
   devOptions: {
@@ -56,6 +63,8 @@ const globals = {
   mainHeadingSize: isMobile() ? 3.3 : 5,
   mainTextSize: isMobile() ? 0.8 : 1,
   isMobile: isMobile(),
+  isDarkReaderEnabled: isDarkReaderEnabled(),
+  fontColor: isDarkReaderEnabled() ? "#fff" : "#000",
   isFadingOut: false,
 };
 

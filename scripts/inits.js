@@ -89,7 +89,7 @@ export function initStarryNight() {
   // Starry night background
   const starGeometry = new THREE.BufferGeometry();
   const starMaterial = new THREE.PointsMaterial({
-    color: 0xffffff,
+    color: globals.fontColor,
     size: 0.1,
   });
   const starVertices = [];
