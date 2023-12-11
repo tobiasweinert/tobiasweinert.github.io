@@ -129,7 +129,7 @@ export function createTextMeshes(
       curveSegments: 12,
     });
     const textMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0x000000,
     });
     const text = new THREE.Mesh(textGeometry, textMaterial);
     // set the position of the text with respect to the box rotation
@@ -152,7 +152,7 @@ export function createTextMesh(text, x, y, z, size, height, font) {
     curveSegments: 12,
   });
   const textMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
+    color: 0x000000,
   });
   const textMesh = new THREE.Mesh(textGeometry, textMaterial);
   // set the position of the text with respect to the box rotation

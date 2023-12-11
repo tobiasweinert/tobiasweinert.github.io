@@ -17,7 +17,7 @@ import "./events.js";
 initThree();
 initCarousel();
 initBloom();
-initStarryNight();
+//initStarryNight();
 await initCameraShot();
 
 // manually trigger the initial slide
