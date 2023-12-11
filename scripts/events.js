@@ -203,6 +203,7 @@ function slideHandlerGo(nextAngle) {
 
 // Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
+  if (nextAngle == previousRotationAngle) return;
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
   switch (previousSlide) {
@@ -229,7 +230,7 @@ function slideHandlerFrom(nextAngle) {
   }
 }
 
-function handleResize() {
+window.addEventListener("resize", () => {
   globals.containerRect = globals.container.getBoundingClientRect();
   globals.renderer.setSize(
     globals.containerRect.width,
@@ -240,13 +241,12 @@ function handleResize() {
     globals.containerRect.width / globals.containerRect.height;
   globals.camera.updateProjectionMatrix();
   // prevent blurry texts on resize
-  globals.composer.setSize(
-    globals.containerRect.width,
-    globals.containerRect.height
-  );
-}
+  // globals.composer.setSize(
+  //   globals.containerRect.width,
+  //   globals.containerRect.height
+  // );
+});
 
-window.addEventListener("resize", handleResize);
 document.addEventListener("visibilitychange", () => {
   globals.camera.position.set(20, 0, 80);
   globals.camera.lookAt(new THREE.Vector3(3, 0, 100));
