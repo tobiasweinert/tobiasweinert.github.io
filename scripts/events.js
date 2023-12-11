@@ -37,6 +37,7 @@ document.addEventListener("keydown", (event) => {
   )
     return;
   let targetRotation = globals.carousel.rotation.y;
+  previousRotationAngle = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
   targetRotation = globals.carousel.rotation.y;
   if (event.key === "ArrowUp") {
@@ -76,6 +77,7 @@ function onWheelScroll(event) {
     return;
   const scrollThreshold = 10;
   let targetRotation = globals.carousel.rotation.y;
+  previousRotationAngle = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
   targetRotation = globals.carousel.rotation.y;
   if (event.deltaY < -scrollThreshold) {
