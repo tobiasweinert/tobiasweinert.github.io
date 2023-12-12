@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import * as TWEEN from "tween";
+import { GUI } from "three/examples/jsm/libs//lil-gui.module.min.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
@@ -10,6 +11,8 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { setCurrentSlideText } from "./helpers.js";
 
 import globals from "./globals.js";
+
+// const gui = new GUI();
 
 export function initThree() {
   // threejs boilerplate
@@ -28,12 +31,22 @@ export function initThree() {
     0.1,
     1000
   );
-  const light = new THREE.DirectionalLight(0xff0000, 3);
-  const light2 = new THREE.DirectionalLight(0x0000ff, 3);
-  light2.position.set(100, 200, 50);
-  light.position.set(-100, -200, 50);
-  globals.scene.add(light2);
+  const light = new THREE.DirectionalLight(0xff0000, 10);
+  // sphere is at 1,1,84
+  light.position.set(-10, 9, 100);
+  light.target.position.set(1, 1, 84);
+  // light helper
+  const helper = new THREE.DirectionalLightHelper(light, 5);
+  // globals.scene.add(helper);
   globals.scene.add(light);
+
+  // gui.add(light.position, "x", -100, 100, 0.01);
+  // gui.add(light.position, "y", -100, 100, 0.01);
+  // gui.add(light.position, "z", 50, 250, 0.01);
+
+  // const light2 = new THREE.DirectionalLight(0x0000ff, 3);
+  // light2.position.set(1, 1, 88);
+  // globals.scene.add(light2);
   //const ambientLight = new THREE.HemisphereLight(0xffffff, 2);
   //globals.scene.add(ambientLight);
   setCurrentSlideText(globals.currentSlide);
@@ -210,6 +223,8 @@ export function initCameraShot() {
         globals.camera,
         globals.renderer.domElement
       );
+      globals.camera.position.set(-42, 7, 118);
+      globals.camera.lookAt(new THREE.Vector3(-10, 0, 100));
     }
 
     // select initial slide devOptions.initialSlide (0-4) without animations

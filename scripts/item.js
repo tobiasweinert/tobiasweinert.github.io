@@ -8,7 +8,7 @@ export function initItem() {
   const geometry = new THREE.SphereGeometry(4, 100, 100);
   const material = new THREE.MeshStandardMaterial({
     metalness: 0.8,
-    roughness: 0.1,
+    roughness: 0.2,
     color: 0x292929,
     normalMap: normalTexture,
   });
