@@ -21,6 +21,7 @@ export function initThree() {
     globals.containerRect.width,
     globals.containerRect.height
   );
+  globals.renderer.setPixelRatio(window.devicePixelRatio);
   document
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
