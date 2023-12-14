@@ -79,7 +79,7 @@ const globals = {
   item: {
     speed: 0.001,
     defaultSpeed: 0.001,
-    moveSpeed: 0.005,
+    moveSpeed: 0.009,
   },
 };
 

@@ -176,17 +176,24 @@ function onPointerUp() {
   }
 }
 
-function handleItemMove(isMoving) {
-  if (isMoving) {
-    globals.item.speed = globals.item.moveSpeed;
-  } else {
-    globals.item.speed = globals.item.defaultSpeed;
-  }
+function handleItemMove() {
+  console.log("handleItemMove");
+  //globals.item.speed = globals.item.moveSpeed;
+  // use tween to set the globals.item.speed from globals.item.defaultSpeed to globals.item.moveSpeed and back
+  new TWEEN.Tween(globals.item)
+    .to({ speed: globals.item.moveSpeed }, 600)
+    .easing(TWEEN.Easing.Cubic.Out)
+    .onComplete(() => {
+      new TWEEN.Tween(globals.item)
+        .to({ speed: globals.item.defaultSpeed }, 600)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .start();
+    })
+    .start();
 }
 
 // Handlers for when the user rotates to a slide
 function slideHandlerGo(nextAngle) {
-  handleItemMove(false);
   setCurrentSlide(nextAngle);
   switch (globals.currentSlide) {
     case 0:
@@ -215,7 +222,7 @@ function slideHandlerGo(nextAngle) {
 // Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
   if (nextAngle == previousRotationAngle) return;
-  handleItemMove(true);
+  handleItemMove();
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
   switch (previousSlide) {
