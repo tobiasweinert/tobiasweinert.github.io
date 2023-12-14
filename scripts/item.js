@@ -9,7 +9,9 @@ import fragmentMain from "../shaders/fragmentMain.js";
 import fragmentPars from "../shaders/fragmentPars.js";
 
 export function initItem() {
-  const geometry = new THREE.IcosahedronGeometry(1, 200);
+  const numVertices = globals.isMobile ? 50 : 200;
+  const radius = globals.isMobile ? 0.3 : 1;
+  const geometry = new THREE.IcosahedronGeometry(radius, numVertices);
   const material = new THREE.MeshStandardMaterial({
     onBeforeCompile: (shader) => {
       material.userData.shader = shader;
@@ -45,6 +47,7 @@ export function initItem() {
   ico.name = "item";
   ico.layers.enable(1);
   // camera is at 20,0,80, camera.lookAt is 3,0,100
+
   ico.position.set(11.63, -10, 81.75);
   globals.scene.add(ico);
 
@@ -63,9 +66,12 @@ export function initItem() {
 
 export function toItem() {
   // TODO: start the shorter animation inside the onStart to properly set isTransitioning
+  const finalPosition = globals.isMobile
+    ? { x: 15, y: -3, z: 85.75 }
+    : { x: 11.63, y: -0.33, z: 81.75 };
   const item = globals.scene.getObjectByName("item");
   const tween = new TWEEN.Tween(item.position)
-    .to({ x: 11.63, y: -0.33, z: 81.75 }, 900)
+    .to(finalPosition, 900)
     .easing(TWEEN.Easing.Quadratic.InOut)
     .onStart(() => {
       globals.isTransitioning = true;
