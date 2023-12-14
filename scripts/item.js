@@ -51,7 +51,7 @@ export function initItem() {
   let i = 0.0001;
   const animateItem = () => {
     if (material.userData.shader == undefined) return;
-    i += 0.001;
+    i += globals.item.speed;
     requestAnimationFrame(animateItem);
     material.userData.shader.uniforms.uTime.value = i;
   };

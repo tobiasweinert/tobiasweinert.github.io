@@ -44,7 +44,7 @@ const globals = {
     prod: false,
     orbitControls: false,
     initialSlide: 0,
-    gui: new GUI(),
+    // gui: new GUI(),
   },
   renderer: null,
   scene: null,
@@ -76,6 +76,11 @@ const globals = {
   fontColor: isDarkReaderEnabled() ? "#ffffff" : "#000000",
   backgroundColor: isDarkReaderEnabled() ? "#040404" : "#ffffff",
   isFadingOut: false,
+  item: {
+    speed: 0.001,
+    defaultSpeed: 0.001,
+    moveSpeed: 0.005,
+  },
 };
 
 globals.currentSlide = globals.devOptions.initialSlide;

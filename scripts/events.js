@@ -176,8 +176,17 @@ function onPointerUp() {
   }
 }
 
+function handleItemMove(isMoving) {
+  if (isMoving) {
+    globals.item.speed = globals.item.moveSpeed;
+  } else {
+    globals.item.speed = globals.item.defaultSpeed;
+  }
+}
+
 // Handlers for when the user rotates to a slide
 function slideHandlerGo(nextAngle) {
+  handleItemMove(false);
   setCurrentSlide(nextAngle);
   switch (globals.currentSlide) {
     case 0:
@@ -206,6 +215,7 @@ function slideHandlerGo(nextAngle) {
 // Handlers for when the user rotates away from a slide
 function slideHandlerFrom(nextAngle) {
   if (nextAngle == previousRotationAngle) return;
+  handleItemMove(true);
   previousSlide = globals.currentSlide;
   setCurrentSlide(nextAngle);
   switch (previousSlide) {
@@ -252,11 +262,6 @@ window.addEventListener("resize", () => {
   globals.camera.aspect =
     globals.containerRect.width / globals.containerRect.height;
   globals.camera.updateProjectionMatrix();
-  // prevent blurry texts on resize
-  // globals.composer.setSize(
-  //   globals.containerRect.width,
-  //   globals.containerRect.height
-  // );
 });
 
 document.addEventListener("visibilitychange", () => {
