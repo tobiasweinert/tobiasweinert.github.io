@@ -8,7 +8,7 @@ import {
   initCameraShot,
 } from "./inits.js";
 import { initCarousel } from "./carousel.js";
-import { initItem } from "./item.js";
+import { initItem, toItem } from "./item.js";
 import { toSlideWelcome } from "./slides/slideWelcome.js";
 import { toSlideAbout } from "./slides/slideAbout.js";
 import { toSlideContact } from "./slides/slideContact.js";
@@ -19,7 +19,9 @@ import "./events.js";
 initThree();
 initCarousel();
 initBloom();
+
 initItem();
+toItem();
 //initStarryNight();
 await initCameraShot();
 
