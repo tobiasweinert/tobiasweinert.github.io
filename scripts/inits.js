@@ -1,12 +1,14 @@
 import * as THREE from "three";
 import * as TWEEN from "tween";
-import { GUI } from "three/examples/jsm/libs//lil-gui.module.min.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { SavePass } from "three/examples/jsm/postprocessing/SavePass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
+import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { BlendShader } from "three/examples/jsm/shaders/BlendShader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { setCurrentSlideText } from "./helpers.js";
 
@@ -16,30 +18,52 @@ import globals from "./globals.js";
 
 export function initThree() {
   // threejs boilerplate
-  globals.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  globals.renderer = new THREE.WebGLRenderer({ antialias: true });
+  globals.composer = new EffectComposer(globals.renderer);
+  globals.composer.renderToScreen = false;
+  globals.composer.setSize(
+    globals.containerRect.width,
+    globals.containerRect.height
+  );
   globals.renderer.setSize(
     globals.containerRect.width,
     globals.containerRect.height
   );
   globals.renderer.setPixelRatio(window.devicePixelRatio);
+  globals.renderer.shadowMap.enabled = true;
+  globals.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  globals.renderer.outputEncoding = THREE.SRGBColorSpace;
+  globals.renderer.toneMapping = THREE.CineonToneMapping;
+  globals.renderer.toneMappingExposure = 1.5;
   document
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
   globals.scene = new THREE.Scene();
+
   globals.camera = new THREE.PerspectiveCamera(
     75,
     globals.containerRect.width / globals.containerRect.height,
     0.1,
     1000
   );
-  const light = new THREE.DirectionalLight(0xff0000, 10);
+
+  // sphere is at 11.63, -0.33, 81.75
+  const dirLight = new THREE.DirectionalLight(0x526cff, 5);
+  dirLight.position.set(20, 0, 80);
+  dirLight.target.position.set(16, 5, 85);
+
+  const ambientLight = new THREE.AmbientLight(0x4255ff, 2);
+  ambientLight.position.set(16, 5, 85);
+  globals.scene.add(dirLight, ambientLight);
+
+  // const light = new THREE.DirectionalLight(0xff0000, 10);
   // sphere is at 1,1,84
-  light.position.set(-10, 9, 100);
-  light.target.position.set(1, 1, 84);
+  // light.position.set(-10, 9, 100);
+  // light.target.position.set(1, 1, 84);
   // light helper
-  const helper = new THREE.DirectionalLightHelper(light, 5);
+  //const helper = new THREE.DirectionalLightHelper(light, 5);
   // globals.scene.add(helper);
-  globals.scene.add(light);
+  // globals.scene.add(light);
 
   // gui.add(light.position, "x", -100, 100, 0.01);
   // gui.add(light.position, "y", -100, 100, 0.01);
@@ -48,56 +72,34 @@ export function initThree() {
   // const light2 = new THREE.DirectionalLight(0x0000ff, 3);
   // light2.position.set(1, 1, 88);
   // globals.scene.add(light2);
-  //const ambientLight = new THREE.HemisphereLight(0xffffff, 2);
-  //globals.scene.add(ambientLight);
+  // const ambientLight = new THREE.HemisphereLight(0xffffff, 10);
+  // ambientLight.position.set(1, 1, 90);
+  // globals.scene.add(ambientLight);
   setCurrentSlideText(globals.currentSlide);
 }
 
 export function initBloom() {
-  // const glowParams = {
-  //   thresold: 0.05,
-  //   strength: 0.05,
-  //   radius: 0.3,
-  //   exposure: 1,
-  // };
-  const glowParams = {
-    thresold: 0.0,
-    strength: 0.0,
-    radius: 0.0,
-    exposure: 0,
-  };
-
-  const renderScene = new RenderPass(globals.scene, globals.camera);
-  renderScene.clearAlpha = 0;
-
+  console.log("initBloom");
+  const renderPass = new RenderPass(globals.scene, globals.camera);
+  globals.composer.addPass(renderPass);
   const bloomPass = new UnrealBloomPass(
     new THREE.Vector2(
       globals.containerRect.width,
       globals.containerRect.height
     ),
-    1.5,
-    0.4,
-    0.85
+    0.5,
+    5,
+    0.4
   );
-  bloomPass.threshold = glowParams.thresold;
-  bloomPass.strength = glowParams.strength;
-  bloomPass.radius = glowParams.radius;
+  bloomPass.threshold = 0.1;
+  bloomPass.strength = 0.3;
+  bloomPass.radius = 0.1;
+  globals.composer.addPass(bloomPass);
+
+  const mixPass = new ShaderPass(BlendShader, "tDiffuse1");
 
   const outputPass = new OutputPass();
-  outputPass.renderToScreen = true;
-  globals.composer = new EffectComposer(globals.renderer);
-
-  const fxaaPass = new ShaderPass(FXAAShader);
-  fxaaPass.material.uniforms["resolution"].value.set(
-    1 / globals.containerRect.width,
-    1 / globals.containerRect.height
-  );
-  fxaaPass.renderToScreen = true;
-
-  globals.composer.addPass(renderScene);
-  globals.composer.addPass(bloomPass);
   globals.composer.addPass(outputPass);
-  globals.composer.addPass(fxaaPass);
 }
 
 export function initStarryNight() {

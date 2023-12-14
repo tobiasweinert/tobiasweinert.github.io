@@ -1,4 +1,6 @@
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { GUI } from "three/examples/jsm/libs//lil-gui.module.min.js";
+
 const fontLoader = new FontLoader();
 
 async function fetchText() {
@@ -70,6 +72,7 @@ const globals = {
   isDarkReaderEnabled: isDarkReaderEnabled(),
   fontColor: isDarkReaderEnabled() ? "#d1d1d1" : "#2b2b2b",
   isFadingOut: false,
+  //gui: new GUI(),
 };
 
 globals.currentSlide = globals.devOptions.initialSlide;

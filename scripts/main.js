@@ -17,7 +17,7 @@ import "./events.js";
 
 initThree();
 initCarousel();
-// initBloom();
+initBloom();
 initItem();
 //initStarryNight();
 await initCameraShot();
@@ -43,9 +43,9 @@ switch (globals.devOptions.initialSlide) {
 
 function animate() {
   globals.renderer.render(globals.scene, globals.camera);
-  requestAnimationFrame(animate);
   TWEEN.update();
-  // globals.composer.render();
+  globals.composer.render();
+  requestAnimationFrame(animate);
   // add movement to starry night using mouse position
   // globals.stars.rotation.y = globals.mouseX * 0.1;
   // globals.stars.rotation.x = globals.mouseY * 0.1;

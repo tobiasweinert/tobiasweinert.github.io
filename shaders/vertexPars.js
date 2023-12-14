@@ -1,24 +1,6 @@
-/*
-    Transform -> position, scale, rotation
-    modelMatrix -> position, scale, rotation of model
-    viewMatrix -> position, scale, rotation of camera
-    projectionMatrix -> projects object onto screen (spect ration & perspective)
-
-    attributes -> vertex specific data (only vertex can access)
-    uniforms -> global data (fragment & vertex can access)
-    varyings -> vertex to fragment
-    // MVP 
-*/
-
-const vertexShader = /* glsl */ ` 
+const vertexPars = /* glsl */ `
 uniform float uTime;
-varying vec3 vPosition;
-varying vec3 vNormal;
-varying vec2 vUv;
 varying float vDisplacement;
-
-
-#define PI 3.1415926535897932384626433832795
 
 vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
 vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
@@ -104,29 +86,8 @@ float fit(float unscaled , float originalMin, float originalMax, float minAllowe
 }
 
 float wave(vec3 position) {
-    return fit(smoothMod(position.y * 15.0, 1.0, 1.5), 0.35, 0.6, 0.0, 1.0);
-}
-
-void main() {
-    vec3 coords = normal;
-    coords.y += uTime;
-    vec3 noisePattern = vec3(noise(coords));
-    float pattern = wave(noisePattern);
-
-    // varyings
-    vPosition = position;
-    vNormal = normal;
-    vUv = uv;
-    vDisplacement = pattern;
-
-
-    float displacement = vDisplacement / 0.8;
-    vec3 newPosition = position + normal * displacement;
-    vec4 modelViewPosition = modelViewMatrix * vec4(newPosition, 1.0);
-    vec4 projectedPosition = projectionMatrix * modelViewPosition;
-    gl_Position = projectedPosition;
-
+    return fit(smoothMod(position.y * 8.0, 1.5, 1.0), 0.35, 0.6, 0.0, 1.0);
 }
 `;
 
-export default vertexShader;
+export default vertexPars;
