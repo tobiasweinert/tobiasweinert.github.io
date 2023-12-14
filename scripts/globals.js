@@ -64,7 +64,10 @@ const globals = {
   texts: await fetchText(),
   fonts: {
     Nexa_Heavy_Regular: await loadFont(
-      "../assets/fonts/Nexa Heavy_Regular.json"
+      //"../assets/fonts/Nexa_Heavy_Regular.json"
+      "../assets/fonts/Silkscreen_Regular.json"
+      //"../assets/fonts/Dhurjati_Regular.json"
+      //"../assets/fonts/Asap Expanded_Regular.json"
     ),
   },
   currentSlide: 0,

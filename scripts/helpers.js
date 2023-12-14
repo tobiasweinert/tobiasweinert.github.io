@@ -126,7 +126,7 @@ export function createTextMeshes(
       height: height,
       size: size,
       font: font,
-      curveSegments: 12,
+      curveSegments: 15,
     });
     const textMaterial = new THREE.MeshBasicMaterial({
       color: globals.fontColor,
@@ -149,7 +149,7 @@ export function createTextMesh(text, x, y, z, size, height, font) {
     height: height,
     size: size,
     font: font,
-    curveSegments: 12,
+    curveSegments: 15,
   });
   const textMaterial = new THREE.MeshBasicMaterial({
     color: globals.fontColor,

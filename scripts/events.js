@@ -122,7 +122,7 @@ function onPointerUp() {
   if (globals.isDragging) {
     globals.isDragging = false;
     let nextAngle = globals.carousel.rotation.y;
-    let animationTime = 250;
+    let animationTime = globals.isMobile ? 500 : 250;
     let isForced = false;
     // support the user by forcing the rotation to the next slide if the rotation is less than 1/5 of the total rotation
     // user rotates to the right
@@ -156,7 +156,7 @@ function onPointerUp() {
     if (!isForced) {
       globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
       nextAngle = findClosestSnapAngle(globals.carousel.rotation.y);
-      animationTime = 150;
+      animationTime = globals.isMobile ? 400 : 150;
     }
     if (previousRotationAngle === globals.carousel.rotation.y) {
       return;
