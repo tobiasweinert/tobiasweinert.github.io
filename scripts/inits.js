@@ -100,11 +100,8 @@ export function initBloom() {
     5,
     0.4
   );
-  // bloomPass.threshold = 0.0;
-  // bloomPass.strength = 0.2;
-  // bloomPass.radius = 0.0;
   bloomPass.threshold = 0.0;
-  bloomPass.strength = 3;
+  bloomPass.strength = 2.22;
   bloomPass.radius = 0.0;
   globals.devOptions.gui.add(bloomPass, "threshold", 0.0, 1.0, 0.01);
   globals.devOptions.gui.add(bloomPass, "strength", 0.0, 3.0, 0.01);

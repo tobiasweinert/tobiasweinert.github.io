@@ -74,7 +74,7 @@ const globals = {
   isMobile: isMobile(),
   isDarkReaderEnabled: isDarkReaderEnabled(),
   fontColor: isDarkReaderEnabled() ? "#ffffff" : "#000000",
-  backgroundColor: isDarkReaderEnabled() ? "#060606" : "#ffffff",
+  backgroundColor: isDarkReaderEnabled() ? "#040404" : "#ffffff",
   isFadingOut: false,
 };
 
