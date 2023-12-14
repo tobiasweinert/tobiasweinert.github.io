@@ -27,7 +27,7 @@ export function toSlideAbout() {
   });
   // calculate the aspect ratio for a fixed height of 5
   const aspectRatio = profileImage.width / profileImage.height;
-  const imgHeight = 5;
+  const imgHeight = 3;
   const imgWidth = imgHeight * aspectRatio;
   const meImage = new THREE.Mesh(
     new THREE.PlaneGeometry(imgWidth, imgHeight, 12, 12),
@@ -37,7 +37,7 @@ export function toSlideAbout() {
   meImage.rotation.y = Math.PI / 2;
   // frame for image
   const frameMaterial = new THREE.MeshBasicMaterial({
-    color: 0x000000,
+    color: 0xa1a1a1,
     side: THREE.BackSide,
   });
   const frameWidth = imgWidth + 0.2;
@@ -53,27 +53,25 @@ export function toSlideAbout() {
   });
   const titleGeometry = new TextGeometry(title, {
     height: 0.0,
-    size: 0.3,
+    size: 0.15,
     font: globals.fonts.Nexa_Heavy_Regular,
     curveSegments: 12,
   });
   const titleMesh = new THREE.Mesh(titleGeometry, titleMaterial);
-  titleMesh.position.set(-1, 5.8, 31);
+  titleMesh.position.set(-1, 7, 31);
   titleMesh.rotation.y = Math.PI / 2;
   // group the image, frame and title
   imageGroup = new THREE.Group();
   imageGroup.add(meImage);
   imageGroup.add(frame);
   imageGroup.add(titleMesh);
-  imageGroup.position.x = 21;
-  //imageGroup.position.y = -11;
-  imageGroup.position.y = 4;
-
-  imageGroup.position.z = -33;
+  imageGroup.position.x = 21.3;
+  imageGroup.position.y = 30;
+  imageGroup.position.z = -30.3;
 
   globals.slides[4].add(imageGroup);
   new TWEEN.Tween(imageGroup.position)
-    .to({ y: -12 }, 200)
+    .to({ y: -8 }, 200)
     .easing(TWEEN.Easing.Linear.None)
     .onStart(() => {})
     .onComplete(() => {})
