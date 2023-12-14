@@ -6,17 +6,15 @@ import globals from "./globals.js";
 
 const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
 
-const roundedBoxMaterial = new THREE.MeshLambertMaterial({
-  map: texture,
-});
+const roundedBoxMaterial = new THREE.MeshStandardMaterial({ visible: false });
 
 export function initCarousel() {
   // carousel of 5 planes that rotate around the y axis
   globals.carousel = new THREE.Group();
   globals.scene.add(globals.carousel);
-  const roundedBoxGeometry = new THREE.BoxGeometry(10, 5, 0.1, 10, 10, 10);
+  const roundedBoxGeometry = new THREE.BoxGeometry(0, 0, 0, 1, 1, 1);
+  roundedBoxMaterial.visible = false;
   for (let i = 0; i < 5; i++) {
-    roundedBoxMaterial.visible = false;
     globals.slides.push(new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial));
     const angle = (i / 5) * Math.PI * 2;
     const radius = 100;

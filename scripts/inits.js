@@ -18,7 +18,7 @@ import globals from "./globals.js";
 
 export function initThree() {
   // threejs boilerplate
-  globals.renderer = new THREE.WebGLRenderer({ antialias: true });
+  globals.renderer = new THREE.WebGLRenderer({});
   globals.composer = new EffectComposer(globals.renderer);
   globals.composer.renderToScreen = false;
   globals.composer.setSize(
@@ -39,6 +39,7 @@ export function initThree() {
     .getElementById("cv-container")
     .appendChild(globals.renderer.domElement);
   globals.scene = new THREE.Scene();
+  globals.scene.background = new THREE.Color(globals.backgroundColor);
 
   globals.camera = new THREE.PerspectiveCamera(
     75,
@@ -48,13 +49,21 @@ export function initThree() {
   );
 
   // sphere is at 11.63, -0.33, 81.75
-  const dirLight = new THREE.DirectionalLight(0x526cff, 5);
+  const dirLight = new THREE.DirectionalLight(0x526cff, 0.5);
   dirLight.position.set(20, 0, 80);
   dirLight.target.position.set(16, 5, 85);
 
-  const ambientLight = new THREE.AmbientLight(0x4255ff, 2);
+  const dirLight2 = new THREE.DirectionalLight(0xff0000, 0.5);
+  dirLight2.position.set(-53.3, -4.15, -139.31);
+  dirLight2.target.position.set(16, 5, 85);
+
+  globals.devOptions.gui.add(dirLight2.position, "x", -500, 500, 0.01);
+  globals.devOptions.gui.add(dirLight2.position, "y", -500, 500, 0.01);
+  globals.devOptions.gui.add(dirLight2.position, "z", -500, 500, 0.01);
+
+  const ambientLight = new THREE.AmbientLight(0x000000, 0.0);
   ambientLight.position.set(16, 5, 85);
-  globals.scene.add(dirLight, ambientLight);
+  globals.scene.add(dirLight, dirLight2, ambientLight);
 
   // const light = new THREE.DirectionalLight(0xff0000, 10);
   // sphere is at 1,1,84
@@ -91,9 +100,12 @@ export function initBloom() {
     5,
     0.4
   );
-  bloomPass.threshold = 0.1;
-  bloomPass.strength = 0.3;
-  bloomPass.radius = 0.1;
+  bloomPass.threshold = 0.0;
+  bloomPass.strength = 0.64;
+  bloomPass.radius = 0.11;
+  globals.devOptions.gui.add(bloomPass, "threshold", 0.0, 1.0, 0.01);
+  globals.devOptions.gui.add(bloomPass, "strength", 0.0, 3.0, 0.01);
+  globals.devOptions.gui.add(bloomPass, "radius", 0.0, 1.0, 0.01);
   globals.composer.addPass(bloomPass);
 
   const mixPass = new ShaderPass(
@@ -108,10 +120,23 @@ export function initBloom() {
     "baseTexture"
   );
 
+  //fxaa
+  const fxaaPass = new ShaderPass(FXAAShader);
+  const pixelRatio = globals.renderer.getPixelRatio();
+  fxaaPass.material.uniforms["resolution"].value.x =
+    1 / (globals.containerRect.width * pixelRatio);
+  fxaaPass.material.uniforms["resolution"].value.y =
+    1 / (globals.containerRect.height * pixelRatio);
+  globals.composer.addPass(fxaaPass);
+
   globals.finalComposer = new EffectComposer(globals.renderer);
+  globals.finalComposer.addPass(fxaaPass);
+
   globals.finalComposer.addPass(renderPass);
   globals.finalComposer.addPass(mixPass);
 
+  globals.finalComposer.addPass(fxaaPass);
+  globals.composer.addPass(fxaaPass);
   const outputPass = new OutputPass();
   globals.finalComposer.addPass(outputPass);
 }

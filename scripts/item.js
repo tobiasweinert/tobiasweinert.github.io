@@ -33,6 +33,7 @@ export function initItem() {
         parsFragmentString,
         parsFragmentString + fragmentPars
       );
+
       shader.fragmentShader = shader.fragmentShader.replace(
         mainFragmentString,
         mainFragmentString + fragmentMain
@@ -42,8 +43,7 @@ export function initItem() {
 
   const ico = new THREE.Mesh(geometry, material);
   ico.layers.enable(1);
-  // camera is at 20,0,80, camer.lookAt is 3,0,100
-  // we want to place the sphere close to the camera
+  // camera is at 20,0,80, camera.lookAt is 3,0,100
   ico.position.set(11.63, -0.33, 81.75);
   globals.scene.add(ico);
 

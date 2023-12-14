@@ -27,6 +27,7 @@ function isMobile() {
 }
 
 function isDarkReaderEnabled() {
+  return true;
   const isEnabled =
     "querySelector" in document &&
     !!document.querySelector('meta[name="darkreader"]');
@@ -43,6 +44,7 @@ const globals = {
     prod: false,
     orbitControls: false,
     initialSlide: 0,
+    gui: new GUI(),
   },
   renderer: null,
   scene: null,
@@ -71,9 +73,9 @@ const globals = {
   mainTextSize: isMobile() ? 0.8 : 1,
   isMobile: isMobile(),
   isDarkReaderEnabled: isDarkReaderEnabled(),
-  fontColor: isDarkReaderEnabled() ? "#d1d1d1" : "#2b2b2b",
+  fontColor: isDarkReaderEnabled() ? "#ffffff" : "#000000",
+  backgroundColor: isDarkReaderEnabled() ? "#000000" : "#ffffff",
   isFadingOut: false,
-  //gui: new GUI(),
 };
 
 globals.currentSlide = globals.devOptions.initialSlide;
