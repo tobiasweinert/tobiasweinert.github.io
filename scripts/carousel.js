@@ -37,6 +37,18 @@ export function initCarousel() {
     );
     text.name = "mainTitle";
     globals.slides[i].add(text);
+    // add a white line under the title
+    const lineGeometry = new THREE.PlaneGeometry(28, 0.2);
+    const lineMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.2,
+    });
+    const line = new THREE.Mesh(lineGeometry, lineMaterial);
+    line.name = "mainTitle";
+    line.position.set(3.2, 5.9, 12);
+    line.rotation.y = Math.PI / 2;
+    globals.slides[i].add(line);
 
     // custom properties
     switch (globals.texts.planes[i].id) {
