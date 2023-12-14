@@ -58,9 +58,8 @@ body {
 
 h1 {
   user-select: none;
-  margin-bottom: 0;
   z-index: 1000;
-  position: absolute;
+  margin-bottom: 10px;
   display: flex;
   color: rgba(255, 255, 255, 0.4);
 }
@@ -82,9 +81,6 @@ h1 {
 .title {
   position: absolute;
   display: flex;
-
-  top: 5%;
-
   z-index: 1000;
   user-select: none;
   font-size: 0.5rem;
@@ -93,6 +89,7 @@ h1 {
   letter-spacing: 0.3rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.4);
+  bottom: 92%;
 }
 
 .socials {
