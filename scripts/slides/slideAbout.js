@@ -71,7 +71,7 @@ export function toSlideAbout() {
 
   globals.slides[4].add(imageGroup);
   new TWEEN.Tween(imageGroup.position)
-    .to({ y: -8 }, 200)
+    .to({ y: -8 }, 800)
     .easing(TWEEN.Easing.Linear.None)
     .onStart(() => {})
     .onComplete(() => {})
