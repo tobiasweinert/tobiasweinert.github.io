@@ -8,26 +8,7 @@ import vertexMain from "../shaders/vertexMain.js";
 import fragmentMain from "../shaders/fragmentMain.js";
 import fragmentPars from "../shaders/fragmentPars.js";
 
-const textureLoader = new THREE.TextureLoader();
 export function initItem() {
-  // const normalTexture = textureLoader.load("./assets/images/NormalMap.png");
-  // const geometry = new THREE.SphereGeometry(4, 100, 100);
-  // const material = new THREE.MeshStandardMaterial({
-  //   metalness: 0.8,
-  //   roughness: 0.2,
-  //   color: 0x292929,
-  //   normalMap: normalTexture,
-  // });
-  // const item = new THREE.Mesh(geometry, material);
-  // item.position.set(1, 1, 84);
-  // globals.scene.add(item);
-  // // TODO: this causes stutter in the spin
-  // const animateItem = () => {
-  //   requestAnimationFrame(animateItem);
-  //   item.rotation.y += 0.005;
-  // };
-  // animateItem();
-
   const geometry = new THREE.IcosahedronGeometry(1, 200);
   const material = new THREE.MeshStandardMaterial({
     onBeforeCompile: (shader) => {
@@ -60,6 +41,7 @@ export function initItem() {
   });
 
   const ico = new THREE.Mesh(geometry, material);
+  ico.layers.enable(1);
   // camera is at 20,0,80, camer.lookAt is 3,0,100
   // we want to place the sphere close to the camera
   ico.position.set(11.63, -0.33, 81.75);

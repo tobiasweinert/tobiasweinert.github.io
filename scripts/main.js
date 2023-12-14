@@ -1,4 +1,5 @@
 import * as TWEEN from "tween";
+import * as THREE from "three";
 import globals from "./globals.js";
 import {
   initThree,
@@ -41,10 +42,35 @@ switch (globals.devOptions.initialSlide) {
     break;
 }
 
+const BLOOM_SCENE = 1;
+const bloomLayer = new THREE.Layers();
+bloomLayer.set(BLOOM_SCENE);
+const darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
+const materials = {};
+
+function darkenNonBloomed(obj) {
+  if (obj.isMesh && bloomLayer.test(obj.layers) === false) {
+    materials[obj.uuid] = obj.material;
+    obj.material = darkMaterial;
+  }
+}
+
+function restoreMaterial(obj) {
+  if (materials[obj.uuid]) {
+    obj.material = materials[obj.uuid];
+    delete materials[obj.uuid];
+  }
+}
+
 function animate() {
   globals.renderer.render(globals.scene, globals.camera);
   TWEEN.update();
+
+  globals.scene.traverse(darkenNonBloomed);
+
   globals.composer.render();
+  globals.scene.traverse(restoreMaterial);
+  globals.finalComposer.render();
   requestAnimationFrame(animate);
   // add movement to starry night using mouse position
   // globals.stars.rotation.y = globals.mouseX * 0.1;

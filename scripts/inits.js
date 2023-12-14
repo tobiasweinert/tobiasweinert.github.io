@@ -32,7 +32,7 @@ export function initThree() {
   globals.renderer.setPixelRatio(window.devicePixelRatio);
   globals.renderer.shadowMap.enabled = true;
   globals.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  globals.renderer.outputEncoding = THREE.SRGBColorSpace;
+  globals.renderer.outputColorSpace = THREE.SRGBColorSpace;
   globals.renderer.toneMapping = THREE.CineonToneMapping;
   globals.renderer.toneMappingExposure = 1.5;
   document
@@ -96,10 +96,24 @@ export function initBloom() {
   bloomPass.radius = 0.1;
   globals.composer.addPass(bloomPass);
 
-  const mixPass = new ShaderPass(BlendShader, "tDiffuse1");
+  const mixPass = new ShaderPass(
+    new THREE.ShaderMaterial({
+      uniforms: {
+        baseTexture: { value: null },
+        bloomTexture: { value: globals.composer.renderTarget2.texture },
+      },
+      vertexShader: document.getElementById("vertexshader").textContent,
+      fragmentShader: document.getElementById("fragmentshader").textContent,
+    }),
+    "baseTexture"
+  );
+
+  globals.finalComposer = new EffectComposer(globals.renderer);
+  globals.finalComposer.addPass(renderPass);
+  globals.finalComposer.addPass(mixPass);
 
   const outputPass = new OutputPass();
-  globals.composer.addPass(outputPass);
+  globals.finalComposer.addPass(outputPass);
 }
 
 export function initStarryNight() {

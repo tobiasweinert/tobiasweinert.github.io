@@ -48,6 +48,7 @@ const globals = {
   scene: null,
   camera: null,
   composer: null,
+  finalComposer: null,
   container: document.getElementById("cv-container"),
   containerRect: getContainerRect(),
   carousel: null,
