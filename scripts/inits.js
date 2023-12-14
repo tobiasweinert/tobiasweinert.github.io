@@ -14,8 +14,6 @@ import { setCurrentSlideText } from "./helpers.js";
 
 import globals from "./globals.js";
 
-// const gui = new GUI();
-
 export function initThree() {
   // threejs boilerplate
   globals.renderer = new THREE.WebGLRenderer({});
@@ -57,33 +55,14 @@ export function initThree() {
   dirLight2.position.set(-53.3, -4.15, -139.31);
   dirLight2.target.position.set(16, 5, 85);
 
-  globals.devOptions.gui.add(dirLight2.position, "x", -500, 500, 0.01);
-  globals.devOptions.gui.add(dirLight2.position, "y", -500, 500, 0.01);
-  globals.devOptions.gui.add(dirLight2.position, "z", -500, 500, 0.01);
+  // globals.devOptions.gui.add(dirLight2.position, "x", -500, 500, 0.01);
+  // globals.devOptions.gui.add(dirLight2.position, "y", -500, 500, 0.01);
+  // globals.devOptions.gui.add(dirLight2.position, "z", -500, 500, 0.01);
 
   //const ambientLight = new THREE.AmbientLight(0x00ff0, 0.1);
   //ambientLight.position.set(16, 5, 85);
   globals.scene.add(dirLight, dirLight2);
 
-  // const light = new THREE.DirectionalLight(0xff0000, 10);
-  // sphere is at 1,1,84
-  // light.position.set(-10, 9, 100);
-  // light.target.position.set(1, 1, 84);
-  // light helper
-  //const helper = new THREE.DirectionalLightHelper(light, 5);
-  // globals.scene.add(helper);
-  // globals.scene.add(light);
-
-  // gui.add(light.position, "x", -100, 100, 0.01);
-  // gui.add(light.position, "y", -100, 100, 0.01);
-  // gui.add(light.position, "z", 50, 250, 0.01);
-
-  // const light2 = new THREE.DirectionalLight(0x0000ff, 3);
-  // light2.position.set(1, 1, 88);
-  // globals.scene.add(light2);
-  // const ambientLight = new THREE.HemisphereLight(0xffffff, 10);
-  // ambientLight.position.set(1, 1, 90);
-  // globals.scene.add(ambientLight);
   setCurrentSlideText(globals.currentSlide);
 }
 
@@ -103,9 +82,9 @@ export function initBloom() {
   bloomPass.threshold = 0.0;
   bloomPass.strength = 2.22;
   bloomPass.radius = 0.0;
-  globals.devOptions.gui.add(bloomPass, "threshold", 0.0, 1.0, 0.01);
-  globals.devOptions.gui.add(bloomPass, "strength", 0.0, 3.0, 0.01);
-  globals.devOptions.gui.add(bloomPass, "radius", 0.0, 1.0, 0.01);
+  // globals.devOptions.gui.add(bloomPass, "threshold", 0.0, 1.0, 0.01);
+  // globals.devOptions.gui.add(bloomPass, "strength", 0.0, 3.0, 0.01);
+  // globals.devOptions.gui.add(bloomPass, "radius", 0.0, 1.0, 0.01);
   globals.composer.addPass(bloomPass);
 
   const mixPass = new ShaderPass(
