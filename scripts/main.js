@@ -22,10 +22,9 @@ initCarousel();
 initBloom();
 initItem();
 toItem();
-initMenu();
+//initMenu();
 //initStarryNight();
 await initCameraShot();
-// remove element "site-content" from DOM
 var elementToRemove = document.getElementById("site-content");
 if (elementToRemove) {
   elementToRemove.parentNode.removeChild(elementToRemove);
