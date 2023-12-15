@@ -61,7 +61,12 @@ document.addEventListener("keydown", (event) => {
 });
 
 function onPointerDown(event) {
-  if (globals.isTransitioning || globals.devOptions.orbitControls) return;
+  if (
+    globals.isTransitioning ||
+    globals.devOptions.orbitControls ||
+    globals.devOptions.gui
+  )
+    return;
   previousSlide = globals.currentSlide;
   globals.isDragging = true;
   previousPointerX = event.clientX || event.touches[0].clientX;
@@ -100,6 +105,8 @@ function onWheelScroll(event) {
 }
 
 function onPointerMove(event) {
+  globals.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+  globals.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
   if (globals.isTransitioning || globals.devOptions.orbitControls) return;
   if (event.type === "wheel" && globals.isDragging) return;
   if (globals.isDragging) {
@@ -113,8 +120,6 @@ function onPointerMove(event) {
     previousPointerX = currentPointerX;
     globals.renderer.render(globals.scene, globals.camera);
   }
-  globals.mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-  globals.mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
 function onPointerUp() {
@@ -177,9 +182,6 @@ function onPointerUp() {
 }
 
 function handleItemMove() {
-  console.log("handleItemMove");
-  //globals.item.speed = globals.item.moveSpeed;
-  // use tween to set the globals.item.speed from globals.item.defaultSpeed to globals.item.moveSpeed and back
   new TWEEN.Tween(globals.item)
     .to({ speed: globals.item.moveSpeed }, 600)
     .easing(TWEEN.Easing.Cubic.Out)

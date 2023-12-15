@@ -9,6 +9,7 @@ import {
 } from "./inits.js";
 import { initCarousel } from "./carousel.js";
 import { initItem, toItem } from "./item.js";
+import { initMenu } from "./menu.js";
 import { toSlideWelcome } from "./slides/slideWelcome.js";
 import { toSlideAbout } from "./slides/slideAbout.js";
 import { toSlideContact } from "./slides/slideContact.js";
@@ -19,10 +20,10 @@ import "./events.js";
 initThree();
 initCarousel();
 initBloom();
-
 initItem();
 toItem();
-//initStarryNight();
+initMenu();
+initStarryNight();
 await initCameraShot();
 
 // manually trigger the initial slide
@@ -74,19 +75,23 @@ function animate() {
   globals.scene.traverse(restoreMaterial);
   globals.finalComposer.render();
   requestAnimationFrame(animate);
-  // add movement to starry night using mouse position
-  // globals.stars.rotation.y = globals.mouseX * 0.1;
-  // globals.stars.rotation.x = globals.mouseY * 0.1;
 
-  // // make random stars twinkle
-  // const time = Date.now() * 0.00005;
-  // globals.stars.geometry.attributes.position.array.forEach((_, index) => {
-  //   if (index % 3 === 0) {
-  //     globals.stars.geometry.attributes.position.array[index] +=
-  //       Math.sin(index + time) * 3;
-  //   }
-  // });
-  // globals.stars.geometry.attributes.position.needsUpdate = true;
+  const time = Date.now() * 0.00005;
+  if (globals.redStars) {
+    globals.redStars.geometry.attributes.position.array.forEach((_, index) => {
+      globals.redStars.geometry.attributes.position.array[index] +=
+        Math.sin(index + time) * 0.1;
+    });
+    globals.redStars.geometry.attributes.position.needsUpdate = true;
+  }
+
+  if (globals.blueStars) {
+    globals.blueStars.geometry.attributes.position.array.forEach((_, index) => {
+      globals.blueStars.geometry.attributes.position.array[index] +=
+        Math.cos(index + time) * 0.1;
+    });
+    globals.blueStars.geometry.attributes.position.needsUpdate = true;
+  }
 }
 
 animate();

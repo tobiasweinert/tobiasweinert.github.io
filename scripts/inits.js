@@ -67,7 +67,6 @@ export function initThree() {
 }
 
 export function initBloom() {
-  console.log("initBloom");
   const renderPass = new RenderPass(globals.scene, globals.camera);
   globals.composer.addPass(renderPass);
   const bloomPass = new UnrealBloomPass(
@@ -121,25 +120,53 @@ export function initBloom() {
 }
 
 export function initStarryNight() {
-  // Starry night background
+  if (globals.isMobile) return;
   const starGeometry = new THREE.BufferGeometry();
-  const starMaterial = new THREE.PointsMaterial({
-    color: globals.fontColor,
+  const starMaterialRed = new THREE.PointsMaterial({
+    color: 0xff0000,
     size: 0.1,
   });
   const starVertices = [];
-  for (let i = 0; i < 10000; i++) {
-    const x = (Math.random() - 0.5) * 2000;
-    const y = (Math.random() - 0.5) * 2000;
-    const z = -Math.random() * 1000;
+  for (let i = 0; i < 250; i++) {
+    const x = 11.63 + (Math.random() - 0.5) * 2; // Adds a random value between -1 and 1
+    const y = -0.33 + (Math.random() - 0.5) * 0.5; // Adds a random value between -0.25 and 0.25
+    const z = 81.75 + (Math.random() - 0.5) * 5; // Adds a random value between -2.5 and 2.5
     starVertices.push(x, y, z);
   }
+
   starGeometry.setAttribute(
     "position",
     new THREE.Float32BufferAttribute(starVertices, 4)
   );
-  globals.stars = new THREE.Points(starGeometry, starMaterial);
-  globals.scene.add(globals.stars);
+  globals.redStars = new THREE.Points(starGeometry, starMaterialRed);
+  globals.scene.add(globals.redStars);
+
+  const starMaterialBlue = new THREE.PointsMaterial({
+    color: 0x0000ff,
+    size: 0.1,
+  });
+  const starGeometry2 = new THREE.BufferGeometry();
+  const starVertices2 = [];
+  for (let i = 0; i < 250; i++) {
+    const x = 11.63 + (Math.random() - 0.5) * 2; // Adds a random value between -1 and 1
+    const y = -0.33 + (Math.random() - 0.5) * 0.5; // Adds a random value between -0.25 and 0.25
+    const z = 81.75 + (Math.random() - 0.5) * 5; // Adds a random value between -2.5 and 2.5
+    starVertices2.push(x, y, z);
+  }
+  starGeometry2.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute(starVertices2, 4)
+  );
+  globals.blueStars = new THREE.Points(starGeometry2, starMaterialBlue);
+  globals.scene.add(globals.blueStars);
+
+  setTimeout(() => {
+    // delete the stars from the scene
+    globals.scene.remove(globals.redStars);
+    globals.scene.remove(globals.blueStars);
+    globals.redStars = null;
+    globals.blueStars = null;
+  }, 3200);
 }
 
 export function initCameraShot() {
