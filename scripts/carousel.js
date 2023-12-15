@@ -33,12 +33,13 @@ export function initCarousel() {
       30,
       globals.mainHeadingSize,
       0.01,
-      globals.fonts.Nexa_Heavy_Regular
+      globals.fonts.pixelFont
     );
     text.name = "mainTitle";
     globals.slides[i].add(text);
     // add a white line under the title
-    const lineGeometry = new THREE.PlaneGeometry(28, 0.2);
+    const lineLen = globals.isMobile ? 20 : 28;
+    const lineGeometry = new THREE.PlaneGeometry(lineLen, 0.2);
     const lineMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       transparent: true,
@@ -46,7 +47,8 @@ export function initCarousel() {
     });
     const line = new THREE.Mesh(lineGeometry, lineMaterial);
     line.name = "mainTitle";
-    line.position.set(3.2, 5.9, 12);
+    const zPos = globals.isMobile ? 18.8 : 12;
+    line.position.set(3.2, 5.9, zPos);
     line.rotation.y = Math.PI / 2;
     globals.slides[i].add(line);
 
