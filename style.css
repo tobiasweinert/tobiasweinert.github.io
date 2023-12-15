@@ -18,6 +18,7 @@ body {
   color: var(--text-color);
   text-align: center;
   touch-action: none;
+  height: 100%;
 }
 
 #currentSlide {
@@ -62,6 +63,20 @@ body {
   color: rgba(255, 255, 255, 0.4);
 }
 
+#site-content {
+  user-select: none;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  top: 35%;
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 100));
+  animation: fade-in 1s ease-in-out forwards;
+}
+
 .subtitle {
   z-index: 1000;
   user-select: none;
@@ -71,8 +86,20 @@ body {
   letter-spacing: 0.3rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.4);
-  bottom: 92%;
 }
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #000000; /* Blue */
+  left: 47.5%;
+  bottom: -150%;
+  position: absolute;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 2s linear infinite;
+}
+
 .text-container {
   user-select: none;
   position: absolute;
@@ -116,4 +143,13 @@ a {
   color: rgba(0, 0, 0, 0.5);
   text-decoration: none;
   transition: all 0.5s ease-in-out;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

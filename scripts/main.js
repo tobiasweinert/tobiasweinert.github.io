@@ -25,6 +25,11 @@ toItem();
 initMenu();
 initStarryNight();
 await initCameraShot();
+// remove element "site-content" from DOM
+var elementToRemove = document.getElementById("site-content");
+if (elementToRemove) {
+  elementToRemove.parentNode.removeChild(elementToRemove);
+}
 
 // manually trigger the initial slide
 switch (globals.devOptions.initialSlide) {
