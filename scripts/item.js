@@ -49,7 +49,7 @@ export function initItem() {
   ico.layers.enable(1);
   // camera is at 20,0,80, camera.lookAt is 3,0,100
 
-  ico.position.set(11.63, 10, 81.75);
+  ico.position.set(11.63, 30, 81.75);
   globals.scene.add(ico);
 
   let i = 0.0001;
@@ -72,7 +72,7 @@ export function toItem() {
     : { x: 11.63, y: -0.33, z: 81.75 };
   const item = globals.scene.getObjectByName("item");
   const tween = new TWEEN.Tween(item.position)
-    .to(finalPosition, 900)
+    .to(finalPosition, 1200)
     .easing(TWEEN.Easing.Bounce.Out)
     .onStart(() => {
       globals.isTransitioning = true;
