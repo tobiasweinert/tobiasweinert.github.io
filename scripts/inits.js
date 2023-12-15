@@ -120,6 +120,7 @@ export function initBloom() {
 }
 
 export function initStarryNight() {
+  // TODO: there is an error thrown here
   if (globals.isMobile) return;
   const starGeometry = new THREE.BufferGeometry();
   const starMaterialRed = new THREE.PointsMaterial({

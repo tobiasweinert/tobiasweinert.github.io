@@ -20,7 +20,6 @@ export function toSlideAbout() {
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.image = profileImage;
   texture.needsUpdate = true;
-  // TODO: fix brightness of image
   const material = new THREE.MeshBasicMaterial({
     map: texture,
     transparent: true,
