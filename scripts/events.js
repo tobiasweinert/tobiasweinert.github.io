@@ -29,7 +29,7 @@ document.addEventListener("pointermove", onPointerMove);
 document.addEventListener("pointerup", onPointerUp);
 document.addEventListener("wheel", onWheelScroll);
 document.addEventListener("keydown", (event) => {
-  if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
   if (
     globals.isTransitioning ||
     globals.isDragging ||
@@ -40,10 +40,10 @@ document.addEventListener("keydown", (event) => {
   previousRotationAngle = globals.carousel.rotation.y;
   globals.carousel.rotation.y = normalizeAngle(globals.carousel.rotation.y);
   targetRotation = globals.carousel.rotation.y;
-  if (event.key === "ArrowUp") {
+  if (event.key === "ArrowRight") {
     targetRotation += Math.PI * 2 * (1 / 5);
   }
-  if (event.key === "ArrowDown") {
+  if (event.key === "ArrowLeft") {
     targetRotation -= Math.PI * 2 * (1 / 5);
   }
   new TWEEN.Tween(globals.carousel.rotation)
