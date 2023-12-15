@@ -16,7 +16,7 @@ export function toSlideExperience() {
     globals.mainTextSize,
     0.01,
     1.2,
-    globals.fonts.Nexa_Heavy_Regular
+    globals.fonts.pixelFont
   );
   const offsets = globals.texts.planes[0].texts.map((text, index) => {
     if (index % 2 == 0) return index * 2 + 1;

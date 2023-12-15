@@ -13,7 +13,7 @@ export function toSlideWelcome() {
     globals.mainTextSize,
     0.01,
     1.2,
-    globals.fonts.Nexa_Heavy_Regular
+    globals.fonts.pixelFont
   );
 
   const offsets = globals.texts.planes[3].texts.map((text, index) => {

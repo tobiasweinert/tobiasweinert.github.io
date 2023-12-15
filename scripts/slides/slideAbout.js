@@ -54,7 +54,7 @@ export function toSlideAbout() {
   const titleGeometry = new TextGeometry(title, {
     height: 0.0,
     size: 0.15,
-    font: globals.fonts.Nexa_Heavy_Regular,
+    font: globals.fonts.pixelFont,
     curveSegments: 12,
   });
   const titleMesh = new THREE.Mesh(titleGeometry, titleMaterial);
@@ -85,7 +85,7 @@ export function toSlideAbout() {
     globals.mainTextSize,
     0.01,
     1.2,
-    globals.fonts.Nexa_Heavy_Regular
+    globals.fonts.pixelFont
   );
   const offsets = globals.texts.planes[4].texts.map((text, index) => {
     return index * 2;

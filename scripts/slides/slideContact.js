@@ -16,7 +16,7 @@ export function toSlideContact() {
     globals.mainTextSize,
     0.01,
     1.2,
-    globals.fonts.Nexa_Heavy_Regular
+    globals.fonts.pixelFont
   );
   const offsets = globals.texts.planes[2].texts.map((text, index) => {
     return index * 2;

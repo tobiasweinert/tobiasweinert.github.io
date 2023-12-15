@@ -44,7 +44,7 @@ const globals = {
     prod: false,
     orbitControls: false,
     initialSlide: 0,
-    //gui: new GUI(),
+    // gui: new GUI(),
   },
   renderer: null,
   scene: null,
@@ -58,26 +58,19 @@ const globals = {
   isDragging: false,
   carousel: null,
   slides: [],
-  stars: null,
+  redStars: [],
+  blueStars: [],
   mouseX: 0,
   mouseY: 0,
   texts: await fetchText(),
   fonts: {
-    Nexa_Heavy_Regular: await loadFont(
-      //"../assets/fonts/Nexa_Heavy_Regular.json"
-      //"../assets/fonts/Silkscreen_Regular.json"
-      //"../assets/fonts/pix PixelFJVerdana12pt_Regular.json"
-      "../assets/fonts/Press Start 2P_Regular.json"
-      //"../assets/fonts/Light Pixel-7_Regular.json"
-      //"../assets/fonts/VCR OSD Mono_Regular.json"
-      //"../assets/fonts/Dhurjati_Regular.json"
-      //"../assets/fonts/Asap Expanded_Regular.json"
-    ),
+    pixelFont: await loadFont("../assets/fonts/Press Start 2P_Regular.json"),
   },
   currentSlide: 0,
   // TODO: responsive font size
   mainHeadingSize: isMobile() ? 2 : 2.5,
   mainTextSize: isMobile() ? 0.4 : 0.6,
+  menuSize: isMobile() ? 1.1 : 1.6,
   isMobile: isMobile(),
   isDarkReaderEnabled: isDarkReaderEnabled(),
   fontColor: isDarkReaderEnabled() ? "#ffffff" : "#000000",
