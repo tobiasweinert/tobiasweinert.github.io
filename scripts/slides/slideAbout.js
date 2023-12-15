@@ -35,17 +35,38 @@ export function toSlideAbout() {
   meImage.position.set(-1, 9, 30);
   meImage.rotation.y = Math.PI / 2;
   // frame for image
-  const frameMaterial = new THREE.MeshBasicMaterial({
-    color: 0xa1a1a1,
+  const startColor = new THREE.Color(0xff0000);
+  const endColor = new THREE.Color(0x0000ff);
+
+  const frameWidth = imgWidth + 0.05;
+  const frameHeight = imgHeight + 0.05;
+  const gradientMaterial = new THREE.ShaderMaterial({
+    vertexShader: `
+      varying vec3 vPosition;
+  
+      void main() {
+        vPosition = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      varying vec3 vPosition;
+  
+      void main() {
+        float gradient = (vPosition.y + ${frameHeight / 2.0}) / ${frameHeight};
+        gl_FragColor = mix(vec4(${startColor.r}, ${startColor.g}, ${
+      startColor.b
+    }, 1.0), vec4(${endColor.r}, ${endColor.g}, ${endColor.b}, 1.0), gradient);
+      }
+    `,
     side: THREE.BackSide,
+    transparent: true,
   });
-  const frameWidth = imgWidth + 0.2;
-  const frameHeight = imgHeight + 0.2;
+
   const frameGeometry = new THREE.BoxGeometry(frameWidth, frameHeight, 0.1);
-  frame = new THREE.Mesh(frameGeometry, frameMaterial);
-  frame.position.set(-1, 9, 30);
-  frame.rotation.y = Math.PI / 2;
-  // image title
+  const frameMesh = new THREE.Mesh(frameGeometry, gradientMaterial);
+  frameMesh.position.set(-1, 9, 30);
+  frameMesh.rotation.y = Math.PI / 2;
   const title = globals.texts.planes[4].images[0].title;
   const titleMaterial = new THREE.MeshBasicMaterial({
     color: globals.fontColor,
@@ -62,7 +83,7 @@ export function toSlideAbout() {
   // group the image, frame and title
   imageGroup = new THREE.Group();
   imageGroup.add(meImage);
-  imageGroup.add(frame);
+  imageGroup.add(frameMesh);
   imageGroup.add(titleMesh);
   imageGroup.position.x = 21.3;
   imageGroup.position.y = 30;
