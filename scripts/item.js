@@ -7,6 +7,7 @@ import vertexPars from "../shaders/vertexPars.js";
 import vertexMain from "../shaders/vertexMain.js";
 import fragmentMain from "../shaders/fragmentMain.js";
 import fragmentPars from "../shaders/fragmentPars.js";
+import { initStarryNight } from "./inits.js";
 
 export function initItem() {
   const numVertices = globals.isMobile ? 50 : 200;
@@ -77,6 +78,7 @@ export function toItem() {
       globals.isTransitioning = true;
     })
     .onComplete(() => {
+      initStarryNight();
       globals.isTransitioning = false;
     });
   tween.start();

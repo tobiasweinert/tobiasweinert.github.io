@@ -23,7 +23,7 @@ initBloom();
 initItem();
 toItem();
 initMenu();
-initStarryNight();
+//initStarryNight();
 await initCameraShot();
 // remove element "site-content" from DOM
 var elementToRemove = document.getElementById("site-content");
@@ -82,7 +82,12 @@ function animate() {
   requestAnimationFrame(animate);
 
   const time = Date.now() * 0.00005;
-  if (globals.redStars) {
+  if (
+    globals.redStars &&
+    globals.redStars.geometry &&
+    globals.redStars.geometry.attributes &&
+    globals.redStars.geometry.attributes.position
+  ) {
     globals.redStars.geometry.attributes.position.array.forEach((_, index) => {
       globals.redStars.geometry.attributes.position.array[index] +=
         Math.sin(index + time) * 0.1;
@@ -90,7 +95,12 @@ function animate() {
     globals.redStars.geometry.attributes.position.needsUpdate = true;
   }
 
-  if (globals.blueStars) {
+  if (
+    globals.blueStars &&
+    globals.blueStars.geometry &&
+    globals.blueStars.geometry.attributes &&
+    globals.blueStars.geometry.attributes.position
+  ) {
     globals.blueStars.geometry.attributes.position.array.forEach((_, index) => {
       globals.blueStars.geometry.attributes.position.array[index] +=
         Math.cos(index + time) * 0.1;
