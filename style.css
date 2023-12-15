@@ -68,7 +68,8 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: space-between;
+  align-items: center; /* Updated to center the content horizontally */
+  justify-content: center; /* Added to center the content vertically */
   top: 35%;
   width: 100%;
   left: 50%;
@@ -86,17 +87,15 @@ body {
   letter-spacing: 0.3rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 30px;
 }
 
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #000000; /* Blue */
-  left: 47%;
-  bottom: -150%;
-  position: absolute;
+  border: 12px solid #f3f3f3; /* Light grey */
+  border-top: 12px solid #000000; /* Blue */
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 40px;
+  height: 40px;
   animation: spin 2s linear infinite;
 }
 
