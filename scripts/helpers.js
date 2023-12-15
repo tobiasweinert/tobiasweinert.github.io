@@ -88,7 +88,7 @@ export function setCurrentSlide(nextSnapAngle) {
     }
   }
   globals.currentSlide = currentSlide;
-  setCurrentSlideText(currentSlide);
+  // setCurrentSlideText(currentSlide);
 }
 
 export function normalizeAngle(angle) {

@@ -91,7 +91,7 @@ body {
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #000000; /* Blue */
-  left: 47.5%;
+  left: 47%;
   bottom: -150%;
   position: absolute;
   border-radius: 50%;

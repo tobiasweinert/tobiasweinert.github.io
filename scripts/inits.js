@@ -63,7 +63,7 @@ export function initThree() {
   //ambientLight.position.set(16, 5, 85);
   globals.scene.add(dirLight, dirLight2);
 
-  setCurrentSlideText(globals.currentSlide);
+  // setCurrentSlideText(globals.currentSlide);
 }
 
 export function initBloom() {
