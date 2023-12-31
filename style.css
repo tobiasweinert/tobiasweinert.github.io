@@ -116,6 +116,7 @@ body {
 .socials {
   user-select: none;
   color: white;
+  transition: transform 0.5s ease-in-out;
 }
 
 .socials svg {

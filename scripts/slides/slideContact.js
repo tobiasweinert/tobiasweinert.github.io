@@ -8,6 +8,14 @@ import { loadImage, createTextMeshes } from "../helpers.js";
 export async function initSlideContact() {}
 
 export function toSlideContact() {
+  // we need to enlarge and reposition the socials buttons (class="socials")
+  // and put them in the center of the screen
+  const socials = document.getElementsByClassName("socials");
+  for (let i = 0; i < socials.length; i++) {
+    const social = socials[i];
+    social.style.transform = "scale(2)";
+  }
+
   const textMeshes = createTextMeshes(
     globals.texts.planes[2].texts,
     -1,
@@ -33,6 +41,12 @@ export function toSlideContact() {
 }
 
 export async function fromSlideContact() {
+  // we need to put the socials buttons back in their original position and size
+  const socials = document.getElementsByClassName("socials");
+  for (let i = 0; i < socials.length; i++) {
+    const social = socials[i];
+    social.style.transform = "scale(1)";
+  }
   for (let i = globals.slides[2].children.length - 1; i >= 0; i--) {
     const child = globals.slides[2].children[i];
     if (child.name != "mainTitle") {

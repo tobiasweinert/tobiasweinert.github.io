@@ -4,32 +4,44 @@
       "id": "education",
       "title": "Education",
       "texts": [
-        "11/2023 - B.Sc. Applied Computer Science Ø2,1",
+        "11/2023 - B.Sc. Applied Computer Science",
         "University of Applied Sciences in Offenburg",
-        "06/2017 - Abitur (A-levels) Ø1,4",
+        "06/2017 - Abitur (A-levels)",
         "Gertrud Luckner Gewerbeschule in Freiburg",
-        "06/2015 - Fachhochschulreife Ø1,2",
+        "06/2015 - Fachhochschulreife",
         "Technisches Berufskolleg in Waldkirch"
       ]
     },
     {
       "id": "experience",
       "title": "Experience",
-      "texts": ["Work in progress..."]
+      "texts": [
+        "Bachelors Thesis - Python, Microsoft Azure Platform, PostgreSQL",
+        "Working Student - Vue.js, Node.js, Cypress, Mocha, Chai",
+        "Internship - lit-html, TypeScript, GraphQL, MongoDB",
+        "Bachelor's Degree - Mainly C, Java and TypeScript",
+        "This website, of course - Three.js, Tween.js, GLSL",
+        "",
+        "My work experience is mainly based on web development, but I'm also",
+        "interested in other fields of software development."
+      ]
     },
     {
       "id": "contact",
       "title": "Contact",
-      "texts": ["Work in progress..."]
+      "texts": [
+        "To get in contact with me, simply use the buttons below.",
+        "Preferably write me an email or contact me on LinkedIn."
+      ]
     },
     {
       "id": "welcome",
       "title": "Welcome",
       "texts": [
-        "You are looking at my online portfolio.",
+        "Hello there, you've found my online portfolio!",
         "You'll get to know me, my skills and much more here.",
-        "To navigate through the site, you can use:",
-        "- your Arrow Keys <- ->",
+        "To navigate through the site, you can use",
+        "- your Arrow Keys",
         "- the Scroll Wheel",
         "- drag and drop or your Mouse ",
         "Feel free to take a look around :)"
@@ -42,10 +54,10 @@
         "I'm Tobias, a student and software",
         "developer from Germany. I've finished",
         "my bachelors degree in applied",
-        "computer science and am currently",
+        "computer science and I am currently",
         "looking for my first full-time job.",
         "",
-        "In my free time I like to play video games ",
+        "In my free time I like to code, play video games ",
         "and ride my motorcycle through the countryside."
       ],
       "images": [
