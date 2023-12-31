@@ -27,6 +27,7 @@ function isMobile() {
 }
 
 function isDarkReaderEnabled() {
+  // for now there will only be a dark theme
   return true;
   const isEnabled =
     "querySelector" in document &&
@@ -44,7 +45,7 @@ const globals = {
     prod: false,
     orbitControls: false,
     initialSlide: 0,
-    // gui: new GUI(),
+    //gui: new GUI(),
   },
   renderer: null,
   scene: null,

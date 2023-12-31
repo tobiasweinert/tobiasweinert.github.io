@@ -17,7 +17,7 @@ export function initCarousel() {
   for (let i = 0; i < 5; i++) {
     globals.slides.push(new THREE.Mesh(roundedBoxGeometry, roundedBoxMaterial));
     const angle = (i / 5) * Math.PI * 2;
-    const radius = 100;
+    const radius = 300;
     // calculate the position using polar coordinates
     globals.slides[i].position.x = radius * Math.cos(angle);
     globals.slides[i].position.z = radius * Math.sin(angle);
@@ -69,7 +69,10 @@ export function initCarousel() {
     }
     globals.carousel.add(globals.slides[i]);
   }
-  globals.carousel.position.y = 2.3;
+  globals.carousel.position.x = 5.04;
+  globals.carousel.position.y = 1.8;
+  globals.carousel.position.z = -198.4;
+
   if (globals.isMobile) {
     globals.carousel.position.x = -20;
     globals.carousel.position.y = 10;
