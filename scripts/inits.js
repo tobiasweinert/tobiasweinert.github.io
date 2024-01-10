@@ -164,7 +164,7 @@ export function initStarryNight() {
   );
   globals.blueStars.push(new THREE.Points(starGeometry2, starMaterialBlue));
   globals.scene.add(globals.blueStars[globals.blueStars.length - 1]);
-  const timeout = globals.isMobile ? 30000 : 5000;
+  const timeout = globals.isMobile ? 30000 : 10000;
 
   setTimeout(() => {
     // remove stars after timeout
