@@ -1,0 +1,79 @@
+{
+  "planes": [
+    {
+      "id": "education",
+      "title": "Ausbildung",
+      "texts": [
+        "11/2023 - B.Sc. Angewandte Informatik",
+        "Hochschule Offenburg",
+        "06/2019 - Studium der Informatik, ohne Abschluss",
+        "Albert-Ludwigs-Universitaet Freiburg",
+        "06/2017 - Allgemeine Hochschulreife",
+        "Gertrud Luckner Gewerbeschule in Freiburg",
+        "06/2015 - Fachhochschulreife",
+        "Technisches Berufskolleg in Waldkirch"
+      ]
+    },
+    {
+      "id": "experience",
+      "title": "Praxiserfahrungen",
+      "texts": [
+        "Bachelorand - Python, Microsoft Azure Platform, PostgreSQL",
+        "Werkstudent - Vue.js, Node.js, Cypress, Mocha, Chai",
+        "Praxissemester - lit-html, TypeScript, GraphQL, MongoDB",
+        "Studium - C, Java and TypeScript",
+        "Diese Webseite - Three.js, Tween.js, GLSL",
+        "",
+        "Meine Arbeitserfahrung umfasst besonders die Webentwicklung,",
+        "jedoch begeistere ich mich auch fuer andere Bereiche der Informatik ."
+      ]
+    },
+    {
+      "id": "contact",
+      "title": "Kontakt",
+      "texts": [
+        "Um mit mir in Kontakt zu treten, verwenden Sie einfach die Buttons unten.",
+        "Vorzugsweise schreiben Sie mir eine E-Mail oder eine Nachricht auf LinkedIn."
+      ]
+    },
+    {
+      "id": "welcome",
+      "title": "Willkommen",
+      "texts": [
+        "Hallo, ich bin Tobias und das ist mein online Portfolio.",
+        "Hier finden Sie Informationen zu mir, meinen Projekten und Erfahrungen.",
+        "",
+        "Die Navigation funktioniert mit:",
+        "- dem Mausrad",
+        "- den Pfeiltasten (links/rechts)",
+        "- oder durch drag & drop mit der Maus",
+        "Schauen Sie sich gerne um :)"
+      ]
+    },
+    {
+      "id": "about",
+      "title": "Persoenliches",
+      "texts": [
+        "Ich bin Tobias, ein Student und Softwareentwickler",
+        "aus Freiburg. Ich habe das Studium",
+        "der angewandten Informatik abgeschlossen und",
+        "suche derzeit nach meinem ersten Vollzeitjob.",
+        "",
+        "In meiner Freizeit code ich gerne, spiele Videospiele,",
+        "und fahre mit dem Motorrad durch den Schwarzwald."
+      ],
+      "images": [
+        {
+          "title": "Das bin ich",
+          "src": "./assets/images/me_cropped2_white.jpg"
+        }
+      ]
+    }
+  ],
+  "header": {
+    "description": "Student & Entwickler"
+  },
+  "footer": {
+    "text": "Interesse geweckt? Let's talk!"
+  }
+}
