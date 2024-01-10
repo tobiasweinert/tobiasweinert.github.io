@@ -81,30 +81,28 @@ function animate() {
   requestAnimationFrame(animate);
 
   const time = Date.now() * 0.00005;
-  if (
-    globals.redStars &&
-    globals.redStars.geometry &&
-    globals.redStars.geometry.attributes &&
-    globals.redStars.geometry.attributes.position
-  ) {
-    globals.redStars.geometry.attributes.position.array.forEach((_, index) => {
-      globals.redStars.geometry.attributes.position.array[index] +=
-        Math.sin(index + time) * 0.1;
-    });
-    globals.redStars.geometry.attributes.position.needsUpdate = true;
+  if (globals.redStars[0]) {
+    for (let i = 0; i < globals.redStars.length; i++) {
+      globals.redStars[i].geometry.attributes.position.array.forEach(
+        (_, index) => {
+          globals.redStars[i].geometry.attributes.position.array[index] +=
+            Math.cos(index + time) * 0.4;
+        }
+      );
+      globals.redStars[i].geometry.attributes.position.needsUpdate = true;
+    }
   }
 
-  if (
-    globals.blueStars &&
-    globals.blueStars.geometry &&
-    globals.blueStars.geometry.attributes &&
-    globals.blueStars.geometry.attributes.position
-  ) {
-    globals.blueStars.geometry.attributes.position.array.forEach((_, index) => {
-      globals.blueStars.geometry.attributes.position.array[index] +=
-        Math.cos(index + time) * 0.1;
-    });
-    globals.blueStars.geometry.attributes.position.needsUpdate = true;
+  if (globals.blueStars.length > 0) {
+    for (let i = 0; i < globals.blueStars.length; i++) {
+      globals.blueStars[i].geometry.attributes.position.array.forEach(
+        (_, index) => {
+          globals.blueStars[i].geometry.attributes.position.array[index] +=
+            Math.cos(index + time) * 0.4;
+        }
+      );
+      globals.blueStars[i].geometry.attributes.position.needsUpdate = true;
+    }
   }
 }
 

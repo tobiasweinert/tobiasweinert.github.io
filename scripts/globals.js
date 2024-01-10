@@ -4,7 +4,7 @@ import { GUI } from "three/examples/jsm/libs//lil-gui.module.min.js";
 const fontLoader = new FontLoader();
 
 async function fetchText() {
-  const text = await fetch("../assets/en.texts.json");
+  const text = await fetch("../assets/de.texts.json");
   return text.json();
 }
 
@@ -45,7 +45,7 @@ const globals = {
     prod: false,
     orbitControls: false,
     initialSlide: 0,
-    //gui: new GUI(),
+    // gui: new GUI(),
   },
   renderer: null,
   scene: null,
@@ -65,12 +65,14 @@ const globals = {
   mouseY: 0,
   texts: await fetchText(),
   fonts: {
-    pixelFont: await loadFont("../assets/fonts/Press Start 2P_Regular.json"),
+    //pixelFont: await loadFont("../assets/fonts/Press Start 2P_Regular.json"),
+    // pixelFont: await loadFont("../assets/fonts/Fira Sans_Regular.json"),
+    pixelFont: await loadFont("../assets/fonts/Russo One_Regular.json"),
   },
   currentSlide: 0,
   // TODO: responsive font size
   mainHeadingSize: isMobile() ? 2 : 2.5,
-  mainTextSize: isMobile() ? 0.4 : 0.6,
+  mainTextSize: isMobile() ? 0.55 : 0.9,
   menuSize: isMobile() ? 1.1 : 1.6,
   isMobile: isMobile(),
   isDarkReaderEnabled: isDarkReaderEnabled(),
@@ -79,8 +81,8 @@ const globals = {
   isFadingOut: false,
   item: {
     speed: 0.001,
-    defaultSpeed: 0.001,
-    moveSpeed: 0.009,
+    defaultSpeed: isMobile() ? 0.01 : 0.001,
+    moveSpeed: isMobile() ? 0.1 : 0.009,
   },
 };
 

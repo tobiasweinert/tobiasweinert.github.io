@@ -40,10 +40,11 @@
       "texts": [
         "Hello there, you've found my online portfolio!",
         "You'll get to know me, my skills and much more here.",
+        "",
         "To navigate through the site, you can use",
         "- your Arrow Keys",
         "- the Scroll Wheel",
-        "- drag and drop or your Mouse ",
+        "- or drag and drop or your Mouse ",
         "Feel free to take a look around :)"
       ]
     },

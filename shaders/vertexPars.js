@@ -86,7 +86,7 @@ float fit(float unscaled , float originalMin, float originalMax, float minAllowe
 }
 
 float wave(vec3 position) {
-    return fit(smoothMod(position.y * 8.0, 1.5, 1.0), 0.35, 0.6, 0.0, 1.0);
+    return fit(smoothMod(position.y * 8.0, 1.5, 1.0), 0.35, 1.0, 0.0, 80.0);
 }
 `;
 

@@ -10,7 +10,7 @@ import fragmentPars from "../shaders/fragmentPars.js";
 import { initStarryNight } from "./inits.js";
 
 export function initItem() {
-  const numVertices = globals.isMobile ? 50 : 200;
+  const numVertices = globals.isMobile ? 120 : 200;
   const radius = globals.isMobile ? 0.3 : 1;
   const geometry = new THREE.IcosahedronGeometry(radius, numVertices);
   const material = new THREE.MeshStandardMaterial({
@@ -48,8 +48,8 @@ export function initItem() {
   ico.name = "item";
   ico.layers.enable(1);
   // camera is at 20,0,80, camera.lookAt is 3,0,100
+  ico.position.set(-12.7, -40, 10);
 
-  ico.position.set(11.63, 30, 81.75);
   globals.scene.add(ico);
 
   let i = 0.0001;
@@ -66,20 +66,22 @@ export function initItem() {
 }
 
 export function toItem() {
+  // ico.position.set(-12.7, 30, 120);
+  // old: { x: 15, y: -3, z: 85.75 }
   // TODO: start the shorter animation inside the onStart to properly set isTransitioning
   const finalPosition = globals.isMobile
-    ? { x: 15, y: -3, z: 85.75 }
-    : { x: 11.63, y: -0.33, z: 81.75 };
+    ? { x: -30, y: -2, z: 137 }
+    : { x: -12.7, y: -3, z: 120 };
   const item = globals.scene.getObjectByName("item");
   const tween = new TWEEN.Tween(item.position)
     .to(finalPosition, 1200)
-    .easing(TWEEN.Easing.Bounce.Out)
+    .easing(TWEEN.Easing.Linear.None)
     .onStart(() => {
-      globals.isTransitioning = true;
+      //globals.isTransitioning = true;
     })
     .onComplete(() => {
-      initStarryNight();
-      globals.isTransitioning = false;
+      //globals.isTransitioning = false;
+      if (!globals.devOptions.prod) initStarryNight();
     });
   tween.start();
 
@@ -87,10 +89,10 @@ export function toItem() {
     .to({ y: Math.PI }, 10000)
     .easing(TWEEN.Easing.Quintic.Out)
     .onStart(() => {
-      globals.isTransitioning = true;
+      //globals.isTransitioning = true;
     })
     .onComplete(() => {
-      globals.isTransitioning = false;
+      //globals.isTransitioning = false;
     })
     .start();
 }
