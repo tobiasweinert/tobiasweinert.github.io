@@ -17,6 +17,7 @@ import {
 } from "./slides/slideEducation.js";
 import { toSlideContact, fromSlideContact } from "./slides/slideContact.js";
 import globals from "./globals.js";
+import { initStarryNight } from "./inits.js";
 
 let previousRotationAngle =
   globals.devOptions.initialSlide * Math.PI * 2 * (1 / 5);
@@ -197,6 +198,7 @@ function handleItemMove() {
 // Handlers for when the user rotates to a slide
 function slideHandlerGo(nextAngle) {
   setCurrentSlide(nextAngle);
+  if (!globals.isMobile) initStarryNight();
   switch (globals.currentSlide) {
     case 0:
       // Welcome slide
