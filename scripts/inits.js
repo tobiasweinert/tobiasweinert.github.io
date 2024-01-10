@@ -55,13 +55,17 @@ export function initThree() {
   dirLight2.position.set(-53.3, -4.15, -139.31);
   dirLight2.target.position.set(16, 5, 85);
 
+  const whiteDirLight = new THREE.DirectionalLight(0xffffff, 0.01);
+  whiteDirLight.position.set(-53.3, -4.15, -139.31);
+  whiteDirLight.target.position.set(16, 5, 85);
+
   // globals.devOptions.gui.add(dirLight2.position, "x", -500, 500, 0.01);
   // globals.devOptions.gui.add(dirLight2.position, "y", -500, 500, 0.01);
   // globals.devOptions.gui.add(dirLight2.position, "z", -500, 500, 0.01);
 
-  //const ambientLight = new THREE.AmbientLight(0x00ff0, 0.1);
-  //ambientLight.position.set(16, 5, 85);
-  globals.scene.add(dirLight, dirLight2);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.02);
+  ambientLight.position.set(16, 5, 85);
+  globals.scene.add(whiteDirLight);
 
   // setCurrentSlideText(globals.currentSlide);
 }
@@ -120,57 +124,60 @@ export function initBloom() {
 }
 
 export function initStarryNight() {
-  // TODO: there is an error thrown here
-  if (globals.isMobile) return;
+  //if (globals.isMobile) return;
   const starGeometry = new THREE.BufferGeometry();
   const starMaterialRed = new THREE.PointsMaterial({
-    color: 0xff0000,
+    color: 0x202020,
+    //color: 0xffff,
     size: 0.1,
   });
   const starVertices = [];
   for (let i = 0; i < 250; i++) {
-    const x = 11.63 + (Math.random() - 0.5) * 2; // Adds a random value between -1 and 1
-    const y = -0.33 + (Math.random() - 0.5) * 0.5; // Adds a random value between -0.25 and 0.25
-    const z = 81.75 + (Math.random() - 0.5) * 5; // Adds a random value between -2.5 and 2.5
+    const x = -30 + (Math.random() - 1.0) * 50;
+    const y = 0 + (Math.random() - 1.0) * 10;
+    const z = 180 + (Math.random() - 1.0) * 50;
     starVertices.push(x, y, z);
   }
 
   starGeometry.setAttribute(
     "position",
-    new THREE.Float32BufferAttribute(starVertices, 4)
+    new THREE.Float32BufferAttribute(starVertices, 3)
   );
-  globals.redStars = new THREE.Points(starGeometry, starMaterialRed);
-  globals.scene.add(globals.redStars);
+  globals.redStars.push(new THREE.Points(starGeometry, starMaterialRed));
+  globals.scene.add(globals.redStars[globals.redStars.length - 1]);
 
   const starMaterialBlue = new THREE.PointsMaterial({
-    color: 0x0000ff,
+    color: 0x404040,
     size: 0.1,
   });
   const starGeometry2 = new THREE.BufferGeometry();
   const starVertices2 = [];
   for (let i = 0; i < 250; i++) {
-    const x = 11.63 + (Math.random() - 0.5) * 2; // Adds a random value between -1 and 1
-    const y = -0.33 + (Math.random() - 0.5) * 0.5; // Adds a random value between -0.25 and 0.25
-    const z = 81.75 + (Math.random() - 0.5) * 5; // Adds a random value between -2.5 and 2.5
+    const x = -30 + (Math.random() - 0.5) * 50;
+    const y = 0 + (Math.random() - 0.5) * 10;
+    const z = 180 + (Math.random() - 0.5) * 50;
     starVertices2.push(x, y, z);
   }
   starGeometry2.setAttribute(
     "position",
-    new THREE.Float32BufferAttribute(starVertices2, 4)
+    new THREE.Float32BufferAttribute(starVertices2, 3)
   );
-  globals.blueStars = new THREE.Points(starGeometry2, starMaterialBlue);
-  globals.scene.add(globals.blueStars);
+  globals.blueStars.push(new THREE.Points(starGeometry2, starMaterialBlue));
+  globals.scene.add(globals.blueStars[globals.blueStars.length - 1]);
+  const timeout = globals.isMobile ? 30000 : 5000;
 
   setTimeout(() => {
-    // delete the stars from the scene
-    globals.scene.remove(globals.redStars);
-    globals.scene.remove(globals.blueStars);
-    globals.redStars = null;
-    globals.blueStars = null;
-  }, 3200);
+    // remove stars after timeout
+    globals.scene.remove(globals.blueStars[0]);
+    globals.scene.remove(globals.redStars[0]);
+    globals.blueStars.shift();
+    globals.redStars.shift();
+  }, timeout);
 }
 
 export function initCameraShot() {
+  //   globals.camera.position.set(20, 0, 80);
+  //  globals.camera.lookAt(new THREE.Vector3(3, 0, 100));
   if (globals.devOptions.prod) {
     const cameraPositions = [
       { x: 40, y: 60, z: 50 },
@@ -178,12 +185,12 @@ export function initCameraShot() {
       { x: 20, y: 40, z: 30 },
       { x: 10, y: 30, z: 25 },
       { x: 0, y: 20, z: 25 },
-      { x: 0, y: -1, z: 25 },
+      { x: 20, y: 0, z: 80 },
     ];
 
     const cameraLooks = [
-      { x: 0, y: -1, z: -1 },
-      { x: 0, y: 0, z: -1 },
+      { x: 3, y: 0, z: 100 },
+      { x: 3, y: 0, z: 100 },
     ];
 
     globals.camera.position.set(
@@ -216,7 +223,7 @@ export function initCameraShot() {
         );
 
         // Update camera lookAt
-        globals.camera.lookAt(interpolatedLookAt);
+        globals.camera.lookAt(new THREE.Vector3(3, 0, 100));
       })
       .start();
 
@@ -251,6 +258,7 @@ export function initCameraShot() {
                           .getElementById("cv-container")
                           .classList.add("grabbable");
                         globals.isTransitioning = false;
+                        initStarryNight();
                       })
                       .start();
                   })
@@ -272,8 +280,6 @@ export function initCameraShot() {
         globals.camera,
         globals.renderer.domElement
       );
-      globals.camera.position.set(-42, 7, 118);
-      globals.camera.lookAt(new THREE.Vector3(-10, 0, 100));
     }
 
     // select initial slide devOptions.initialSlide (0-4) without animations
