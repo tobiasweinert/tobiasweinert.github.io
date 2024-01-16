@@ -8,7 +8,7 @@ import { loadImage, createTextMeshes } from "../helpers.js";
 let imageGroup = new THREE.Group();
 let frame;
 
-const profileImage = await loadImage(globals.texts.planes[4].images[0].src);
+// const profileImage = await loadImage(globals.texts.planes[4].images[0].src);
 
 export async function initSlideAbout() {}
 

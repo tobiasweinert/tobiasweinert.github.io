@@ -4,7 +4,7 @@ import { initSlideWelcome } from "./slides/slideWelcome.js";
 import { initSlideAbout } from "./slides/slideAbout.js";
 import globals from "./globals.js";
 
-const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
+// const texture = new THREE.TextureLoader().load(`./assets/images/diffuse.jpg`);
 
 const roundedBoxMaterial = new THREE.MeshStandardMaterial({ visible: false });
 
