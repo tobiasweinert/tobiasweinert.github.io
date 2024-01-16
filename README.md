@@ -8,7 +8,7 @@ Since this project is also used as a playground to test things out the code qual
 ## Features
 - **Three.js:** Displays the slides in a carousel that rotates and snaps to the slides.
 - **Tween.js:** Smooth animations for different use cases.
-- **Shaders:** OpenGL Shaders
+- **Shaders:** GLSL Shaders
 
 ## Usage
 To rotate the carousel and change the visible slide the user can pick one of three methods:
