@@ -21,7 +21,7 @@
         "Bachelorand - Python, Microsoft Azure Platform, PostgreSQL",
         "Werkstudent - Vue.js, Node.js, Cypress, Mocha, Chai",
         "Praxissemester - lit-html, TypeScript, GraphQL, MongoDB",
-        "Studium - C, Java and TypeScript",
+        "Studium - C, Java und JavaScript",
         "Diese Webseite - Three.js, Tween.js, GLSL",
         "",
         "Meine Arbeitserfahrung umfasst besonders die Webentwicklung,",
@@ -59,8 +59,8 @@
         "der angewandten Informatik abgeschlossen und",
         "suche derzeit nach meinem ersten Vollzeitjob.",
         "",
-        "In meiner Freizeit code ich gerne, spiele Videospiele,",
-        "und fahre mit dem Motorrad durch den Schwarzwald."
+        "In meiner Freizeit code ich gerne, spiele Videospiele",
+        "oder fahre mit dem Motorrad durch den Schwarzwald."
       ],
       "images": [
         {
