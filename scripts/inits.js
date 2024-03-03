@@ -1,14 +1,11 @@
 import * as THREE from "three";
 import * as TWEEN from "tween";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { SavePass } from "three/examples/jsm/postprocessing/SavePass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
-import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { BlendShader } from "three/examples/jsm/shaders/BlendShader.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { setCurrentSlideText } from "./helpers.js";
 
